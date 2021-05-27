@@ -1,0 +1,39 @@
+.sigin-page {
+    min-height: calc(100vh - 300px);
+    margin: 100px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signin-form {
+    padding: 20px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.219);
+    border-radius: 10px;
+    width: 600px;
+}
+
+.signin-resend-email-container {
+    display: flex;
+    margin: 5px 0;
+    align-items: center;
+}
+
+.signin-resend-email-msg {
+    text-transform: capitalize;
+}
+
+.signin-resend-email {
+    background-color: transparent;
+    border: none;
+    font-size: 14px;
+    color: black;
+    margin-left: 2px;
+    cursor: pointer;
+    color: #ec008c;
+    font-weight: 600;
+}
+
+.signin-resend-email:hover {
+    text-decoration: underline;
+}
