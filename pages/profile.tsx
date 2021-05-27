@@ -27,10 +27,10 @@ const Profile = () => {
 
     const toggleProfileForm = () => {
         if (editProfile) {
-            document.documentElement.style.overflow = "auto";
+            document.body.style.overflow = "auto";
             setProfile(false);
         } else {
-            document.documentElement.style.overflow = "hidden";
+            document.body.style.overflow = "hidden";
             setProfile(true);
         }
     };

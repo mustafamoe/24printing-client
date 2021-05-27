@@ -117,20 +117,20 @@ const ProductDetails = ({ product: pro }: IProps) => {
 
     const toggleReviewForm = () => {
         if (openReviewForm) {
-            document.documentElement.style.overflow = "auto";
+            document.body.style.overflow = "auto";
             setReviewForm(false);
         } else {
-            document.documentElement.style.overflow = "hidden";
+            document.body.style.overflow = "hidden";
             setReviewForm(true);
         }
     };
 
     const toggleDesigner = () => {
         if (isDesigner) {
-            document.documentElement.style.overflow = "auto";
+            document.body.style.overflow = "auto";
             setDesigner(false);
         } else {
-            document.documentElement.style.overflow = "hidden";
+            document.body.style.overflow = "hidden";
             setDesigner(true);
         }
     };
@@ -203,20 +203,20 @@ const ProductDetails = ({ product: pro }: IProps) => {
 
     const toggleAddToCartSuccess = (msg) => {
         if (addToCartSuccess) {
-            document.documentElement.style.overflow = "auto";
+            document.body.style.overflow = "auto";
             setAddToCart(false);
         } else {
-            document.documentElement.style.overflow = "hidden";
+            document.body.style.overflow = "hidden";
             setAddToCart(msg);
         }
     };
 
     const toggleQuikView = (product) => {
         if (quikView) {
-            document.documentElement.style.overflow = "auto";
+            document.body.style.overflow = "auto";
             setQuikView(null);
         } else {
-            document.documentElement.style.overflow = "hidden";
+            document.body.style.overflow = "hidden";
             setQuikView(product);
         }
     };

@@ -18,10 +18,10 @@ const Shop = () => {
 
     const toggleProductModel = (product) => {
         if (productModel) {
-            document.documentElement.style.overflow = "auto";
+            document.body.style.overflow = "auto";
             setProductModel(null);
         } else {
-            document.documentElement.style.overflow = "hidden";
+            document.body.style.overflow = "hidden";
             setProductModel(product);
         }
     };

@@ -15,7 +15,7 @@ interface IProps {
 const ProductQuikView = ({ product, close }: IProps) => {
     useEffect(() => {
         return () => {
-            document.documentElement.style.overflow = "auto";
+            document.body.style.overflow = "auto";
         };
     }, []);
 

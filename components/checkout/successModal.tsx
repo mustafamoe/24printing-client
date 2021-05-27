@@ -8,7 +8,7 @@ import ImageOpt from "../imageOpt";
 const CheckoutSuccessModel = ({ close }) => {
     useEffect(() => {
         return () => {
-            document.documentElement.style.overflow = "auto";
+            document.body.style.overflow = "auto";
         };
     }, []);
 

@@ -19,20 +19,20 @@ const AddressList = () => {
 
     const toggleAddressForm = () => {
         if (showAddressForm) {
-            document.documentElement.style.overflow = "auto";
+            document.body.style.overflow = "auto";
             setAddressForm(false);
         } else {
-            document.documentElement.style.overflow = "hidden";
+            document.body.style.overflow = "hidden";
             setAddressForm(true);
         }
     };
 
     const toggleEditAddress = (address) => {
         if (editAddress) {
-            document.documentElement.style.overflow = "auto";
+            document.body.style.overflow = "auto";
             setEditAddress(null);
         } else {
-            document.documentElement.style.overflow = "hidden";
+            document.body.style.overflow = "hidden";
             setEditAddress(address);
         }
     };

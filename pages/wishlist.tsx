@@ -19,10 +19,10 @@ const Wishlist = () => {
 
     const toggleQuikView = (product) => {
         if (quikView) {
-            document.documentElement.style.overflow = "auto";
+            document.body.style.overflow = "auto";
             setQuikView(null);
         } else {
-            document.documentElement.style.overflow = "hidden";
+            document.body.style.overflow = "hidden";
             setQuikView(product);
         }
     };

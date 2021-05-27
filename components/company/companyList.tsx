@@ -21,30 +21,30 @@ const CompanyList = () => {
 
     const toggleCompanyForm = () => {
         if (showCompanyForm) {
-            document.documentElement.style.overflow = "auto";
+            document.body.style.overflow = "auto";
             setCompanyForm(false);
         } else {
-            document.documentElement.style.overflow = "hidden";
+            document.body.style.overflow = "hidden";
             setCompanyForm(true);
         }
     };
 
     const toggleUserToCompany = (companyId) => {
         if (userToCompany) {
-            document.documentElement.style.overflow = "auto";
+            document.body.style.overflow = "auto";
             setUserToCompany(null);
         } else {
-            document.documentElement.style.overflow = "hidden";
+            document.body.style.overflow = "hidden";
             setUserToCompany(companyId);
         }
     };
 
     const toggleEditCompany = (company) => {
         if (editCompany) {
-            document.documentElement.style.overflow = "auto";
+            document.body.style.overflow = "auto";
             setEditCompany(null);
         } else {
-            document.documentElement.style.overflow = "hidden";
+            document.body.style.overflow = "hidden";
             setEditCompany(company);
         }
     };

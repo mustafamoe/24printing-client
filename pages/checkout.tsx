@@ -14,7 +14,7 @@ const Checkout = () => {
     const [showModel, setModel] = useState(false);
 
     const openModel = () => {
-        document.documentElement.style.overflow = "hidden";
+        document.body.style.overflow = "hidden";
         setModel(true);
     };
 
