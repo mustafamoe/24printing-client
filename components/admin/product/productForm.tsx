@@ -18,9 +18,9 @@ import {
     Divider,
     AccordionSummary,
     Accordion,
+    AccordionDetails,
     Tabs,
     Tab,
-    AccordionDetails,
 } from "@material-ui/core";
 import TextEditor from "../textEditor";
 import { IProduct } from "../../../types/product";
@@ -32,6 +32,8 @@ import { useSelector } from "react-redux";
 import { ICustomization } from "../../../types/customization";
 import useSwr from "swr";
 import { IImage } from "../../../types/image";
+import { IQuantity } from "../../../types/quantity";
+import { IDesigner } from "../../../types/designer";
 
 // components
 import Modal from "../modal";
@@ -46,8 +48,6 @@ import ImageOpt from "../../imageOpt";
 import AddIcon from "@material-ui/icons/Add";
 import SettingsIcon from "@material-ui/icons/Settings";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { IQuantity } from "../../../types/quantity";
-import { IDesigner } from "../../../types/designer";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

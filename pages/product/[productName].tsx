@@ -6,7 +6,7 @@ import Link from "next/link";
 import useSwr from "swr";
 import { apiCall, clientUrl } from "../../utils/apiCall";
 import { IProduct } from "../../types/product";
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
+import { GetStaticPaths, GetStaticProps } from "next";
 import { IQuantity } from "../../types/quantity";
 import ErrorPage from "next/error";
 import { useRouter } from "next/router";
@@ -34,6 +34,8 @@ import HeadLayout from "../../components/headLayout";
 
 //icons
 import CheckIcon from "@material-ui/icons/Check";
+import { IReview } from "../../types/reviews";
+import { CircularProgress, Box } from "@material-ui/core";
 
 interface IProps {
     product: IProduct;
@@ -57,6 +59,9 @@ const ProductDetails = ({ product: pro }: IProps) => {
     const [errors, setErrors] = useState({});
     const { data: products } = useSwr<IProduct[]>("/products");
     const [relatedProducts, setRelatedProducts] = useState([]);
+    const { data: reviews } = useSwr<IReview[]>(
+        `/reviews?productId=${pro.product_id}`
+    );
     const [quikView, setQuikView] = useState(null);
     const [isDesigner, setDesigner] = useState(false);
     const [state, setState] = useState<IState>({
@@ -338,10 +343,22 @@ const ProductDetails = ({ product: pro }: IProps) => {
                                 )}
                             </div>
                             <div className="product-details-content-item">
-                                <Rating
-                                    rating={product.rating}
-                                    reviews={product.reviews}
-                                />
+                                {!reviews ? (
+                                    <Box>
+                                        <CircularProgress
+                                            style={{
+                                                width: "20px",
+                                                height: "20px",
+                                            }}
+                                            color="secondary"
+                                        />
+                                    </Box>
+                                ) : (
+                                    <Rating
+                                        rating={product.rating}
+                                        reviews={reviews}
+                                    />
+                                )}
                             </div>
                             <div className="product-details-content-item">
                                 {product.sub_category ? (
@@ -468,25 +485,34 @@ const ProductDetails = ({ product: pro }: IProps) => {
                             {parser(product.product_description)}
                         </div>
                     </div>
-                    <div className="product-details-reviews-section">
-                        <div className="product-details-reviews-rating-bar-container">
-                            <CustomerReviews product={product} />
-                            <div className="product-details-review-btn-container">
-                                <button
-                                    type="button"
-                                    className="button product-details-review-btn"
-                                    onClick={toggleReviewForm}
-                                >
-                                    review this product
-                                </button>
+                    {!reviews ? (
+                        <Box
+                            display="flex"
+                            justifyContent="center"
+                            width="100%"
+                        >
+                            <CircularProgress color="secondary" />
+                        </Box>
+                    ) : (
+                        <div className="product-details-reviews-section">
+                            <div className="product-details-reviews-rating-bar-container">
+                                <CustomerReviews
+                                    reviews={reviews}
+                                    rating={product.rating}
+                                />
+                                <div className="product-details-review-btn-container">
+                                    <button
+                                        type="button"
+                                        className="button product-details-review-btn"
+                                        onClick={toggleReviewForm}
+                                    >
+                                        review this product
+                                    </button>
+                                </div>
                             </div>
+                            <ReviewList reviews={reviews} />
                         </div>
-                        {!product.reviews.length ? null : (
-                            <>
-                                <ReviewList reviews={product.reviews} />
-                            </>
-                        )}
-                    </div>
+                    )}
                     <div className="product-details-related-products-section">
                         <div className="product-details-related-products-head-container">
                             <p className="product-details-related-products-head">
@@ -561,6 +587,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     return {
         props: {
             product,
+            revalidate: 120,
         },
     };
 };
@@ -574,21 +601,7 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
     return {
         paths,
         fallback: true,
-        revalidate: 120,
     };
 };
-
-// export const getServerSideProps: GetServerSideProps = async (ctx) => {
-// const product = await apiCall<IProduct>(
-//     "get",
-//     `/product/${ctx.params.productName}`
-// );
-
-//     return {
-//         props: {
-//             product,
-//         },
-//     };
-// };
 
 export default ProductDetails;

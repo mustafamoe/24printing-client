@@ -1,25 +1,26 @@
 import StarIcon from "@material-ui/icons/Star";
-import { IProduct } from "../../types/product";
+import { IReview } from "../../types/reviews";
 
 interface IProps {
-    product: IProduct;
+    reviews: IReview[];
+    rating: number;
 }
 
-const CustomerReviews = ({ product }: IProps) => {
+const CustomerReviews = ({ reviews, rating }: IProps) => {
     const reviewsBarItemJsx = () => {
         let jsx = [];
 
         for (let i = 1; i <= 5; i++) {
             let count = 0;
-            let reviews = product.reviews.length;
+            let tmpReviews = reviews.length;
 
-            product.reviews.forEach((review) => {
+            reviews.forEach((review) => {
                 if (Math.round(review.review_rating) === i) {
                     count = count + 1;
                 }
             });
 
-            let percent = !reviews ? 0 : (count / Number(reviews)) * 100;
+            let percent = !tmpReviews ? 0 : (count / Number(tmpReviews)) * 100;
 
             jsx.unshift(
                 <div key={i} className="product-details-review-bar-item">
@@ -46,7 +47,7 @@ const CustomerReviews = ({ product }: IProps) => {
         <div className="product-details-reviews-rating-bars-wrapper">
             <div>
                 <p className="product-details-reviews-head">
-                    {product.reviews.length
+                    {reviews.length
                         ? "Customer Reviews"
                         : "No customer reviews"}
                 </p>
@@ -61,7 +62,7 @@ const CustomerReviews = ({ product }: IProps) => {
                                         style={{
                                             color:
                                                 ratingValue <=
-                                                Math.round(product.rating)
+                                                Math.round(rating)
                                                     ? "gold"
                                                     : "gray",
                                         }}
@@ -70,13 +71,12 @@ const CustomerReviews = ({ product }: IProps) => {
                             })}
                         </div>
                         <p className="product-details-customer-rating-out-5">
-                            {parseFloat(String(product.rating)).toFixed(1)} out
-                            of 5
+                            {parseFloat(String(rating)).toFixed(1)} out of 5
                         </p>
                     </div>
                     <div className="product-customer-ratings-details-container">
                         <p className="product-details-customer-ratings">
-                            {product.reviews.length} customer ratings
+                            {reviews.length} customer ratings
                         </p>
                     </div>
                 </div>

@@ -133,7 +133,7 @@ const ProductList = () => {
         return (
             <>
                 <TableContainer component={Paper}>
-                    <Table className={classes.table} aria-label="simple table">
+                    <Table className={classes.table}>
                         <TableHead>
                             <TableRow>
                                 <TableCell

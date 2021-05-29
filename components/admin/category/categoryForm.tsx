@@ -146,22 +146,30 @@ const CategoryForm = ({ close, category }: IProps) => {
                     mutate(
                         "/categories",
                         (categories) => {
-                            return categories
-                                .map((c) =>
-                                    c.category_order ===
+                            const toEditCatg = categories.find(
+                                (c) =>
+                                    Number(c.category_order) ===
                                     Number(state.category_order)
-                                        ? {
-                                              ...c,
-                                              category_order:
-                                                  state.category_order,
-                                          }
-                                        : c
-                                )
-                                .map((c) =>
-                                    c.category_id !== category.category_id
-                                        ? c
-                                        : editedCategory
-                                );
+                            );
+
+                            if (toEditCatg)
+                                toEditCatg.category_order =
+                                    category.category_order;
+
+                            const foundCatg = categories.find(
+                                (c) => c.category_id === category.category_id
+                            );
+
+                            if (foundCatg)
+                                foundCatg.category_order = state.category_order;
+
+                            return categories.map((c) =>
+                                c.category_id === toEditCatg?.category_id
+                                    ? toEditCatg
+                                    : c.category_id === category.category_id
+                                    ? foundCatg
+                                    : c
+                            );
                         },
                         false
                     );

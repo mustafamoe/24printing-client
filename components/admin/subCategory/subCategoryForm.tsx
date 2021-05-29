@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
 interface IProps {
     close: Function;
     subCategory?: ISubCategory;
+    categoryId?: string;
 }
 
 interface IState {
@@ -57,11 +58,12 @@ interface IError {
     category: string[];
 }
 
-const SubCategoryForm = ({ close, subCategory }: IProps) => {
-    const { data: categories } = useSwr("/categories");
+const SubCategoryForm = ({ close, subCategory, categoryId }: IProps) => {
+    const { data: sub_categories } = useSwr(
+        `/sub_categories?categoryId=${categoryId}`
+    );
     const classes = useStyles();
     const [loading, setLoading] = useState<boolean>(false);
-    const [cLoading, setCLoading] = useState<boolean>(true);
     const user = useSelector((state: RootReducer) => state.auth.user);
     const [errors, setErrors] = useState<IError>({
         sub_category_name: [],
@@ -73,7 +75,7 @@ const SubCategoryForm = ({ close, subCategory }: IProps) => {
         sub_category_name: "",
         sub_category_order: "",
         is_hidden: false,
-        category: "",
+        category: categoryId,
     });
 
     useEffect(() => {
@@ -87,12 +89,6 @@ const SubCategoryForm = ({ close, subCategory }: IProps) => {
             });
         }
     }, []);
-
-    useEffect(() => {
-        if (categories) {
-            setCLoading(false);
-        }
-    }, [categories]);
 
     const handleSwitch = (e: React.ChangeEvent<HTMLInputElement>) => {
         setState({ ...state, [e.target.name]: e.target.checked });
@@ -129,11 +125,11 @@ const SubCategoryForm = ({ close, subCategory }: IProps) => {
                     const subCategory = await apiCall(
                         "post",
                         `/sub_category?authId=${user.user_id}`,
-                        state
+                        { ...state, sub_category_order: sub_categories.length }
                     );
 
                     mutate(
-                        "/sub_categories",
+                        `/sub_categories?categoryId=${categoryId}`,
                         (subCategories) => {
                             return [...subCategories, subCategory];
                         },
@@ -144,11 +140,11 @@ const SubCategoryForm = ({ close, subCategory }: IProps) => {
                     const editedSubCategory = await apiCall(
                         "put",
                         `/sub_category/${subCategory.sub_category_id}?authId=${user.user_id}`,
-                        state
+                        { ...state, sub_category_order: sub_categories.length }
                     );
 
                     mutate(
-                        "/sub_categories",
+                        `/sub_categories?categoryId=${categoryId}`,
                         (subCategories) => {
                             return subCategories.map((sc) =>
                                 sc.sub_category_id !==
@@ -246,7 +242,7 @@ const SubCategoryForm = ({ close, subCategory }: IProps) => {
                             />
                             <Error errors={errors.sub_category_name} />
                         </Box>
-                        <Box mb={3}>
+                        {/* <Box mb={3}>
                             <TextField
                                 id="sub_category_order"
                                 name="sub_category_order"
@@ -260,53 +256,7 @@ const SubCategoryForm = ({ close, subCategory }: IProps) => {
                                 style={{ width: "100%" }}
                             />
                             <Error errors={errors.sub_category_order} />
-                        </Box>
-                        <Box position="relative">
-                            <FormControl
-                                variant="outlined"
-                                size="small"
-                                style={{ width: "100%" }}
-                                error={!!errors.category?.length}
-                            >
-                                <InputLabel id="demo-simple-select-outlined-label">
-                                    Category
-                                </InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-outlined-label"
-                                    id="demo-simple-select-outlined"
-                                    value={state.category}
-                                    name="category"
-                                    onChange={handleChange}
-                                    label="Category"
-                                >
-                                    {categories &&
-                                        categories.map((category) => (
-                                            <MenuItem
-                                                value={category.category_id}
-                                                key={category.category_id}
-                                            >
-                                                {category.category_name}
-                                            </MenuItem>
-                                        ))}
-                                </Select>
-                            </FormControl>
-                            {cLoading && (
-                                <Box
-                                    position="absolute"
-                                    style={{ transform: "translateY(-50%)" }}
-                                    top="50%"
-                                    right="50px"
-                                >
-                                    <CircularProgress
-                                        style={{
-                                            width: "20px",
-                                            height: "20px",
-                                        }}
-                                    />
-                                </Box>
-                            )}
-                            <Error errors={errors.category} />
-                        </Box>
+                        </Box> */}
                         <Box
                             display="flex"
                             flexDirection="column"

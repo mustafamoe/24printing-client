@@ -86,7 +86,7 @@ const CategoryList = () => {
         return (
             <>
                 <TableContainer component={Paper}>
-                    <Table className={classes.table} aria-label="simple table">
+                    <Table className={classes.table}>
                         <TableHead>
                             <TableRow>
                                 <TableCell
@@ -144,6 +144,11 @@ const CategoryList = () => {
                                 .slice(
                                     page * rowsPerPage,
                                     page * rowsPerPage + rowsPerPage
+                                )
+                                .sort(
+                                    (a, b) =>
+                                        Number(a.category_order) -
+                                        Number(b.category_order)
                                 )
                                 .map((category) => (
                                     <CategoryItem
