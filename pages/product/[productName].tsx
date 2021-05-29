@@ -6,7 +6,7 @@ import Link from "next/link";
 import useSwr from "swr";
 import { apiCall, clientUrl } from "../../utils/apiCall";
 import { IProduct } from "../../types/product";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
 import { IQuantity } from "../../types/quantity";
 import ErrorPage from "next/error";
 import { useRouter } from "next/router";
@@ -552,7 +552,7 @@ const ProductDetails = ({ product: pro }: IProps) => {
     return <ErrorPage statusCode={404} />;
 };
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getStaticProps: GetStaticProps = async (ctx) => {
     const product = await apiCall<IProduct>(
         "get",
         `/product/${ctx.params.productName}`
@@ -564,5 +564,31 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         },
     };
 };
+
+export const getStaticPaths: GetStaticPaths = async (ctx) => {
+    const products = await apiCall<IProduct[]>("get", `/products`);
+    const paths = products.map((p) => ({
+        params: { productName: p.product_name },
+    }));
+
+    return {
+        paths,
+        fallback: true,
+        revalidate: 120,
+    };
+};
+
+// export const getServerSideProps: GetServerSideProps = async (ctx) => {
+// const product = await apiCall<IProduct>(
+//     "get",
+//     `/product/${ctx.params.productName}`
+// );
+
+//     return {
+//         props: {
+//             product,
+//         },
+//     };
+// };
 
 export default ProductDetails;
