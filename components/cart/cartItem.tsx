@@ -10,7 +10,6 @@ import ImageOpt from "../imageOpt";
 const CartProductItem = ({ product }) => {
     const dispatch = useDispatch();
 
-    console.log(product);
     const handleRemoveCartProduct = () => {
         dispatch(removeProductCart(product.product_id));
     };

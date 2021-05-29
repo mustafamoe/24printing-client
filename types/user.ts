@@ -1,5 +1,11 @@
 import { IImage } from "./image";
 
+export type Access =
+    | "is_accountant"
+    | "is_admin"
+    | "is_super_admin"
+    | "is_customer_service";
+
 export interface IUser {
     user_id: string;
     avatar: IImage;

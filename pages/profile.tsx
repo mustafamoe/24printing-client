@@ -13,6 +13,7 @@ import Loader from "../components/loader";
 import useSwr, { mutate } from "swr";
 import { IImage } from "../types/image";
 import { apiCall } from "../utils/apiCall";
+import HeadLayout from "../components/headLayout";
 
 const Profile = () => {
     const user = useSelector((state: RootReducer) => state.auth.user);
@@ -57,9 +58,7 @@ const Profile = () => {
                     return images.filter((i) => i.image_name !== imageName);
                 }
             );
-        } catch (err) {
-            console.log(err);
-        }
+        } catch (err) {}
     };
 
     const jsx = () => {
@@ -120,6 +119,7 @@ const Profile = () => {
 
     return (
         <>
+            <HeadLayout title="Profile" />
             <WithSignin>
                 {user && (
                     <div className="profile-page">

@@ -79,15 +79,9 @@ const OrderCommentForm = ({ orderId, comment }: IProps) => {
                         `/comment?authId=${user.user_id}&orderId=${orderId}`,
                         state
                     );
-                    console.log(comment);
                     mutate(
                         `/order/${orderId}?authId=${user.user_id}`,
                         (order: IOrder) => {
-                            console.log({
-                                ...order,
-                                comments: [comment, ...order.comments],
-                            });
-
                             return {
                                 ...order,
                                 comments: [comment, ...order.comments],

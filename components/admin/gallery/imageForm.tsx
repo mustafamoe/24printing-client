@@ -54,7 +54,6 @@ const ImageForm = ({ close }: IProps) => {
 
             for (let f of e.target.files) {
                 const res = await toBase64(f);
-                console.log(res);
                 files.push({ img: res, name: f.name });
             }
 

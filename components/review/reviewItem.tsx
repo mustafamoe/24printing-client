@@ -14,7 +14,6 @@ const ProductReviewItem = ({ review }: IProps) => {
         <div className="product-review-item-container">
             <div className="product-review-user-info-container">
                 <div className="product-review-profile-img">
-                    {console.log(review.user.avatar.image_name)}
                     <ImageOpt
                         className="product-review-profile-img"
                         src={review.user.avatar.image_name}

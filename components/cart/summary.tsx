@@ -24,8 +24,6 @@ const Summary = ({ cart, type }: IProps) => {
                             String(item.quantity?.quantity_id)
                     );
 
-                    console.log(price);
-
                     if (price)
                         discountPrice += item.quantity?.price - price.price;
                 }

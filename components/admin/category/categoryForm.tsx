@@ -108,8 +108,9 @@ const CategoryForm = ({ close, category }: IProps) => {
             }
 
             try {
+                setLoading(true);
+
                 if (!category) {
-                    setLoading(true);
                     const category = await apiCall(
                         "post",
                         `/category?authId=${user.user_id}`,
@@ -119,12 +120,23 @@ const CategoryForm = ({ close, category }: IProps) => {
                     mutate(
                         "/categories",
                         (categories) => {
-                            return [...categories, category];
+                            return [
+                                ...categories.map((c) =>
+                                    c.category_order ===
+                                    Number(state.category_order)
+                                        ? {
+                                              ...c,
+                                              category_order:
+                                                  categories.length + 1,
+                                          }
+                                        : c
+                                ),
+                                category,
+                            ];
                         },
                         false
                     );
                 } else {
-                    setLoading(true);
                     const editedCategory = await apiCall(
                         "put",
                         `/category/${category.category_id}?authId=${user.user_id}`,
@@ -134,15 +146,27 @@ const CategoryForm = ({ close, category }: IProps) => {
                     mutate(
                         "/categories",
                         (categories) => {
-                            return categories.map((c) =>
-                                c.category_id !== category.category_id
-                                    ? c
-                                    : editedCategory
-                            );
+                            return categories
+                                .map((c) =>
+                                    c.category_order ===
+                                    Number(state.category_order)
+                                        ? {
+                                              ...c,
+                                              category_order:
+                                                  state.category_order,
+                                          }
+                                        : c
+                                )
+                                .map((c) =>
+                                    c.category_id !== category.category_id
+                                        ? c
+                                        : editedCategory
+                                );
                         },
                         false
                     );
                 }
+
                 close();
             } catch (err) {
                 setLoading(false);

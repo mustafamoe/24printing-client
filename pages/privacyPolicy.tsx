@@ -4,6 +4,7 @@ import { IPrivacyPolicy } from "../types/privacyPolicy";
 
 // components
 import Loader from "../components/loader";
+import HeadLayout from "../components/headLayout";
 
 const PrivacyPolicy = () => {
     const { data: privacyPolicy } = useSwr<IPrivacyPolicy>("/privacy_policy");
@@ -15,9 +16,12 @@ const PrivacyPolicy = () => {
             </div>
         );
     return (
-        <div className="privacy-policy-page">
-            {parser(privacyPolicy.content)}
-        </div>
+        <>
+            <HeadLayout title="Privacy Policy" />
+            <div className="privacy-policy-page">
+                {parser(privacyPolicy.content)}
+            </div>
+        </>
     );
 };
 

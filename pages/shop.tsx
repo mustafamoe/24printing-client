@@ -6,6 +6,7 @@ import ProductList from "../components/product/productList";
 import CategoryList from "../components/category/categoryList";
 import BannerSlider from "../components/banner/bannerSlider";
 import ProductQuikView from "../components/product/productQuikView";
+import HeadLayout from "../components/headLayout";
 
 const Shop = () => {
     const { data: banners } = useSwr("/banners?banner_page=shop");
@@ -32,6 +33,7 @@ const Shop = () => {
 
     return (
         <>
+            <HeadLayout title="Shop" />
             <div className="shop-page">
                 <BannerSlider loop={true} banners={banners} page={"shop"} />
                 <div className="shop-search-section">

@@ -7,16 +7,15 @@ import {
     Box,
     useTheme,
 } from "@material-ui/core";
-import {
-    signinCall,
-    // activateAccountEmailCall,
-    signinRemoveError,
-} from "../store/actions/user";
+import { signinCall, signinRemoveError } from "../store/actions/user";
 import { useSelector, useDispatch } from "react-redux";
 import { RootReducer } from "../store/reducers";
 import Link from "next/link";
 import Error from "../components/admin/error";
 import WithoutSignin from "../hocs/withoutSignin";
+
+// components
+import HeadLayout from "../components/headLayout";
 
 const Signin = () => {
     const dispatch = useDispatch();
@@ -55,87 +54,92 @@ const Signin = () => {
     };
 
     return (
-        <WithoutSignin>
-            <div className="sigin-page">
-                <form className="signin-form" onSubmit={handelSubmit}>
-                    {typeof error !== "object" ? (
+        <>
+            <HeadLayout title="Signin" />
+            <WithoutSignin>
+                <div className="sigin-page">
+                    <form className="signin-form" onSubmit={handelSubmit}>
+                        {typeof error !== "object" ? (
+                            <Box mb={2}>
+                                <Error errors={[error]} />
+                            </Box>
+                        ) : null}
                         <Box mb={2}>
-                            <Error errors={[error]} />
+                            <TextField
+                                size="small"
+                                type="text"
+                                variant="outlined"
+                                className="form-input"
+                                id="identity"
+                                label="Email or username"
+                                name="identifier"
+                                value={state.identifier}
+                                onChange={handelChange}
+                            />
                         </Box>
-                    ) : null}
-                    <Box mb={2}>
-                        <TextField
-                            size="small"
-                            type="text"
-                            variant="outlined"
-                            className="form-input"
-                            id="identity"
-                            label="Email or username"
-                            name="identifier"
-                            value={state.identifier}
-                            onChange={handelChange}
-                        />
-                    </Box>
-                    <Box>
-                        <TextField
-                            size="small"
-                            variant="outlined"
-                            label="Password"
-                            type="password"
-                            className="form-input"
-                            id="password"
-                            name="password"
-                            value={state.password}
-                            onChange={handelChange}
-                        />
-                    </Box>
-                    {userId ? (
-                        <div className="signin-resend-email-container">
-                            <p className="signin-resend-email-msg">
-                                didn't recive an email?
-                            </p>
-                            <button
-                                type="button"
-                                className="signin-resend-email"
-                                onClick={handleActivateAccountEmail}
-                            >
-                                resend
-                            </button>
-                        </div>
-                    ) : (
-                        <Box mt={3} mb={1}>
-                            <Typography>
-                                Don't have an account?
-                                <span
-                                    style={{
-                                        color: `${theme.palette.secondary.main}`,
-                                        textDecoration: "underline",
-                                    }}
+                        <Box>
+                            <TextField
+                                size="small"
+                                variant="outlined"
+                                label="Password"
+                                type="password"
+                                className="form-input"
+                                id="password"
+                                name="password"
+                                value={state.password}
+                                onChange={handelChange}
+                            />
+                        </Box>
+                        {userId ? (
+                            <div className="signin-resend-email-container">
+                                <p className="signin-resend-email-msg">
+                                    didn't recive an email?
+                                </p>
+                                <button
+                                    type="button"
+                                    className="signin-resend-email"
+                                    onClick={handleActivateAccountEmail}
                                 >
-                                    <Link href={"/signup"}>
-                                        <a>SIGNUP</a>
-                                    </Link>
-                                </span>
-                            </Typography>
+                                    resend
+                                </button>
+                            </div>
+                        ) : (
+                            <Box mt={3} mb={1}>
+                                <Typography>
+                                    Don't have an account?
+                                    <span
+                                        style={{
+                                            color: `${theme.palette.secondary.main}`,
+                                            textDecoration: "underline",
+                                        }}
+                                    >
+                                        <Link href={"/signup"}>
+                                            <a>SIGNUP</a>
+                                        </Link>
+                                    </span>
+                                </Typography>
+                            </Box>
+                        )}
+                        <Box display="flex">
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                color="primary"
+                                fullWidth
+                            >
+                                {loading ? (
+                                    <CircularProgress
+                                        style={{ color: "white" }}
+                                    />
+                                ) : (
+                                    "signin"
+                                )}
+                            </Button>
                         </Box>
-                    )}
-                    <Box display="flex">
-                        <Button
-                            type="submit"
-                            variant="contained"
-                            color="primary"
-                            fullWidth
-                        >
-                            {loading ? (
-                                <CircularProgress style={{ color: "white" }} />
-                            ) : (
-                                "signin"
-                            )}
-                        </Button>
-                    </Box>
-                </form>
-            </div>
-        </WithoutSignin>
+                    </form>
+                </div>
+            </WithoutSignin>
+        </>
     );
 };
 

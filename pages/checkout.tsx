@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import Summary from "../components/cart/summary";
 import CheckoutForm from "../components/checkout/checkoutForm";
 import SuccessModal from "../components/checkout/successModal";
+import HeadLayout from "../components/headLayout";
 
 const Checkout = () => {
     const router = useRouter();
@@ -24,6 +25,7 @@ const Checkout = () => {
 
     return (
         <>
+            <HeadLayout title="Checkout" />
             <WithSignin>
                 <div className="checkout-page">
                     <CheckoutForm openModal={openModel} />

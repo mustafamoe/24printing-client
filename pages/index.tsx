@@ -13,6 +13,7 @@ import Loader from "../components/loader";
 import TestimonialSlider from "../components/home/testimonialSlider";
 import { IProduct } from "../types/product";
 import { IBanner } from "../types/banner";
+import HeadLayout from "../components/headLayout";
 
 const Home = () => {
     const router = useRouter();
@@ -95,6 +96,7 @@ const Home = () => {
 
     return (
         <>
+            <HeadLayout title="Home" />
             <div>
                 <div style={{ width: "100wv" }}>
                     <BannerSlider page="home" loop={true} banners={banners} />

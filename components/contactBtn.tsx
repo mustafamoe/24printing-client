@@ -5,6 +5,7 @@ import ChatIcon from "@material-ui/icons/Chat";
 
 const useStyles = makeStyles({
     fab: {
+        zIndex: 2,
         position: "fixed",
         bottom: "20px",
         right: "20px",

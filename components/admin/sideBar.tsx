@@ -13,10 +13,11 @@ import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { signoutCall } from "../../store/actions/user";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
+import { RootReducer } from "../../store/reducers";
+import { Access } from "../../types/user";
 
 // data
 import { tabsList } from "../../data/adminSideBar";
-import { RootReducer } from "../../store/reducers";
 
 const drawerWidth = 240;
 
@@ -53,6 +54,27 @@ const SideBar = () => {
         dispatch(signoutCall());
     };
 
+    const getAccess = (access: Access) => {
+        switch (access) {
+            case "is_customer_service":
+                if (
+                    user.is_super_admin ||
+                    user.is_admin ||
+                    user.is_customer_service
+                )
+                    return true;
+
+                return false;
+            case "is_accountant":
+                if (user.is_super_admin || user.is_admin || user.is_accountant)
+                    return true;
+
+                return false;
+            default:
+                return true;
+        }
+    };
+
     return (
         <div>
             <Drawer
@@ -77,13 +99,7 @@ const SideBar = () => {
                             </Box>
                         ) : (
                             <>
-                                {[
-                                    user.is_super_admin && "is_super_admin",
-                                    user.is_admin && "is_admin",
-                                    user.is_accountant && "is_accountant",
-                                    user.is_customer_service &&
-                                        "is_customer_service",
-                                ].includes(tab.access) ? (
+                                {getAccess(tab.access) && (
                                     <ListItem
                                         selected={acitve === tab.link}
                                         onClick={() => handleActive(tab.link)}
@@ -99,7 +115,7 @@ const SideBar = () => {
                                         </ListItemIcon>
                                         <ListItemText>{tab.text}</ListItemText>
                                     </ListItem>
-                                ) : null}
+                                )}
                             </>
                         )
                     )}

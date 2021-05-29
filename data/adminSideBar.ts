@@ -1,9 +1,11 @@
+import { Access } from "../types/user";
+
 interface IModel {
     icon?: string;
     text?: string;
     link?: string;
     divider?: boolean;
-    access?: string;
+    access?: Access;
 }
 
 export const tabsList: IModel[] = [

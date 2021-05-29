@@ -27,11 +27,8 @@ const OrderDetails = ({ order }) => {
                             qty: {product.quantity.qty} qty
                         </p>
                         <p className="payment-product-info-text">
-                            {console.log(product.discount)}
                             Discount:{" "}
-                            {product.discount
-                                ? product.discount.price
-                                : "0"}{" "}
+                            {product.discount ? product.discount.price : "0"}{" "}
                             AED
                         </p>
                     </div>

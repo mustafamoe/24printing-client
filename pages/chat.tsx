@@ -316,7 +316,7 @@ const Chat = () => {
 
     return (
         <>
-            <HeadLayout title="Admin Chat" />
+            <HeadLayout title="Chat" />
             <Box className={classes.root}>
                 {!user ? (
                     <UserInfo handleAddUser={handleAddUser} loading={loading} />

@@ -30,6 +30,7 @@ import CustomizationForm from "../../components/product/customizationForm";
 import Designer from "../../components/product/designer";
 import ActionModal from "../../components/admin/actionModal";
 import QuikView from "../../components/product/productQuikView";
+import HeadLayout from "../../components/headLayout";
 
 //icons
 import CheckIcon from "@material-ui/icons/Check";
@@ -147,8 +148,6 @@ const ProductDetails = ({ product: pro }: IProps) => {
         let adsCounter = 0;
         let totlaPrice = Number(state.quantity?.price);
         const div = (name, price, id) => {
-            console.log(price);
-
             jsx.push(
                 <div
                     key={id}
@@ -176,7 +175,6 @@ const ProductDetails = ({ product: pro }: IProps) => {
                 if (customization.dropdown) {
                     const name = customization.name;
                     const price = customization.dropdown.prices.find((p) => {
-                        console.log(p.quantity_id, state.quantity.quantity_id);
                         return p.quantity_id === state.quantity.quantity_id;
                     })?.price;
                     totlaPrice += Number(price) || 0;
@@ -228,7 +226,6 @@ const ProductDetails = ({ product: pro }: IProps) => {
 
     // -------------------------- add product cart
     const handleAddToCart = () => {
-        console.log("adfsklaflds");
         let tmpCustomizations = [];
         let tmpErrors: any = {};
 
@@ -286,6 +283,11 @@ const ProductDetails = ({ product: pro }: IProps) => {
     if (product)
         return (
             <>
+                <HeadLayout
+                    title={product.product_name}
+                    image={product.image.image_name}
+                    description={product.product_description}
+                />
                 <div className="product-details-page">
                     <div className="product-details-main-section">
                         <ShowCaseSlider

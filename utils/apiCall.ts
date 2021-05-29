@@ -1,17 +1,15 @@
 import axios, { Method } from "axios";
 
 const isDev: boolean = true;
+const domain = "imazadat.com";
 
-type ApiUrl = "https://api.24printing.com" | "http://localhost:5000";
-type ClientUrl = "https://24printing.com" | "http://localhost:3000";
+export const apiUrl: string = isDev
+    ? "http://localhost:5000/api"
+    : `https://${domain}/api`;
 
-export const apiUrl: ApiUrl = isDev
-    ? "http://localhost:5000"
-    : "https://api.24printing.com";
-
-export const clientUrl: ClientUrl = isDev
+export const clientUrl: string = isDev
     ? "http://localhost:3000"
-    : "https://24printing.com";
+    : `https://${domain}`;
 
 export const apiImage = (
     image: string,
@@ -41,7 +39,7 @@ export const apiCall = <T>(
             if (err.response) {
                 return reject(err.response.data.error.message);
             } else {
-                return reject("something went wrong on the server!");
+                return reject("Something went wrong on the server!");
             }
         }
     });

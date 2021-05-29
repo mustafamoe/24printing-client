@@ -215,7 +215,7 @@ const ProductForm = ({ close, product }: IProps) => {
             });
         }
     }, []);
-    console.log(state);
+
     useEffect(() => {
         if (categories) setCLoading(false);
     }, [categories]);

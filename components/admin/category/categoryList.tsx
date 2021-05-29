@@ -66,7 +66,7 @@ const CategoryList = () => {
             setDelLoading(true);
             await apiCall(
                 "delete",
-                `/user/${user.user_id}/category/${isDel.category_id}`
+                `/category/${isDel.category_id}?authId=${user.user_id}`
             );
 
             mutate("/categories", (categories: ICategory[]) => {

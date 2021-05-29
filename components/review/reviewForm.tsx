@@ -89,7 +89,7 @@ const ReviewForm = ({ close, review, product, handleEditPro }: IProps) => {
                     `/review?authId=${user.user_id}&productId=${product.product_id}`,
                     state
                 );
-                console.log(review);
+
                 handleEditPro({
                     ...product,
                     reviews: [review, ...product.reviews],

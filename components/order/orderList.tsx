@@ -17,7 +17,7 @@ const OrderList = () => {
     const [activeTab, setTab] = useState("active");
     const [showDetails, setDetails] = useState(null);
     const [active, setActive] = useState(null);
-    console.log(orders);
+
     const toggleOrderDetails = (order) => {
         if (showDetails) {
             document.body.style.overflow = "auto";

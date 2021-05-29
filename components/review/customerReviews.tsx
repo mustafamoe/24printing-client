@@ -70,7 +70,6 @@ const CustomerReviews = ({ product }: IProps) => {
                             })}
                         </div>
                         <p className="product-details-customer-rating-out-5">
-                            {console.log(product.rating)}
                             {parseFloat(String(product.rating)).toFixed(1)} out
                             of 5
                         </p>

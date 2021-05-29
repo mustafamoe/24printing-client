@@ -108,8 +108,6 @@ const reducer = (
                 },
             };
         case "NEW_AGENT":
-            console.log(action.newUser);
-
             return {
                 ...state,
                 chat: {

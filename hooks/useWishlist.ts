@@ -3,7 +3,7 @@ import useSwr from "swr";
 import { RootReducer } from "../store/reducers";
 import { IProduct } from "../types/product";
 
-const useWishlist = (): IProduct[] => {
+const useWishlist = (): [IProduct[], boolean] => {
     const { data: products } = useSwr<IProduct[]>("/products");
     const wishlist = useSelector((state: RootReducer) => state.wishlist);
 
@@ -18,8 +18,8 @@ const useWishlist = (): IProduct[] => {
         return arr;
     };
 
-    if (!products) return [];
-    return getWishListProducts();
+    if (!products) return [[], !!products];
+    return [getWishListProducts(), !!products];
 };
 
 export default useWishlist;
