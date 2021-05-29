@@ -71,12 +71,10 @@ const Signup = () => {
                                     label="First name"
                                     name="first_name"
                                     value={state.first_name}
-                                    error={
-                                        !!(error && error["first_name"].length)
-                                    }
+                                    error={!!error?.first_name?.length}
                                     onChange={handelChange}
                                 />
-                                <Error errors={error && error["first_name"]} />
+                                <Error errors={error?.first_name || []} />
                             </Box>
                             <Box flexGrow={1} ml={2} mb={2}>
                                 <TextField
@@ -85,14 +83,12 @@ const Signup = () => {
                                     variant="outlined"
                                     className="form-input"
                                     label="Last name"
-                                    error={
-                                        !!(error && error["last_name"].length)
-                                    }
+                                    error={!!error?.last_name?.length}
                                     name="last_name"
                                     value={state.last_name}
                                     onChange={handelChange}
                                 />
-                                <Error errors={error && error["last_name"]} />
+                                <Error errors={error?.last_name || []} />
                             </Box>
                         </Box>
                         <Box mb={2}>
@@ -103,11 +99,11 @@ const Signup = () => {
                                 className="form-input"
                                 label="Username"
                                 name="username"
-                                error={!!(error && error["username"].length)}
+                                error={!!error?.username?.length}
                                 value={state.username}
                                 onChange={handelChange}
                             />
-                            <Error errors={error && error["username"]} />
+                            <Error errors={error?.username || []} />
                         </Box>
                         <Box mb={2}>
                             <TextField
@@ -117,11 +113,11 @@ const Signup = () => {
                                 className="form-input"
                                 label="Email"
                                 name="email"
-                                error={!!(error && error["email"].length)}
+                                error={!!error?.email?.length}
                                 value={state.email}
                                 onChange={handelChange}
                             />
-                            <Error errors={error && error["email"]} />
+                            <Error errors={error?.email || []} />
                         </Box>
                         <Box mb={2}>
                             <TextField
@@ -131,11 +127,11 @@ const Signup = () => {
                                 className="form-input"
                                 label="Phone number"
                                 name="phone"
-                                error={!!(error && error["phone"].length)}
+                                error={!!error?.phone?.length}
                                 value={state.phone}
                                 onChange={handelChange}
                             />
-                            <Error errors={error && error["phone"]} />
+                            <Error errors={error?.phone || []} />
                         </Box>
                         <Box mb={2}>
                             <TextField
@@ -145,11 +141,11 @@ const Signup = () => {
                                 type="password"
                                 className="form-input"
                                 name="password"
-                                error={!!(error && error["password"].length)}
+                                error={!!error?.password?.length}
                                 value={state.password}
                                 onChange={handelChange}
                             />
-                            <Error errors={error && error["password"]} />
+                            <Error errors={error?.password || []} />
                         </Box>
                         <Box>
                             <TextField
@@ -159,11 +155,11 @@ const Signup = () => {
                                 className="form-input"
                                 label="Verify Password"
                                 name="password2"
-                                error={!!(error && error["password2"].length)}
+                                error={!!error?.password2?.length}
                                 value={state.password2}
                                 onChange={handelChange}
                             />
-                            <Error errors={error && error["password2"]} />
+                            <Error errors={error?.password2 || []} />
                         </Box>
                         <Box mt={3} mb={1}>
                             <Typography>
