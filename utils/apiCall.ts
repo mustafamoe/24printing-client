@@ -1,15 +1,15 @@
 import axios, { Method } from "axios";
 
-const isDev: boolean = true;
+export const isProduction: boolean = false;
 const domain = "imazadat.com";
 
-export const apiUrl: string = isDev
-    ? "http://localhost:5000/api"
-    : `https://${domain}/api`;
+export const apiUrl: string = isProduction
+    ? `https://${domain}`
+    : `http://localhost:5000`;
 
-export const clientUrl: string = isDev
-    ? "http://localhost:3000"
-    : `https://${domain}`;
+export const clientUrl: string = isProduction
+    ? `https://${domain}`
+    : `http://localhost:3000`;
 
 export const apiImage = (
     image: string,
@@ -30,7 +30,7 @@ export const apiCall = <T>(
         try {
             const res = await axios({
                 method,
-                url: `${apiUrl}${url}`,
+                url: `${apiUrl}/api${url}`,
                 data,
                 withCredentials: true,
             });

@@ -1,6 +1,6 @@
 import { Box, makeStyles } from "@material-ui/core";
 import { getSocket } from "../../utils/socket";
-import { useEffect, useState, useRef, useReducer } from "react";
+import { useEffect, useState, useReducer } from "react";
 import { useSelector } from "react-redux";
 import { RootReducer } from "../../store/reducers";
 import { IChat, IMessage } from "../../types/chat";

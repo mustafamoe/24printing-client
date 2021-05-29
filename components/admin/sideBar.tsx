@@ -57,12 +57,8 @@ const SideBar = () => {
     const getAccess = (access: Access) => {
         switch (access) {
             case "is_admin":
-                if (
-                    user.is_super_admin ||
-                    user.is_admin ||
-                    user.is_customer_service
-                )
-                    return true;
+                if (user.is_super_admin || user.is_admin) return true;
+                return false;
             case "is_customer_service":
                 if (
                     user.is_super_admin ||
@@ -70,9 +66,13 @@ const SideBar = () => {
                     user.is_customer_service
                 )
                     return true;
+
+                return false;
             case "is_accountant":
                 if (user.is_super_admin || user.is_admin || user.is_accountant)
                     return true;
+
+                return false;
             default:
                 return false;
         }
