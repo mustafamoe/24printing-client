@@ -1,12 +1,31 @@
 import { useState } from "react";
 import ImageOpt from "../components/imageOpt";
 import { apiCall } from "../utils/apiCall";
+import Button from "@material-ui/core/Button";
 
 // components
 import HeadLayout from "../components/headLayout";
+import Error from "../components/admin/error";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
+interface IError {
+    name: string[];
+    subject: string[];
+    phone: string[];
+    email: string[];
+    message: string[];
+}
 
 const ContactUs = () => {
     const [successMsg, setSuccessMsg] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [errors, setErrors] = useState<IError>({
+        name: [],
+        subject: [],
+        phone: [],
+        email: [],
+        message: [],
+    });
     const [state, setState] = useState({
         name: "",
         message: "",
@@ -14,46 +33,76 @@ const ContactUs = () => {
         phone: "",
         subject: "",
     });
-    const [error, setError] = useState(null);
 
     const handleChange = (e) => {
         setState({ ...state, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        sendEmail();
-    };
 
-    const sendEmail = async () => {
-        try {
-            setError(null);
-            setSuccessMsg("");
-            await apiCall("post", `/api/contactus_send_email`, state);
-            setState({
-                ...state,
-                name: "",
-                message: "",
-                email: "",
-                phone: "",
-                subject: "",
-            });
+        if (!loading) {
+            const errors = handleValidate();
 
-            setSuccessMsg("thank you for contacting us!");
-        } catch (err) {
-            setError(err);
+            for (let e of Object.values(errors)) {
+                if (e.length) return;
+            }
+
+            try {
+                setLoading(true);
+                const { message } = await apiCall("post", `/contact_us`, state);
+
+                setState({
+                    name: "",
+                    message: "",
+                    email: "",
+                    phone: "",
+                    subject: "",
+                });
+                setTimeout(() => {
+                    setSuccessMsg("");
+                }, 5000);
+                setSuccessMsg(message);
+                setLoading(false);
+            } catch (err) {
+                setLoading(false);
+                setErrors({ ...errors, ...err });
+            }
         }
     };
 
-    const errorMessage = (fieldName) => {
-        if (error) {
-            if (error[fieldName])
-                return (
-                    <div className="error-msg-container">
-                        <p className="error-msg">{error[fieldName]}</p>
-                    </div>
-                );
+    const handleValidate = () => {
+        const TmpErrors: IError = {
+            name: [],
+            email: [],
+            phone: [],
+            subject: [],
+            message: [],
+        };
+
+        if (!state.name) {
+            TmpErrors.name.push("Please fill in product name.");
         }
+
+        if (!state.phone) {
+            TmpErrors.phone.push("Please fill in product description.");
+        }
+
+        if (!state.email) {
+            TmpErrors.email.push("Please fill in about this product.");
+        }
+
+        if (!state.subject) {
+            TmpErrors.subject.push("Please choose an image.");
+        }
+
+        if (!state.message.length) {
+            TmpErrors.message.push("Please choose at least one image.");
+        }
+
+        setErrors({ ...errors, ...TmpErrors });
+
+        return TmpErrors;
     };
 
     return (
@@ -65,13 +114,6 @@ const ContactUs = () => {
                 </div>
                 <div className="contactus-main-section-container">
                     <form onSubmit={handleSubmit} className="contact-form">
-                        {successMsg ? (
-                            <div>
-                                <p className="contactus-success-msg">
-                                    {successMsg}
-                                </p>
-                            </div>
-                        ) : null}
                         <div className="contactus-inputs-container">
                             <div className="form-input-container">
                                 <label className="form-label" htmlFor="name">
@@ -86,7 +128,7 @@ const ContactUs = () => {
                                     value={state.name}
                                     onChange={handleChange}
                                 />
-                                {errorMessage("name")}
+                                <Error errors={errors.name} />
                             </div>
                             <div className="form-input-container">
                                 <label className="form-label" htmlFor="phone">
@@ -101,7 +143,7 @@ const ContactUs = () => {
                                     value={state.phone}
                                     onChange={handleChange}
                                 />
-                                {errorMessage("phone")}
+                                <Error errors={errors.phone} />
                             </div>
                             <div className="form-input-container">
                                 <label className="form-label" htmlFor="email">
@@ -116,7 +158,7 @@ const ContactUs = () => {
                                     value={state.email}
                                     onChange={handleChange}
                                 />
-                                {errorMessage("email")}
+                                <Error errors={errors.email} />
                             </div>
                             <div className="form-input-container">
                                 <label className="form-label" htmlFor="subject">
@@ -131,7 +173,7 @@ const ContactUs = () => {
                                     value={state.subject}
                                     onChange={handleChange}
                                 />
-                                {errorMessage("subject")}
+                                <Error errors={errors.subject} />
                             </div>
                         </div>
                         <div className="form-input-container">
@@ -146,11 +188,34 @@ const ContactUs = () => {
                                 value={state.message}
                                 onChange={handleChange}
                             ></textarea>
-                            {errorMessage("message")}
+                            <Error errors={errors.message} />
                         </div>
-                        <button className="button" type="submit">
-                            submit
-                        </button>
+                        {successMsg ? (
+                            <div>
+                                <p className="contactus-success-msg">
+                                    {successMsg}
+                                </p>
+                            </div>
+                        ) : null}
+                        <Button
+                            type="submit"
+                            disabled={loading}
+                            fullWidth
+                            variant="contained"
+                            color="secondary"
+                        >
+                            {loading ? (
+                                <CircularProgress
+                                    style={{
+                                        color: "white",
+                                        width: "30px",
+                                        height: "30px",
+                                    }}
+                                />
+                            ) : (
+                                "submit"
+                            )}
+                        </Button>
                     </form>
                     <div className="contactus-middle-line"></div>
                     <div className="contactus-info-container">

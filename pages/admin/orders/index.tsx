@@ -9,7 +9,7 @@ const Orders = () => {
     return (
         <>
             <HeadLayout title="Admin Orders" />
-            <AdminLayout>
+            <AdminLayout access="is_accountant">
                 <div style={{ width: "100%" }}>
                     <Box display="flex" flexDirection="column">
                         <Box display="flex" flexDirection="row">

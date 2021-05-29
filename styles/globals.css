@@ -1268,6 +1268,7 @@ a {
 
 .contactus-success-msg {
     color: rgb(16, 116, 16);
+    margin: 10px 0;
     text-transform: capitalize;
 }
 

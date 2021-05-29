@@ -37,7 +37,10 @@ export const apiCall = <T>(
             return resolve(res.data);
         } catch (err) {
             if (err.response) {
-                return reject(err.response.data.error.message);
+                return reject(
+                    err.response.data.error?.message ||
+                        "Something went wrong on the server!"
+                );
             } else {
                 return reject("Something went wrong on the server!");
             }

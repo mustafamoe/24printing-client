@@ -22,7 +22,7 @@ const Categories = () => {
     return (
         <>
             <HeadLayout title="Admin Category" />
-            <AdminLayout>
+            <AdminLayout access="is_admin">
                 <div style={{ width: "100%" }}>
                     <Box display="flex" flexDirection="column">
                         <Box display="flex" flexDirection="row">

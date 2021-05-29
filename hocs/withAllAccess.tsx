@@ -7,7 +7,7 @@ interface IProps {
     children: React.ReactNode;
 }
 
-const WithSignin = ({ children }: IProps) => {
+const WithAllAccess = ({ children }: IProps) => {
     const router = useRouter();
     const [isWindow, setWindow] = useState(false);
     const {
@@ -19,13 +19,24 @@ const WithSignin = ({ children }: IProps) => {
         setWindow(true);
     }, []);
 
-    if (!isWindow) return <p>loading...</p>;
+    if (!isWindow) return null;
     else if (loading) return <p>loading...</p>;
-    else if (user) return <>{children}</>;
-    else {
+    else if (user) {
+        if (
+            user.is_super_admin ||
+            user.is_admin ||
+            user.is_accountant ||
+            user.is_customer_service
+        )
+            return <>{children}</>;
+        else {
+            router.push("/");
+            return null;
+        }
+    } else {
         router.push("/");
         return null;
     }
 };
 
-export default WithSignin;
+export default WithAllAccess;

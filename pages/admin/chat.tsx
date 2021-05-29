@@ -321,7 +321,7 @@ const Chat = () => {
     return (
         <>
             <HeadLayout title="Admin Chat" />
-            <AdminLayout space={true}>
+            <AdminLayout access="is_customer_service" space={true}>
                 <Navbar
                     customers={state.activeCustomers}
                     value={value}

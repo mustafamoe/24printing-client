@@ -20,7 +20,9 @@ const Order = () => {
     return (
         <>
             <HeadLayout title={order?.order_id || "Admin order"} />
-            <AdminLayout>{order && <OrderDetails order={order} />}</AdminLayout>
+            <AdminLayout access="is_accountant">
+                {order && <OrderDetails order={order} />}
+            </AdminLayout>
         </>
     );
 };

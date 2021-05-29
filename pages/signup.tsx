@@ -122,7 +122,7 @@ const Signup = () => {
                         <Box mb={2}>
                             <TextField
                                 size="small"
-                                type="text"
+                                type="phone"
                                 variant="outlined"
                                 className="form-input"
                                 label="Phone number"

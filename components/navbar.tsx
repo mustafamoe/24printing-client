@@ -89,12 +89,15 @@ const Navbar = () => {
                                     className="cart-counter"
                                     style={{ top: "0px" }}
                                 >
-                                    {/* {cart.length} */}
+                                    {cart.length}
                                 </p>
-                                <img
+                                <ImageOpt
+                                    location="local"
                                     className="shopping-cart-icon"
-                                    src={"/cart.svg"}
+                                    src="/cart.svg"
                                     alt="cart"
+                                    width={40}
+                                    height={35}
                                 />
                             </a>
                         </Link>
@@ -135,17 +138,22 @@ const Navbar = () => {
 
     const adminLinks = () => {
         if (user) {
-            if (user.is_super_admin || user.is_admin)
+            if (
+                user.is_super_admin ||
+                user.is_admin ||
+                user.is_accountant ||
+                user.is_customer_service
+            )
                 return (
                     <li
                         onClick={ww < 1050 && isOpen ? toggleNavbar : null}
                         className="nav-nav-item"
                     >
-                        <Link href="/admin/orders">
+                        <Link href="/admin">
                             <a
                                 className="navbar-nav-link"
                                 style={
-                                    activeClassName("/admin/orders")
+                                    activeClassName("/admin")
                                         ? activeLink
                                         : null
                                 }

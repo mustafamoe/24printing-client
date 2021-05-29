@@ -22,7 +22,7 @@ const Banners = () => {
     return (
         <>
             <HeadLayout title="Admin Banners" />
-            <AdminLayout>
+            <AdminLayout access="is_admin">
                 <div style={{ width: "100%" }}>
                     <Box display="flex" flexDirection="column">
                         <Box display="flex" flexDirection="row">

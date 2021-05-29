@@ -56,6 +56,13 @@ const SideBar = () => {
 
     const getAccess = (access: Access) => {
         switch (access) {
+            case "is_admin":
+                if (
+                    user.is_super_admin ||
+                    user.is_admin ||
+                    user.is_customer_service
+                )
+                    return true;
             case "is_customer_service":
                 if (
                     user.is_super_admin ||
@@ -63,15 +70,11 @@ const SideBar = () => {
                     user.is_customer_service
                 )
                     return true;
-
-                return false;
             case "is_accountant":
                 if (user.is_super_admin || user.is_admin || user.is_accountant)
                     return true;
-
-                return false;
             default:
-                return true;
+                return false;
         }
     };
 
@@ -92,14 +95,10 @@ const SideBar = () => {
                 </ListItem>
                 <Divider />
                 <List component="nav">
-                    {tabsList.map((tab, i) =>
-                        tab.divider ? (
-                            <Box mb={1} mt={1} key={i}>
-                                <Divider />
-                            </Box>
-                        ) : (
-                            <>
-                                {getAccess(tab.access) && (
+                    {tabsList.map((tab, i) => (
+                        <>
+                            {getAccess(tab.access) && (
+                                <>
                                     <ListItem
                                         selected={acitve === tab.link}
                                         onClick={() => handleActive(tab.link)}
@@ -115,10 +114,15 @@ const SideBar = () => {
                                         </ListItemIcon>
                                         <ListItemText>{tab.text}</ListItemText>
                                     </ListItem>
-                                )}
-                            </>
-                        )
-                    )}
+                                    {tab.divider && (
+                                        <Box mb={1} mt={1} key={i}>
+                                            <Divider />
+                                        </Box>
+                                    )}
+                                </>
+                            )}
+                        </>
+                    ))}
                     <Box mb={1} mt={1}>
                         <Divider />
                     </Box>
