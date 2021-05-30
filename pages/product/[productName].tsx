@@ -60,7 +60,7 @@ const ProductDetails = ({ product: pro }: IProps) => {
     const { data: products } = useSwr<IProduct[]>("/products");
     const [relatedProducts, setRelatedProducts] = useState([]);
     const { data: reviews } = useSwr<IReview[]>(
-        `/reviews?productId=${pro.product_id}`
+        product ? `/reviews?productId=${product?.product_id}` : null
     );
     const [quikView, setQuikView] = useState(null);
     const [isDesigner, setDesigner] = useState(false);
