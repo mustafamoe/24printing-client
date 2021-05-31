@@ -14,10 +14,15 @@ import TestimonialSlider from "../components/home/testimonialSlider";
 import { IProduct } from "../types/product";
 import { IBanner } from "../types/banner";
 import HeadLayout from "../components/headLayout";
+import { apiCall } from "../utils/apiCall";
+import { GetStaticProps } from "next";
 
-const Home = () => {
+interface IProps {
+    banners: IBanner[];
+}
+
+const Home = ({ banners }: IProps) => {
     const router = useRouter();
-    const { data: banners } = useSwr<IBanner[]>("/banners?banner_page=home");
     const { data: products } = useSwr<IProduct[]>("/products");
     const { data: advCards } = useSwr("/adv_cards");
     const [saleProducts, setSaleProducts] = useState([]);
@@ -273,6 +278,18 @@ const Home = () => {
             )}
         </>
     );
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+    const banners = await apiCall<IBanner[]>(
+        "get",
+        `/banners?banner_page=home`
+    );
+
+    return {
+        props: { banners },
+        revalidate: 120,
+    };
 };
 
 export default Home;

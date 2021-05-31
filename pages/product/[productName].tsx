@@ -4,7 +4,7 @@ import parser from "html-react-parser";
 import { addProductCart } from "../../store/actions/cart";
 import Link from "next/link";
 import useSwr from "swr";
-import { apiCall, clientUrl } from "../../utils/apiCall";
+import { apiCall, domain } from "../../utils/apiCall";
 import { IProduct } from "../../types/product";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { IQuantity } from "../../types/quantity";
@@ -388,7 +388,7 @@ const ProductDetails = ({ product: pro }: IProps) => {
                                 <div className="share-to-social-media-btn-container">
                                     <div className="share-to-social-media-btn">
                                         <FacebookShareButton
-                                            url={`${clientUrl}/product/${product.product_name}`}
+                                            url={`${domain}/product/${product.product_name}`}
                                         >
                                             <FacebookIcon
                                                 size={30}
@@ -398,7 +398,7 @@ const ProductDetails = ({ product: pro }: IProps) => {
                                     </div>
                                     <div className="share-to-social-media-btn">
                                         <WhatsappShareButton
-                                            url={`${clientUrl}/product/${product.product_name}`}
+                                            url={`${domain}/product/${product.product_name}`}
                                         >
                                             <WhatsappIcon
                                                 size={30}
@@ -408,7 +408,7 @@ const ProductDetails = ({ product: pro }: IProps) => {
                                     </div>
                                     <div className="share-to-social-media-btn">
                                         <EmailShareButton
-                                            url={`${clientUrl}/product/${product.product_name}`}
+                                            url={`${domain}/product/${product.product_name}`}
                                         >
                                             <EmailIcon
                                                 size={30}

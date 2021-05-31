@@ -1,5 +1,4 @@
 import { io } from "socket.io-client";
-import { apiUrl, isProduction } from "./apiCall";
+import { domain } from "./apiCall";
 
-export const getSocket = () =>
-    io(`${apiUrl}${isProduction ? "/api" : ""}`, { autoConnect: false });
+export const getSocket = () => io(domain, { autoConnect: false });

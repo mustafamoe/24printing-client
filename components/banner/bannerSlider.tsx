@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import SwiperCore, { Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Link from "next/link";
-import ImageOpt from "../imageOpt";
 import { IBanner } from "../../types/banner";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 // components
 import Loader from "../loader";
+import { apiImage } from "../../utils/apiCall";
 
 // install Swiper components
 SwiperCore.use([Navigation, Pagination]);
@@ -56,21 +57,25 @@ const BannerSlider = ({ banners, page, loop, spacing }: IProps) => {
                                     {banner.link ? (
                                         <Link href={banner.link}>
                                             <div className="banner-slider-img-container">
-                                                <ImageOpt
-                                                    src={
+                                                <Image
+                                                    src={apiImage(
                                                         banner.image?.image_name
-                                                    }
+                                                    )}
                                                     layout="fill"
                                                     objectFit="cover"
+                                                    priority={true}
                                                 />
                                             </div>
                                         </Link>
                                     ) : (
                                         <div className="banner-slider-img-container">
-                                            <ImageOpt
-                                                src={banner.image?.image_name}
+                                            <Image
+                                                src={apiImage(
+                                                    banner.image?.image_name
+                                                )}
                                                 layout="fill"
                                                 objectFit="cover"
+                                                priority={true}
                                             />
                                         </div>
                                     )}

@@ -46,6 +46,7 @@ const AdvPopupModel = () => {
                         src={apiImage(advPopup.image.image_name)}
                         alt=""
                     />
+                    {console.log(apiImage(advPopup.image.image_name))}
                 </div>
             </div>
         );

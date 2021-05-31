@@ -1,24 +1,20 @@
 import axios, { Method } from "axios";
 
 export const isProduction: boolean = false;
-const domain = "imazadat.com";
 
-export const apiUrl: string = isProduction
-    ? `https://${domain}`
+export const domain = isProduction
+    ? "https://24printing.ae"
     : `http://localhost:5000`;
-
-export const clientUrl: string = isProduction
-    ? `https://${domain}`
-    : `http://localhost:3000`;
 
 export const apiImage = (
     image: string,
     width?: number,
     q?: number | undefined
 ): string => {
-    return `https://res.cloudinary.com/dkdqozb5n/image/upload/q_${
-        q ? q : "auto"
-    }${width ? `,w_${width}` : ""},f_auto,fl_lossy/v1620040545/${image}`;
+    return `https://24printing.s3.amazonaws.com/${image}`;
+    // return `https://res.cloudinary.com/dkdqozb5n/image/upload/q_${
+    //     q ? q : "auto"
+    // }${width ? `,w_${width}` : ""},f_auto,fl_lossy/v1620040545/${image}`;
 };
 
 export const apiCall = <T>(
@@ -30,7 +26,7 @@ export const apiCall = <T>(
         try {
             const res = await axios({
                 method,
-                url: `${apiUrl}/api${url}`,
+                url: `${domain}/api${url}`,
                 data,
                 withCredentials: true,
             });

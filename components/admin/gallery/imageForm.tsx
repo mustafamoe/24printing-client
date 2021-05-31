@@ -50,11 +50,15 @@ const ImageForm = ({ close }: IProps) => {
 
     const handleChange = async (e) => {
         if (e.target.files.length) {
-            let files: { img: string | ArrayBuffer; name: string }[] = [];
+            let files: {
+                img: string | ArrayBuffer;
+                name: string;
+                file: any;
+            }[] = [];
 
             for (let f of e.target.files) {
                 const res = await toBase64(f);
-                files.push({ img: res, name: f.name });
+                files.push({ img: res, name: f.name, file: f });
             }
 
             setState({
@@ -101,14 +105,18 @@ const ImageForm = ({ close }: IProps) => {
             if (e.length) return;
         }
 
+        setLoading(true);
         try {
-            setLoading(true);
+            const formData = new FormData();
+
+            for (let i of state.images) {
+                formData.append("image", i.file);
+            }
+
             const images = await apiCall<IImage[]>(
                 "post",
                 `/images?authId=${user.user_id}`,
-                {
-                    images: JSON.stringify(state.images.map((i) => i.img)),
-                }
+                formData
             );
 
             mutate(

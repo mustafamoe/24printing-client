@@ -52,7 +52,7 @@ const ImageList = () => {
             setDelLoading(true);
             await apiCall(
                 "delete",
-                `/image/${isDel.image_id}?authId=${user.user_id}&imageName=${isDel.image_name}`
+                `/image/${isDel.image_name}?authId=${user.user_id}`
             );
 
             mutate(

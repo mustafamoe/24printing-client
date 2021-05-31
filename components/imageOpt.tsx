@@ -24,56 +24,56 @@ const ImageOpt = ({
     className,
     location,
 }: IProps) => {
-    const [q, setQ] = useState<number | undefined>(1);
+    // const [q, setQ] = useState<number | undefined>(1);
     const ref = useRef<any>();
-    const [steps, setSteps] = useState(0);
-    const [isStyle, setStyle] = useState(true);
-    const timer = useRef<any>(null);
+    // const [steps, setSteps] = useState(0);
+    // const [isStyle, setStyle] = useState(true);
+    // const timer = useRef<any>(null);
 
-    useEffect(() => {
-        timer.current = setTimeout(() => {
-            if (steps === 1) {
-                setQ(undefined);
-                setSteps(() => steps + 1);
+    // useEffect(() => {
+    //     timer.current = setTimeout(() => {
+    //         if (steps === 1) {
+    //             setQ(undefined);
+    //             setSteps(() => steps + 1);
 
-                return;
-            }
-        }, 10);
+    //             return;
+    //         }
+    //     }, 10);
 
-        if (steps === 2) {
-            clearInterval(timer.current);
-        }
-    }, [steps]);
+    //     if (steps === 2) {
+    //         clearInterval(timer.current);
+    //     }
+    // }, [steps]);
 
-    const onLoad = () => {
-        if (steps === 1) {
-            setQ(undefined);
-            setSteps(() => steps + 1);
+    // const onLoad = () => {
+    //     if (steps === 1) {
+    //         setQ(undefined);
+    //         setSteps(() => steps + 1);
 
-            return;
-        }
+    //         return;
+    //     }
 
-        if (steps === 2) {
-            setStyle(false);
+    //     if (steps === 2) {
+    //         setStyle(false);
 
-            return;
-        }
+    //         return;
+    //     }
 
-        setSteps(steps + 1);
-    };
+    //     setSteps(steps + 1);
+    // };
 
     return (
         <div
             className="imageContainer"
-            style={
-                (isStyle || q) && location != "local"
-                    ? { filter: "blur(10px)" }
-                    : undefined
-            }
+            // style={
+            //     (isStyle || q) && location != "local"
+            //         ? { filter: "blur(10px)" }
+            //         : undefined
+            // }
             ref={ref}
         >
             <Image
-                onLoad={onLoad}
+                // onLoad={onLoad}
                 className={className}
                 width={width || null}
                 height={height || null}
@@ -83,7 +83,7 @@ const ImageOpt = ({
                 src={
                     location === "local"
                         ? src
-                        : apiImage(src, ref.current?.clientWidth, q)
+                        : apiImage(src, ref.current?.clientWidth, 1)
                 }
             />
             <style jsx>{`

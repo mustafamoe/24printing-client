@@ -6,10 +6,16 @@ import ProductList from "../components/product/productList";
 import CategoryList from "../components/category/categoryList";
 import BannerSlider from "../components/banner/bannerSlider";
 import ProductQuikView from "../components/product/productQuikView";
+import { IBanner } from "../types/banner";
 import HeadLayout from "../components/headLayout";
+import { apiCall } from "../utils/apiCall";
+import { GetStaticProps } from "next";
 
-const Shop = () => {
-    const { data: banners } = useSwr("/banners?banner_page=shop");
+interface IProps {
+    banners: IBanner[];
+}
+
+const Shop = ({ banners }: IProps) => {
     const [productModel, setProductModel] = useState(null);
     const [search, setSearch] = useState("");
 
@@ -66,6 +72,18 @@ const Shop = () => {
             )}
         </>
     );
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+    const banners = await apiCall<IBanner[]>(
+        "get",
+        `/banners?banner_page=shop`
+    );
+
+    return {
+        props: { banners },
+        revalidate: 120,
+    };
 };
 
 export default Shop;
