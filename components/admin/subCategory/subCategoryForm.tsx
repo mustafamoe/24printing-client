@@ -177,9 +177,9 @@ const SubCategoryForm = ({ close, subCategory, categoryId }: IProps) => {
             TmpErrors.sub_category_name.push("Please fill in category name.");
         }
 
-        if (!state.sub_category_order) {
-            TmpErrors.sub_category_order.push("Please fill in category order.");
-        }
+        // if (!state.sub_category_order) {
+        //     TmpErrors.sub_category_order.push("Please fill in category order.");
+        // }
 
         if (!state.category) {
             TmpErrors.category.push("Please choose a category.");
