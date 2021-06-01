@@ -147,10 +147,10 @@ const SubCategoryForm = ({ close, subCategory, categoryId }: IProps) => {
                         `/sub_categories?categoryId=${categoryId}`,
                         (subCategories) => {
                             return subCategories.map((sc) =>
-                                sc.sub_category_id !==
+                                sc.sub_category_id ===
                                 subCategory.sub_category_id
-                                    ? sc
-                                    : editedSubCategory
+                                    ? editedSubCategory
+                                    : sc
                             );
                         },
                         false

@@ -260,7 +260,7 @@ const SubCategoryList = ({ categoryId }) => {
             );
 
             mutate(
-                "/sub_categories",
+                `/sub_categories?categoryId=${categoryId}`,
                 (subCategories: ISubCategory[]) => {
                     return subCategories.filter(
                         (c) => c.sub_category_id !== isDel.sub_category_id
