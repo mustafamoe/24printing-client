@@ -114,7 +114,7 @@ const SubCategoryForm = ({ close, subCategory, categoryId }: IProps) => {
 
         if (!loading) {
             const errors = handleValidate();
-
+            console.log(errors);
             for (let e of Object.values(errors)) {
                 if (e.length) return;
             }
@@ -181,9 +181,9 @@ const SubCategoryForm = ({ close, subCategory, categoryId }: IProps) => {
         //     TmpErrors.sub_category_order.push("Please fill in category order.");
         // }
 
-        if (!state.category) {
-            TmpErrors.category.push("Please choose a category.");
-        }
+        // if (!state.category) {
+        //     TmpErrors.category.push("Please choose a category.");
+        // }
 
         setErrors({ ...errors, ...TmpErrors });
 
@@ -212,7 +212,7 @@ const SubCategoryForm = ({ close, subCategory, categoryId }: IProps) => {
                             className={classes.formControl}
                         >
                             <FormLabel component="legend">
-                                Category Settings
+                                Sub Category Settings
                             </FormLabel>
                             <FormGroup>
                                 <FormControlLabel
