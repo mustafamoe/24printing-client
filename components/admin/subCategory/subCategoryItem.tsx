@@ -346,11 +346,6 @@ const SubCategoryList = ({ categoryId }) => {
                                         page * rowsPerPage,
                                         page * rowsPerPage + rowsPerPage
                                     )
-                                    .sort(
-                                        (a, b) =>
-                                            Number(a.category_order) -
-                                            Number(b.category_order)
-                                    )
                                     .map((subCategory) => (
                                         <SubCategoryItem
                                             handleOpenDel={handleOpenDel}

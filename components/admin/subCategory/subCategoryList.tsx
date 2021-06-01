@@ -75,45 +75,56 @@ const CategoryList = () => {
                         padding: "10px",
                     }}
                 >
-                    {categories.map((c) => (
-                        <Accordion
-                            TransitionProps={{ unmountOnExit: true }}
-                            key={c.category_id}
-                            expanded={expanded === c.category_id}
-                            onChange={handleExpand(c.category_id)}
-                        >
-                            <AccordionSummary
-                                classes={{ root: classes.accHeader }}
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel2a-content"
-                                id="panel2a-header"
+                    {categories
+                        .sort(
+                            (a, b) =>
+                                Number(a.category_order) -
+                                Number(b.category_order)
+                        )
+                        .map((c) => (
+                            <Accordion
+                                TransitionProps={{ unmountOnExit: true }}
+                                key={c.category_id}
+                                expanded={expanded === c.category_id}
+                                onChange={handleExpand(c.category_id)}
                             >
-                                <Typography className={classes.heading}>
-                                    {c.category_name}
-                                </Typography>
-                                <Box>
-                                    <Button
-                                        style={{ whiteSpace: "nowrap" }}
-                                        startIcon={<Add />}
-                                        variant="contained"
-                                        type="button"
-                                        onClick={
-                                            !isAdd
-                                                ? (e) =>
-                                                      openAdd(e, c.category_id)
-                                                : (e) => e.stopPropagation()
-                                        }
-                                        color="primary"
-                                    >
-                                        add sub category
-                                    </Button>
-                                </Box>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                <SubCategoryList categoryId={c.category_id} />
-                            </AccordionDetails>
-                        </Accordion>
-                    ))}
+                                <AccordionSummary
+                                    classes={{ root: classes.accHeader }}
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel2a-content"
+                                    id="panel2a-header"
+                                >
+                                    <Typography className={classes.heading}>
+                                        {c.category_name}
+                                    </Typography>
+                                    <Box>
+                                        <Button
+                                            style={{ whiteSpace: "nowrap" }}
+                                            startIcon={<Add />}
+                                            variant="contained"
+                                            type="button"
+                                            onClick={
+                                                !isAdd
+                                                    ? (e) =>
+                                                          openAdd(
+                                                              e,
+                                                              c.category_id
+                                                          )
+                                                    : (e) => e.stopPropagation()
+                                            }
+                                            color="primary"
+                                        >
+                                            add sub category
+                                        </Button>
+                                    </Box>
+                                </AccordionSummary>
+                                <AccordionDetails>
+                                    <SubCategoryList
+                                        categoryId={c.category_id}
+                                    />
+                                </AccordionDetails>
+                            </Accordion>
+                        ))}
                 </Box>
                 {isAdd && (
                     <SubCategoryForm categoryId={isAdd} close={closeAdd} />
