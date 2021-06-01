@@ -127,13 +127,13 @@ const SubCategoryItem = ({ subCategory, handleOpenDel, handleOpenEdit }) => {
             >
                 {subCategory.sub_category_order}
             </TableCell> */}
-            <TableCell
+            {/* <TableCell
                 classes={{
                     root: classes.tableCell,
                 }}
             >
                 {subCategory.category?.category_name}
-            </TableCell>
+            </TableCell> */}
             <TableCell
                 classes={{
                     root: classes.tableCell,
@@ -302,12 +302,12 @@ const SubCategoryList = ({ categoryId }) => {
                                     >
                                         Order
                                     </TableCell> */}
-                                    <TableCell
+                                    {/* <TableCell
                                         style={{ minWidth: "150px" }}
                                         align="left"
                                     >
                                         Category
-                                    </TableCell>
+                                    </TableCell> */}
                                     <TableCell
                                         style={{ minWidth: "150px" }}
                                         align="left"
@@ -345,6 +345,11 @@ const SubCategoryList = ({ categoryId }) => {
                                     .slice(
                                         page * rowsPerPage,
                                         page * rowsPerPage + rowsPerPage
+                                    )
+                                    .sort(
+                                        (a, b) =>
+                                            Number(a.category_order) -
+                                            Number(b.category_order)
                                     )
                                     .map((subCategory) => (
                                         <SubCategoryItem
