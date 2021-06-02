@@ -1,4 +1,3 @@
-import classes from "*.module.scss";
 import { Box, IconButton, makeStyles, TextField } from "@material-ui/core";
 import { useState } from "react";
 import SendIcon from "@material-ui/icons/Send";

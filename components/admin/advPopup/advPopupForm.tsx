@@ -45,7 +45,7 @@ const AdvPopupForm = ({ close, advPopup }: IProps) => {
     const user = useSelector((state: RootReducer) => state.auth.user);
     const [state, setState] = useState<IState>({
         image: "",
-        is_active: true,
+        is_active: false,
         link: "",
     });
     const [errors, setErrors] = useState<IError>({
@@ -54,10 +54,11 @@ const AdvPopupForm = ({ close, advPopup }: IProps) => {
 
     useEffect(() => {
         if (advPopup) {
+            console.log(advPopup.is_active);
             setState({
                 ...state,
                 image: advPopup.image?.image_id || "",
-                is_active: advPopup.is_active || true,
+                is_active: advPopup.is_active,
                 link: advPopup.link || "",
             });
         }
@@ -107,7 +108,7 @@ const AdvPopupForm = ({ close, advPopup }: IProps) => {
                     );
                 } else {
                     setLoading(true);
-                    const editedAdvPopup = await apiCall(
+                    const editedAdvPopup = await apiCall<IAdvPopup>(
                         "put",
                         `/adv_popup/${advPopup.adv_popup_id}?authId=${user.user_id}`,
                         state
@@ -115,12 +116,21 @@ const AdvPopupForm = ({ close, advPopup }: IProps) => {
 
                     mutate(
                         "/adv_popups",
-                        (advPopups) => {
-                            return advPopups.map((ap) =>
-                                ap.adv_popup_id !== advPopup.adv_popup_id
-                                    ? ap
-                                    : editedAdvPopup
-                            );
+                        (advPopups: IAdvPopup[]) => {
+                            return advPopups.map((ap) => {
+                                if (
+                                    ap.adv_popup_id !==
+                                    editedAdvPopup.adv_popup_id
+                                ) {
+                                    if (state.is_active) {
+                                        return { ...ap, is_active: false };
+                                    }
+
+                                    return ap;
+                                }
+
+                                return editedAdvPopup;
+                            });
                         },
                         false
                     );

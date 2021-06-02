@@ -64,19 +64,44 @@ const Footer = () => {
                                     <a className="footer-links">wishlist</a>
                                 </Link>
                             </li>
-                            {/* <li className="footer-link-elements">
-                <Link className="footer-links" to="/signup">
-                  signup
-                </Link>
-              </li> */}
                             <li className="footer-link-elements">
                                 <Link href="/signin">
-                                    <a className="footer-links">signin</a>
+                                    <a className="footer-links">
+                                        Sign in / Sign up
+                                    </a>
                                 </Link>
                             </li>
                         </ul>
                     </div>
                     <div className="footer-content-items wa-cu-container">
+                        <div className="footer-social-media-container">
+                            <p className="footer-title">contact us</p>
+                            <ul>
+                                <li className="footer-link-elements">
+                                    T: +971 2 441 3882
+                                </li>
+                                <li className="footer-link-elements">
+                                    E: info@inspiredmedia.ae
+                                </li>
+                            </ul>
+                            <div>
+                                <img
+                                    className="socialmedia-icon"
+                                    src="/facebook.svg"
+                                    alt="facebook"
+                                />
+                                <img
+                                    className="socialmedia-icon"
+                                    src="/instagram.svg"
+                                    alt="instagram"
+                                />
+                                <img
+                                    className="socialmedia-icon"
+                                    src="/whatsapp.svg"
+                                    alt="whatsapp"
+                                />
+                            </div>
+                        </div>
                         <div>
                             <p className="footer-title">we accept</p>
                             <div className="social-meida-icons-container">
@@ -110,34 +135,6 @@ const Footer = () => {
                                         src="/COD-icon.png"
                                     />
                                 </div>
-                            </div>
-                        </div>
-                        <div className="footer-social-media-container">
-                            <p className="footer-title">contact us</p>
-                            <ul>
-                                <li className="footer-link-elements">
-                                    T: +971 2 441 3882
-                                </li>
-                                <li className="footer-link-elements">
-                                    E: info@inspiredmedia.ae
-                                </li>
-                            </ul>
-                            <div>
-                                <img
-                                    className="socialmedia-icon"
-                                    src="/facebook.svg"
-                                    alt="facebook"
-                                />
-                                <img
-                                    className="socialmedia-icon"
-                                    src="/instagram.svg"
-                                    alt="instagram"
-                                />
-                                <img
-                                    className="socialmedia-icon"
-                                    src="/whatsapp.svg"
-                                    alt="whatsapp"
-                                />
                             </div>
                         </div>
                     </div>

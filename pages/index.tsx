@@ -252,9 +252,6 @@ const Home = ({ banners }: IProps) => {
                 ) : null}
                 <div></div>
                 <div className="">
-                    <div>
-                        <p className="testimonial-heading">testimonials</p>
-                    </div>
                     <div className="testimonial-section">
                         <div className="testimonial-vedio-container">
                             <iframe
@@ -265,6 +262,11 @@ const Home = ({ banners }: IProps) => {
                             ></iframe>
                         </div>
                         <div className="home-testimonial-slider-container">
+                            <div>
+                                <p className="testimonial-heading">
+                                    testimonials
+                                </p>
+                            </div>
                             <TestimonialSlider />
                         </div>
                     </div>
