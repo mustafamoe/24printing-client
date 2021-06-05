@@ -29,7 +29,9 @@ import { IAddress } from "../../types/address";
 import ImageOpt from "../imageOpt";
 
 // Setup Stripe.js and the Elements provider
-const stripePromise = loadStripe(process.env.STRIPE_PK);
+const stripePromise = loadStripe(
+    "pk_test_51HSjGpB60Gjoy71exFjVKn6Smsao67U43LjgkSw22CcT7iag53QIRM3OfKqsIdxBeCvHt0GEzy1KojwOJnvn0m2P001NPKB3EF"
+);
 
 const CARD_ELEMENT_OPTIONS = {
     style: {
