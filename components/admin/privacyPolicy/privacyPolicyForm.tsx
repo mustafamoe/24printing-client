@@ -7,7 +7,7 @@ import {
     CircularProgress,
 } from "@material-ui/core";
 import { apiCall } from "../../../utils/apiCall";
-import useSwr, { mutate } from "swr";
+import useSWR, { mutate } from "swr";
 import { RootReducer } from "../../../store/reducers";
 import { useSelector } from "react-redux";
 import TextEditor from "../textEditor";
@@ -26,7 +26,7 @@ interface IError {
 
 const PrivacyPolicyForm = () => {
     const [loading, setLoading] = useState<boolean>(false);
-    const { data: privacyPolicy } = useSwr<IPrivacyPolicy>("/privacy_policy");
+    const { data: privacyPolicy } = useSWR<IPrivacyPolicy>("/privacy_policy");
     const user = useSelector((state: RootReducer) => state.auth.user);
     const [state, setState] = useState<IState>({
         content: "",

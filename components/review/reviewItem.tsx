@@ -16,7 +16,7 @@ const ProductReviewItem = ({ review }: IProps) => {
                 <div className="product-review-profile-img">
                     <ImageOpt
                         className="product-review-profile-img"
-                        src={review.user.avatar.image_name}
+                        src={review.created_by?.avatar?.image_name}
                         alt=""
                         width={50}
                         height={50}
@@ -24,7 +24,7 @@ const ProductReviewItem = ({ review }: IProps) => {
                 </div>
                 <div className="product-review-username-container">
                     <p className="product-review-username">
-                        {review.user.username}
+                        {review.created_by?.username}
                     </p>
                 </div>
             </div>

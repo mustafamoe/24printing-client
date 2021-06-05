@@ -140,9 +140,10 @@ const ProductCustomizationForm = ({
                                 <ImageOpt
                                     className="product-customization-card-img"
                                     src={card.image.image_name}
-                                    alt=""
-                                    width={100}
-                                    height={100}
+                                    objectFit="contain"
+                                    layout="fill"
+                                    // width={100}
+                                    // height={100}
                                 />
                             </div>
                             <p className="product-customization-card-text">

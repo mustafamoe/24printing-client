@@ -6,6 +6,7 @@ import WithAllAccess from "../../hocs/withAllAccess";
 
 // components
 import SideBar from "./sideBar";
+import React from "react";
 
 interface Props {
     children?: React.ReactNode;
@@ -14,45 +15,67 @@ interface Props {
 }
 
 const AdminLayout = ({ children, space, access }: Props) => {
-    const Layout = () => (
-        <div>
-            <SideBar />
-            <div
-                style={{
-                    marginLeft: "240px",
-                    padding: space ? "0px" : "50px",
-                }}
-            >
-                {children}
-            </div>
-        </div>
-    );
-
     if (access === "all")
         return (
             <WithAllAccess>
-                <Layout />
+                <SideBar />
+                <div
+                    style={{
+                        marginLeft: "240px",
+                        padding: space ? "0px" : "50px",
+                    }}
+                >
+                    {children}
+                </div>
             </WithAllAccess>
         );
     else if (access === "is_admin")
         return (
             <WithAdmin>
-                <Layout />
+                <SideBar />
+                <div
+                    style={{
+                        marginLeft: "240px",
+                        padding: space ? "0px" : "50px",
+                    }}
+                >
+                    {children}
+                </div>
             </WithAdmin>
         );
     else if (access === "is_accountant")
         return (
             <WithAccountant>
-                <Layout />
+                <SideBar />
+                <div
+                    style={{
+                        marginLeft: "240px",
+                        padding: space ? "0px" : "50px",
+                    }}
+                >
+                    {children}
+                </div>
             </WithAccountant>
         );
     else if (access === "is_customer_service")
         return (
             <WithCustoemrService>
-                <Layout />
+                <SideBar />
+                <div
+                    style={{
+                        marginLeft: "240px",
+                        padding: space ? "0px" : "50px",
+                    }}
+                >
+                    {children}
+                </div>
             </WithCustoemrService>
         );
     return null;
+
+    // return (
+    //         {Layout()}
+    // );
 };
 
 export default AdminLayout;

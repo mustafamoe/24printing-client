@@ -15,7 +15,7 @@ import {
     Select,
 } from "@material-ui/core";
 import { apiCall } from "../../../utils/apiCall";
-import useSwr, { mutate } from "swr";
+import useSWR, { mutate } from "swr";
 import { RootReducer } from "../../../store/reducers";
 import { useSelector } from "react-redux";
 
@@ -42,6 +42,7 @@ interface IProps {
     close: Function;
     subCategory?: ISubCategory;
     categoryId?: string;
+    subCategoryOrder: number;
 }
 
 interface IState {
@@ -58,10 +59,12 @@ interface IError {
     category: string[];
 }
 
-const SubCategoryForm = ({ close, subCategory, categoryId }: IProps) => {
-    const { data: sub_categories } = useSwr(
-        `/sub_categories?categoryId=${categoryId}`
-    );
+const SubCategoryForm = ({
+    close,
+    subCategory,
+    categoryId,
+    subCategoryOrder,
+}: IProps) => {
     const classes = useStyles();
     const [loading, setLoading] = useState<boolean>(false);
     const user = useSelector((state: RootReducer) => state.auth.user);
@@ -73,7 +76,7 @@ const SubCategoryForm = ({ close, subCategory, categoryId }: IProps) => {
     });
     const [state, setState] = useState<IState>({
         sub_category_name: "",
-        sub_category_order: "",
+        sub_category_order: `${subCategoryOrder}`,
         is_hidden: false,
         category: categoryId,
     });
@@ -118,20 +121,31 @@ const SubCategoryForm = ({ close, subCategory, categoryId }: IProps) => {
             for (let e of Object.values(errors)) {
                 if (e.length) return;
             }
-
             try {
                 if (!subCategory) {
                     setLoading(true);
                     const subCategory = await apiCall(
                         "post",
                         `/sub_category?authId=${user.user_id}`,
-                        { ...state, sub_category_order: sub_categories.length }
+                        state
                     );
 
                     mutate(
                         `/sub_categories?categoryId=${categoryId}`,
-                        (subCategories) => {
-                            return [...subCategories, subCategory];
+                        (subCategories: ISubCategory[]) => {
+                            return [
+                                ...subCategories.map((c: ISubCategory) =>
+                                    Number(c.sub_category_order) ===
+                                    Number(state.sub_category_order)
+                                        ? {
+                                              ...c,
+                                              sub_category_order:
+                                                  subCategories.length + 1,
+                                          }
+                                        : c
+                                ),
+                                subCategory,
+                            ];
                         },
                         false
                     );
@@ -140,17 +154,54 @@ const SubCategoryForm = ({ close, subCategory, categoryId }: IProps) => {
                     const editedSubCategory = await apiCall(
                         "put",
                         `/sub_category/${subCategory.sub_category_id}?authId=${user.user_id}`,
-                        { ...state, sub_category_order: sub_categories.length }
+                        state
                     );
 
                     mutate(
                         `/sub_categories?categoryId=${categoryId}`,
                         (subCategories) => {
-                            return subCategories.map((sc) =>
-                                sc.sub_category_id ===
-                                subCategory.sub_category_id
-                                    ? editedSubCategory
-                                    : sc
+                            const toSubEditCatg = subCategories.find(
+                                (c) =>
+                                    Number(c.sub_category_order) ===
+                                    Number(state.sub_category_order)
+                            );
+
+                            if (toSubEditCatg)
+                                toSubEditCatg.sub_category_order =
+                                    subCategory.sub_category_order;
+
+                            const foundSubCatg = subCategories.find(
+                                (c) =>
+                                    c.sub_category_id ===
+                                    subCategory.sub_category_id
+                            );
+
+                            if (foundSubCatg)
+                                foundSubCatg.sub_category_order =
+                                    state.sub_category_order;
+
+                            console.log(
+                                subCategories.map((c) =>
+                                    c.sub_category_id ===
+                                    toSubEditCatg?.sub_category_id
+                                        ? toSubEditCatg
+                                        : c.sub_category_id ===
+                                          subCategory.sub_category_id
+                                        ? foundSubCatg
+                                        : c
+                                ),
+                                toSubEditCatg,
+                                "DFSFDDFDF"
+                            );
+
+                            return subCategories.map((c) =>
+                                c.sub_category_id ===
+                                toSubEditCatg?.sub_category_id
+                                    ? toSubEditCatg
+                                    : c.sub_category_id ===
+                                      subCategory.sub_category_id
+                                    ? foundSubCatg
+                                    : c
                             );
                         },
                         false
@@ -177,13 +228,13 @@ const SubCategoryForm = ({ close, subCategory, categoryId }: IProps) => {
             TmpErrors.sub_category_name.push("Please fill in category name.");
         }
 
-        // if (!state.sub_category_order) {
-        //     TmpErrors.sub_category_order.push("Please fill in category order.");
-        // }
+        if (!state.sub_category_order) {
+            TmpErrors.sub_category_order.push("Please fill in category order.");
+        }
 
-        // if (!state.category) {
-        //     TmpErrors.category.push("Please choose a category.");
-        // }
+        if (!state.category) {
+            TmpErrors.category.push("Please choose a category.");
+        }
 
         setErrors({ ...errors, ...TmpErrors });
 
@@ -242,7 +293,7 @@ const SubCategoryForm = ({ close, subCategory, categoryId }: IProps) => {
                             />
                             <Error errors={errors.sub_category_name} />
                         </Box>
-                        {/* <Box mb={3}>
+                        <Box mb={3}>
                             <TextField
                                 id="sub_category_order"
                                 name="sub_category_order"
@@ -256,7 +307,7 @@ const SubCategoryForm = ({ close, subCategory, categoryId }: IProps) => {
                                 style={{ width: "100%" }}
                             />
                             <Error errors={errors.sub_category_order} />
-                        </Box> */}
+                        </Box>
                         <Box
                             display="flex"
                             flexDirection="column"

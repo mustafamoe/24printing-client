@@ -10,7 +10,7 @@ import CompanyList from "../components/company/companyList";
 import OrderList from "../components/order/orderList";
 import ProfileForm from "../components/profile/profileForm";
 import Loader from "../components/loader";
-import useSwr, { mutate } from "swr";
+import useSWR, { mutate } from "swr";
 import { IImage } from "../types/image";
 import { apiCall } from "../utils/apiCall";
 import HeadLayout from "../components/headLayout";
@@ -18,7 +18,7 @@ import HeadLayout from "../components/headLayout";
 const Profile = () => {
     const user = useSelector((state: RootReducer) => state.auth.user);
     const [editProfile, setProfile] = useState(false);
-    const { data: gallery } = useSwr<IImage[]>(
+    const { data: gallery } = useSWR<IImage[]>(
         user ? `/user_images?authId=${user?.user_id}` : null
     );
     const [columns, setColumns] = useState(3);

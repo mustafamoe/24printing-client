@@ -3,7 +3,7 @@ import Footer from "./footer";
 import HeadLayout from "./headLayout";
 import { useRouter } from "next/router";
 import ContactBtn from "./contactBtn";
-import useSwr from "swr";
+import useSWR from "swr";
 
 // icons
 import CloseIcon from "@material-ui/icons/Close";
@@ -16,7 +16,7 @@ interface Props {
 }
 
 const AdvPopupModel = () => {
-    const { data: advPopup } = useSwr<IAdvPopup>("/adv_popup");
+    const { data: advPopup } = useSWR<IAdvPopup>("/adv_popup");
     const router = useRouter();
     const [open, setOpen] = useState(true);
 
@@ -46,7 +46,6 @@ const AdvPopupModel = () => {
                         src={apiImage(advPopup.image.image_name)}
                         alt=""
                     />
-                    {console.log(apiImage(advPopup.image.image_name))}
                 </div>
             </div>
         );

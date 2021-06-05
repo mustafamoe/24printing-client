@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import useSwr from "swr";
+import useSWR from "swr";
 import { RootReducer } from "../../store/reducers";
 import { ICompany } from "../../types/company";
 
@@ -12,7 +12,7 @@ import EmployeeForm from "./employeeForm";
 
 const CompanyList = () => {
     const user = useSelector((state: RootReducer) => state.auth.user);
-    const { data: companies } = useSwr<ICompany[]>(
+    const { data: companies } = useSWR<ICompany[]>(
         `/companies?authId=${user.user_id}`
     );
     const [showCompanyForm, setCompanyForm] = useState(false);

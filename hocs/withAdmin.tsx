@@ -25,11 +25,11 @@ const WithAdmin = ({ children }: IProps) => {
         if (user.is_super_admin || user.is_admin) return <>{children}</>;
         else {
             router.push("/");
-            return null;
+            return <p>loading...</p>;
         }
     } else {
         router.push("/");
-        return null;
+        return <p>loading...</p>;
     }
 };
 

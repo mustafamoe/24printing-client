@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import useSwr from "swr";
+import useSWR from "swr";
 import { RootReducer } from "../../store/reducers";
 import { IAddress } from "../../types/address";
 
@@ -11,7 +11,7 @@ import AddressForm from "./addressForm";
 
 const AddressList = () => {
     const user = useSelector((state: RootReducer) => state.auth.user);
-    const { data: addresses } = useSwr<IAddress[]>(
+    const { data: addresses } = useSWR<IAddress[]>(
         `/addresses?authId=${user.user_id}`
     );
     const [showAddressForm, setAddressForm] = useState(false);

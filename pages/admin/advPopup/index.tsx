@@ -1,4 +1,11 @@
-import { Box, Typography, Button } from "@material-ui/core";
+import {
+    Box,
+    Typography,
+    Button,
+    createStyles,
+    makeStyles,
+    Theme,
+} from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 import { useState } from "react";
 
@@ -8,7 +15,20 @@ import HeadLayout from "../../../components/headLayout";
 import AdvPopupList from "../../../components/admin/advPopup/advPopupList";
 import AdvPopupForm from "../../../components/admin/advPopup/advPopupForm";
 
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        head: {
+            backgroundColor: "white",
+            padding: "10px 0",
+            position: "sticky",
+            zIndex: 3,
+            top: 0,
+        },
+    })
+);
+
 const AdvPopup = () => {
+    const classes = useStyles();
     const [isAdd, setAdd] = useState<boolean>(false);
 
     const closeAdd = () => {
@@ -24,7 +44,11 @@ const AdvPopup = () => {
             <HeadLayout title="Admin AdvPopups" />
             <AdminLayout access="is_admin">
                 <div style={{ width: "100%" }}>
-                    <Box display="flex" flexDirection="column">
+                    <Box
+                        className={classes.head}
+                        display="flex"
+                        flexDirection="column"
+                    >
                         <Box display="flex" flexDirection="row">
                             <Box flexGrow={1} style={{ marginBottom: "30px" }}>
                                 <Typography variant="h5">Adv popups</Typography>

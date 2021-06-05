@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import useSwr from "swr";
+import useSWR from "swr";
 import qs from "qs";
 
 // components
@@ -14,7 +14,7 @@ const ProductList = ({ search, toggleProductModel }) => {
     const { category, sub_category } = qs.parse(router.query, {
         ignoreQueryPrefix: true,
     });
-    const { data: products } = useSwr<IProduct[]>("/products");
+    const { data: products } = useSWR<IProduct[]>("/products");
     // const { products, loading } = useSelector((state) => state.product);
     const [columns, setColumns] = useState(4);
     const [ww, setWw] = useState(0);

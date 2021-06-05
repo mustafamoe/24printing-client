@@ -1,4 +1,4 @@
-import useSwr from "swr";
+import useSWR from "swr";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -29,7 +29,7 @@ const useStyles = makeStyles({
 const AdvCardList = () => {
     const classes = useStyles();
     const user = useSelector((state: RootReducer) => state.auth.user);
-    const { data } = useSwr("/adv_cards");
+    const { data } = useSWR("/adv_cards");
     const [isDel, setDel] = useState<null | IAdvCard>(null);
     const [isEdit, setEdit] = useState<null | IAdvCard>(null);
     const [rowsPerPage, setRowsPerPage] = useState(10);

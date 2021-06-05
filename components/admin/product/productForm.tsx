@@ -30,7 +30,7 @@ import { mutate } from "swr";
 import { RootReducer } from "../../../store/reducers";
 import { useSelector } from "react-redux";
 import { ICustomization } from "../../../types/customization";
-import useSwr from "swr";
+import useSWR from "swr";
 import { IImage } from "../../../types/image";
 import { IQuantity } from "../../../types/quantity";
 import { IDesigner } from "../../../types/designer";
@@ -151,7 +151,7 @@ const ProductForm = ({ close, product }: IProps) => {
     const user = useSelector((state: RootReducer) => state.auth.user);
     const [designerImg, setDesignerImg] = useState(false);
     const [designerOl, setDesignerOl] = useState(false);
-    const { data: images } = useSwr<IImage[]>("/images");
+    const { data: images } = useSWR<IImage[]>("/images");
     const [state, setState] = useState<IState>({
         product_name: "",
         image: "",
@@ -168,9 +168,9 @@ const ProductForm = ({ close, product }: IProps) => {
         customizations: [],
         designer: [],
     });
-    const { data: categories } = useSwr("/categories");
+    const { data: categories } = useSWR("/categories");
     const [cLoading, setCLoading] = useState<boolean>(true);
-    const { data: subCategories, isValidating } = useSwr(
+    const { data: subCategories, isValidating } = useSWR(
         state.category ? `/sub_categories?categoryId=${state.category}` : null
     );
     const [errors, setErrors] = useState<IError>({

@@ -1,4 +1,4 @@
-import useSwr from "swr";
+import useSWR from "swr";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Box, Divider } from "@material-ui/core";
 import { useState } from "react";
@@ -19,10 +19,14 @@ const useStyles = makeStyles({
     },
 });
 
-const ImageList = () => {
+interface IProps {
+    images: IImage[];
+    sortOption: any;
+}
+
+const ImageList = ({ images, sortOption }: IProps) => {
     const classes = useStyles();
     const user = useSelector((state: RootReducer) => state.auth.user);
-    const { data } = useSwr("/images");
     const [isDel, setDel] = useState<null | IImage>(null);
     const [delErr, setDelErr] = useState("");
     const [delLoading, setDelLoading] = useState(false);
@@ -71,16 +75,31 @@ const ImageList = () => {
         }
     };
 
-    if (data)
+    const handleSort = (a: any, b: any) => {
+        if (sortOption === "Latest") {
+            return (
+                new Date(b.created_at).valueOf() -
+                new Date(a.created_at).valueOf()
+            );
+        } else if (sortOption === "Oldest") {
+            return (
+                new Date(a.created_at).valueOf() -
+                new Date(b.created_at).valueOf()
+            );
+        }
+    };
+
+    if (images)
         return (
             <>
                 <div className={classes.root}>
                     <Grid container>
-                        {data
+                        {images
                             .slice(
                                 (page - 1) * rowsPerPage,
                                 (page - 1) * rowsPerPage + rowsPerPage
                             )
+                            .sort((a, b) => handleSort(a, b))
                             .map((image) => (
                                 <ImageItem
                                     handleOpenDel={handleOpenDel}
@@ -96,7 +115,7 @@ const ImageList = () => {
                         <Pagination
                             color="secondary"
                             onChange={handleChangePage}
-                            count={Math.ceil(data.length / rowsPerPage)}
+                            count={Math.ceil(images.length / rowsPerPage)}
                         />
                     </Box>
                 </div>

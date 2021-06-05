@@ -19,7 +19,7 @@ import AddIcon from "@material-ui/icons/Add";
 import { ICustomization } from "../../../types/customization";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ImageOpt from "../../imageOpt";
-import useSwr from "swr";
+import useSWR from "swr";
 import { IImage } from "../../../types/image";
 
 interface IProps {
@@ -37,7 +37,7 @@ interface IError {
 const CardForm = ({ quantities, state, setState, optionId }: IProps) => {
     const [tmpQtys, setTmpQtys] = useState<IQuantity[]>([]);
     const [isImage, setImage] = useState<boolean>(false);
-    const { data: images } = useSwr<IImage[]>("/images");
+    const { data: images } = useSWR<IImage[]>("/images");
     const [customization, setCustomization] =
         useState<ICustomization | null>(null);
     const [errors, setErrors] = useState<IError>({
@@ -220,8 +220,6 @@ const CardForm = ({ quantities, state, setState, optionId }: IProps) => {
                             <Box width={100} height={100}>
                                 <ImageOpt
                                     src={c.image?.image_name}
-                                    objectFit="cover"
-                                    layout="fill"
                                     width={100}
                                     height={100}
                                 />

@@ -28,7 +28,8 @@ const OrderDetails = ({ order }) => {
                         </p>
                         <p className="payment-product-info-text">
                             Discount:{" "}
-                            {product.discount ? product.discount.price : "0"}{" "}
+                            {product.discount ? product.discount.price : "0"}
+                            {"0 "}
                             AED
                         </p>
                     </div>
@@ -119,49 +120,73 @@ const OrderDetails = ({ order }) => {
                         <div className="payment-overview-method-container">
                             <p className="payment-label">payment method</p>
                             <div className="payment-card-number">
-                                {dots()}
-                                <p>
-                                    {
-                                        order.charge.payment_method_details.card
-                                            .last4
-                                    }
-                                </p>
+                                {!order.is_paid ? (
+                                    <p>Cash on delivery</p>
+                                ) : (
+                                    <>
+                                        {dots()}
+                                        <p>
+                                            {
+                                                order.charge
+                                                    .payment_method_details.card
+                                                    .last4
+                                            }
+                                        </p>
+                                    </>
+                                )}
                             </div>
                         </div>
                     </div>
                 </div>
                 <div className="payment-method-container">
                     <h3 className="payment-headings">payment method</h3>
-                    <div className="payment-method-content-container">
-                        <p className="payment-info-text">ID</p>
-                        <p>{order.charge.payment_method}</p>
-                    </div>
-                    <div className="payment-method-content-container">
-                        <p className="payment-info-text">number</p>
-                        <div className="payment-card-number">
-                            {dots()}
-                            <p>
-                                {order.charge.payment_method_details.card.last4}
-                            </p>
-                        </div>
-                    </div>
-                    <div className="payment-method-content-container">
-                        <p className="payment-info-text">finger print</p>
-                        <p>
-                            {
-                                order.charge.payment_method_details.card
-                                    .fingerprint
-                            }
-                        </p>
-                    </div>
-                    <div className="payment-method-content-container">
-                        <p className="payment-info-text">expires</p>
-                        <p>
-                            {order.charge.payment_method_details.card.exp_month}{" "}
-                            /{" "}
-                            {order.charge.payment_method_details.card.exp_year}
-                        </p>
-                    </div>
+                    {!order.is_paid ? (
+                        <p>Cash on delivery</p>
+                    ) : (
+                        <>
+                            <div className="payment-method-content-container">
+                                <p className="payment-info-text">ID</p>
+                                <p>{order.charge.payment_method}</p>
+                            </div>
+                            <div className="payment-method-content-container">
+                                <p className="payment-info-text">number</p>
+                                <div className="payment-card-number">
+                                    {dots()}
+                                    <p>
+                                        {
+                                            order.charge.payment_method_details
+                                                .card.last4
+                                        }
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="payment-method-content-container">
+                                <p className="payment-info-text">
+                                    finger print
+                                </p>
+                                <p>
+                                    {
+                                        order.charge.payment_method_details.card
+                                            .fingerprint
+                                    }
+                                </p>
+                            </div>
+                            <div className="payment-method-content-container">
+                                <p className="payment-info-text">expires</p>
+                                <p>
+                                    {
+                                        order.charge.payment_method_details.card
+                                            .exp_month
+                                    }{" "}
+                                    /{" "}
+                                    {
+                                        order.charge.payment_method_details.card
+                                            .exp_year
+                                    }
+                                </p>
+                            </div>
+                        </>
+                    )}
                 </div>
                 <div className="payment-products-container">
                     <div className="payment-products-container">

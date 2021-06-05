@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import useSwr from "swr";
+import useSWR from "swr";
 
 // components
 import ProductList from "../components/product/productList";

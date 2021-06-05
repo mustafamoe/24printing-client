@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import parse from "html-react-parser";
-import useSwr from "swr";
+import useSWR from "swr";
 import { steps } from "../data/steps";
 import { useRouter } from "next/router";
 
@@ -23,8 +23,8 @@ interface IProps {
 
 const Home = ({ banners }: IProps) => {
     const router = useRouter();
-    const { data: products } = useSwr<IProduct[]>("/products");
-    const { data: advCards } = useSwr("/adv_cards");
+    const { data: products } = useSWR<IProduct[]>("/products");
+    const { data: advCards } = useSWR("/adv_cards");
     const [saleProducts, setSaleProducts] = useState([]);
     const [featuredProducts, setFeaturedProducts] = useState([]);
     const [newlyReleased, setNewlyReleased] = useState([]);

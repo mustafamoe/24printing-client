@@ -1,4 +1,4 @@
-import useSwr from "swr";
+import useSWR from "swr";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -26,10 +26,13 @@ const useStyles = makeStyles({
     },
 });
 
-const CategoryList = () => {
+interface IProps {
+    categories: ICategory[];
+}
+
+const CategoryList = ({ categories }: IProps) => {
     const classes = useStyles();
     const user = useSelector((state: RootReducer) => state.auth.user);
-    const { data } = useSwr("/categories");
     const [isDel, setDel] = useState<null | ICategory>(null);
     const [isEdit, setEdit] = useState<null | ICategory>(null);
     const [delLoading, setDelLoading] = useState(false);
@@ -82,7 +85,7 @@ const CategoryList = () => {
         }
     };
 
-    if (data)
+    if (categories)
         return (
             <>
                 <TableContainer component={Paper}>
@@ -140,7 +143,7 @@ const CategoryList = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {data
+                            {categories
                                 .slice(
                                     page * rowsPerPage,
                                     page * rowsPerPage + rowsPerPage
@@ -164,7 +167,7 @@ const CategoryList = () => {
                 <TablePagination
                     rowsPerPageOptions={[5, 10, 25, 50, 100]}
                     component="div"
-                    count={data.length}
+                    count={categories.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onChangePage={handleChangePage}
@@ -180,7 +183,11 @@ const CategoryList = () => {
                     />
                 )}
                 {isEdit && (
-                    <CategoryForm close={handleCloseEdit} category={isEdit} />
+                    <CategoryForm
+                        close={handleCloseEdit}
+                        categoryLength={categories.length}
+                        category={isEdit}
+                    />
                 )}
             </>
         );

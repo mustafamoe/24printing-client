@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
 interface IProps {
     close: Function;
     category?: ICategory;
+    categoryLength: number;
 }
 
 interface IState {
@@ -52,7 +53,7 @@ interface IError {
     category_order: string[];
 }
 
-const CategoryForm = ({ close, category }: IProps) => {
+const CategoryForm = ({ close, category, categoryLength }: IProps) => {
     const classes = useStyles();
     const [loading, setLoading] = useState<boolean>(false);
     const user = useSelector((state: RootReducer) => state.auth.user);
@@ -63,7 +64,7 @@ const CategoryForm = ({ close, category }: IProps) => {
     });
     const [state, setState] = useState<IState>({
         category_name: "",
-        category_order: "",
+        category_order: `${categoryLength}`,
         is_hidden: false,
     });
 

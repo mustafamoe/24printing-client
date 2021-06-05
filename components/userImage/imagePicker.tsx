@@ -9,7 +9,7 @@ import {
     Tab,
 } from "@material-ui/core";
 import { useState, useEffect } from "react";
-import useSwr from "swr";
+import useSWR from "swr";
 import ImageOpt from "../imageOpt";
 
 // style sheet
@@ -68,7 +68,7 @@ const ImagePicker = ({ close, state, setState, type, fieldName }: IProps) => {
     const [images, setImages] = useState<string[]>([]);
     const [active, setActive] = useState(0);
     const [loading, setLoading] = useState(true);
-    const { data, error } = useSwr(`/user_images?authId=${user_id}`);
+    const { data, error } = useSWR(`/user_images?authId=${user_id}`);
 
     useEffect(() => {
         if (type === "single") {

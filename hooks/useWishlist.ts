@@ -1,10 +1,10 @@
 import { useSelector } from "react-redux";
-import useSwr from "swr";
+import useSWR from "swr";
 import { RootReducer } from "../store/reducers";
 import { IProduct } from "../types/product";
 
 const useWishlist = (): [IProduct[], boolean] => {
-    const { data: products } = useSwr<IProduct[]>("/products");
+    const { data: products } = useSWR<IProduct[]>("/products");
     const wishlist = useSelector((state: RootReducer) => state.wishlist);
 
     const getWishListProducts = () => {

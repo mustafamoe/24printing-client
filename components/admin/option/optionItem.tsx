@@ -138,8 +138,6 @@ const AdvPopupItem = ({ option, handleOpenDel, handleOpenEdit }: IProps) => {
                 <Box width={45}>
                     <Button
                         style={{ minWidth: "100%" }}
-                        aria-controls="simple-menu"
-                        aria-haspopup="true"
                         size="small"
                         variant="contained"
                         color="secondary"

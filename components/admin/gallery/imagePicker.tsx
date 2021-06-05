@@ -7,10 +7,12 @@ import {
     Button,
     Tabs,
     Tab,
+    createStyles,
+    makeStyles,
+    Theme,
 } from "@material-ui/core";
 import { useState, useEffect } from "react";
-import useSwr from "swr";
-import { ImageFormat } from "../../../types/image";
+import useSWR from "swr";
 import ImageOpt from "../../imageOpt";
 
 // style sheet
@@ -19,6 +21,18 @@ import styles from "../../../styles/admin/gallery/ImagePicker.module.scss";
 // components
 import Modal from "../modal";
 import ImageForm from "./imageForm";
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        head: {
+            backgroundColor: "white",
+            padding: "10px 0",
+            position: "sticky",
+            zIndex: 3,
+            top: 0,
+        },
+    })
+);
 
 function a11yProps(index: any) {
     return {
@@ -62,11 +76,12 @@ interface IProps {
 }
 
 const ImagePicker = ({ close, state, setState, type, fieldName }: IProps) => {
+    const classes = useStyles();
     const [isImage, setImage] = useState(false);
     const [images, setImages] = useState<string[]>([]);
     const [active, setActive] = useState(0);
     const [loading, setLoading] = useState(true);
-    const { data, error } = useSwr("/images");
+    const { data, error } = useSWR("/images");
 
     useEffect(() => {
         if (type === "single") {
@@ -132,11 +147,12 @@ const ImagePicker = ({ close, state, setState, type, fieldName }: IProps) => {
                 }}
                 width={70}
             >
-                <Box>
+                <Box position="relative">
                     <Box
                         display="flex"
                         justifyContent="space-between"
                         alignItems="center"
+                        className={classes.head}
                         mb={3}
                     >
                         <Typography variant="h6">

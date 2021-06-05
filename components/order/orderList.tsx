@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import useSwr from "swr";
+import useSWR from "swr";
 
 // components
 import Loader from "../loader";
@@ -12,7 +12,7 @@ import Modal from "../admin/modal";
 
 const OrderList = () => {
     const user = useSelector((state: RootReducer) => state.auth.user);
-    const { data: orders } = useSwr<IOrder[]>(`/orders?authId=${user.user_id}`);
+    const { data: orders } = useSWR<IOrder[]>(`/orders?authId=${user.user_id}`);
     const [tmpOrders, setOrders] = useState([]);
     const [activeTab, setTab] = useState("active");
     const [showDetails, setDetails] = useState(null);

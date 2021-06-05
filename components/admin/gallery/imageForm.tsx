@@ -1,10 +1,20 @@
-import { Box, Grid, Typography, CircularProgress } from "@material-ui/core";
+import {
+    Box,
+    Grid,
+    Typography,
+    CircularProgress,
+    TextField,
+    MenuItem,
+    Select,
+    InputLabel,
+    FormControl,
+} from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { useState } from "react";
 import { apiCall } from "../../../utils/apiCall";
-import { mutate } from "swr";
+import useSWR, { mutate } from "swr";
 import { useSelector } from "react-redux";
 
 // style sheet
@@ -26,6 +36,10 @@ const useStyles = makeStyles((theme: Theme) =>
         input: {
             display: "none",
         },
+        formControl: {
+            minWidth: 120,
+            width: "100%",
+        },
     })
 );
 
@@ -37,14 +51,27 @@ interface IProps {
     close: Function;
 }
 
+type Image = {
+    img: string | ArrayBuffer;
+    file: any;
+    name: string;
+    category: string;
+    title: string;
+};
+
+interface IState {
+    images: Image[];
+}
+
 const ImageForm = ({ close }: IProps) => {
     const classes = useStyles();
+    const { data: categories } = useSWR("/categories");
     const [loading, setLoading] = useState<boolean>(false);
     const user = useSelector((state: RootReducer) => state.auth.user);
     const [errors, setErrors] = useState<IError>({
         image: [],
     });
-    const [state, setState] = useState({
+    const [state, setState] = useState<IState>({
         images: [],
     });
 
@@ -113,6 +140,15 @@ const ImageForm = ({ close }: IProps) => {
                 formData.append("image", i.file);
             }
 
+            formData.append(
+                "data",
+                JSON.stringify(
+                    state.images.map((img) => ({
+                        category: img.category,
+                        title: img.title,
+                    }))
+                )
+            );
             const images = await apiCall<IImage[]>(
                 "post",
                 `/images?authId=${user.user_id}`,
@@ -132,6 +168,24 @@ const ImageForm = ({ close }: IProps) => {
             setLoading(false);
             setErrors({ ...errors, ...err });
         }
+    };
+
+    const handleTitle = (e, ind) => {
+        setState({
+            ...state,
+            images: state.images.map((img, i) =>
+                i === ind ? { ...img, title: e.target.value } : img
+            ),
+        });
+    };
+
+    const handleCategory = (e, ind) => {
+        setState({
+            ...state,
+            images: state.images.map((img, i) =>
+                i === ind ? { ...img, category: e.target.value } : img
+            ),
+        });
     };
 
     return (
@@ -197,14 +251,85 @@ const ImageForm = ({ close }: IProps) => {
                                     <div className={styles.imgContainer}>
                                         <img
                                             className={styles.img}
-                                            src={img.img}
+                                            src={img.img as string}
                                         />
                                     </div>
                                 </Grid>
                                 <Grid item xs={8}>
-                                    <Typography style={{ width: "100%" }}>
-                                        {img.name}
-                                    </Typography>
+                                    <Box
+                                        display="flex"
+                                        flexDirection="column"
+                                        width="100%"
+                                    >
+                                        <Box mb={2}>
+                                            <Typography
+                                                style={{ width: "100%" }}
+                                            >
+                                                {img.name}
+                                            </Typography>
+                                        </Box>
+                                        <Box
+                                            display="flex"
+                                            alignItems="center"
+                                            justifyContent="space-between"
+                                        >
+                                            <Box width="49%">
+                                                <TextField
+                                                    size="small"
+                                                    variant="outlined"
+                                                    label="Title"
+                                                    fullWidth
+                                                    value={img.title}
+                                                    onChange={(e) =>
+                                                        handleTitle(e, i)
+                                                    }
+                                                />
+                                            </Box>
+                                            <Box width="49%">
+                                                <FormControl
+                                                    variant="outlined"
+                                                    size="small"
+                                                    className={
+                                                        classes.formControl
+                                                    }
+                                                >
+                                                    <InputLabel id="demo-simple-select-outlined-label">
+                                                        Category
+                                                    </InputLabel>
+                                                    <Select
+                                                        labelId="demo-simple-select-required-label"
+                                                        id="demo-simple-select-required"
+                                                        value={img.category}
+                                                        onChange={(e) =>
+                                                            handleCategory(e, i)
+                                                        }
+                                                        label="Category"
+                                                        fullWidth
+                                                    >
+                                                        <MenuItem value="">
+                                                            <em>None</em>
+                                                        </MenuItem>
+                                                        {categories.map(
+                                                            (category) => (
+                                                                <MenuItem
+                                                                    key={
+                                                                        category.category_id
+                                                                    }
+                                                                    value={
+                                                                        category.category_id
+                                                                    }
+                                                                >
+                                                                    {
+                                                                        category.category_name
+                                                                    }
+                                                                </MenuItem>
+                                                            )
+                                                        )}
+                                                    </Select>
+                                                </FormControl>
+                                            </Box>
+                                        </Box>
+                                    </Box>
                                 </Grid>
                                 <Grid item xs={2}>
                                     <Button

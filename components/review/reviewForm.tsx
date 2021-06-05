@@ -12,6 +12,7 @@ import {
     Button,
 } from "@material-ui/core";
 import Rating from "@material-ui/lab/Rating";
+import { mutate } from "swr";
 
 // components
 import Modal from "../admin/modal";
@@ -30,10 +31,9 @@ interface IProps {
     close: any;
     review?: IReview;
     product: IProduct;
-    handleEditPro: any;
 }
 
-const ReviewForm = ({ close, review, product, handleEditPro }: IProps) => {
+const ReviewForm = ({ close, review, product }: IProps) => {
     const [loading, setLoading] = useState(false);
     const user = useSelector((state: RootReducer) => state.auth.user);
     const [errors, setErrors] = useState<IError>({
@@ -90,10 +90,15 @@ const ReviewForm = ({ close, review, product, handleEditPro }: IProps) => {
                     state
                 );
 
-                handleEditPro({
-                    ...product,
-                    reviews: [review, ...product.reviews],
-                });
+                mutate(
+                    `/reviews?productId=${product?.product_id}`,
+                    (reviews: IReview[]) => [review, ...reviews],
+                    false
+                );
+                // handleEditPro({
+                //     ...product,
+                //     reviews: [review, ...product.reviews],
+                // });
 
                 setLoading(false);
                 close();
@@ -111,12 +116,12 @@ const ReviewForm = ({ close, review, product, handleEditPro }: IProps) => {
                     state
                 );
 
-                handleEditPro({
-                    ...product,
-                    reviews: product.reviews.map((r) =>
-                        r.review_id === review.review_id ? editedReview : r
-                    ),
-                });
+                // handleEditPro({
+                //     ...product,
+                //     reviews: product.reviews.map((r) =>
+                //         r.review_id === review.review_id ? editedReview : r
+                //     ),
+                // });
 
                 setLoading(false);
                 close();

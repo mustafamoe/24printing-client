@@ -3,10 +3,10 @@ import { useDispatch } from "react-redux";
 import parser from "html-react-parser";
 import { addProductCart } from "../../store/actions/cart";
 import Link from "next/link";
-import useSwr from "swr";
+import useSWR from "swr";
 import { apiCall, domain } from "../../utils/apiCall";
 import { IProduct } from "../../types/product";
-import { GetStaticPaths, GetStaticProps } from "next";
+import { GetServerSideProps } from "next";
 import { IQuantity } from "../../types/quantity";
 import ErrorPage from "next/error";
 import { useRouter } from "next/router";
@@ -50,16 +50,15 @@ interface IState {
     designImage: string;
 }
 
-const ProductDetails = ({ product: pro }: IProps) => {
+const ProductDetails = ({ product }: IProps) => {
     const router = useRouter();
     const dispatch = useDispatch();
-    const [product, setProduct] = useState<IProduct>(pro);
     const [openReviewForm, setReviewForm] = useState(false);
     const [addToCartSuccess, setAddToCart] = useState(null);
     const [errors, setErrors] = useState({});
-    const { data: products } = useSwr<IProduct[]>("/products");
+    const { data: products } = useSWR<IProduct[]>("/products");
     const [relatedProducts, setRelatedProducts] = useState([]);
-    const { data: reviews } = useSwr<IReview[]>(
+    const { data: reviews } = useSWR<IReview[]>(
         product ? `/reviews?productId=${product?.product_id}` : null
     );
     const [quikView, setQuikView] = useState(null);
@@ -119,7 +118,7 @@ const ProductDetails = ({ product: pro }: IProps) => {
                 )
             );
         }
-    }, [products]);
+    }, [products, product]);
 
     const toggleReviewForm = () => {
         if (openReviewForm) {
@@ -278,11 +277,6 @@ const ProductDetails = ({ product: pro }: IProps) => {
                 product.product_name
             )
         );
-    };
-
-    // ----------------------------------- edit product
-    const handleEditPro = (product: IProduct) => {
-        setProduct(product);
     };
 
     if (product)
@@ -535,11 +529,7 @@ const ProductDetails = ({ product: pro }: IProps) => {
                     </div>
                 </div>
                 {openReviewForm ? (
-                    <ReviewForm
-                        product={product}
-                        close={toggleReviewForm}
-                        handleEditPro={handleEditPro}
-                    />
+                    <ReviewForm product={product} close={toggleReviewForm} />
                 ) : null}
                 {quikView && (
                     <QuikView product={quikView} close={toggleQuikView} />
@@ -578,8 +568,8 @@ const ProductDetails = ({ product: pro }: IProps) => {
     return <ErrorPage statusCode={404} />;
 };
 
-export const getStaticProps: GetStaticProps = async (ctx) => {
-    const product = await apiCall<IProduct>(
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+    const product = await apiCall<IProduct[]>(
         "get",
         `/product/${ctx.params.productName}`
     );
@@ -587,20 +577,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     return {
         props: {
             product,
-            revalidate: 120,
         },
-    };
-};
-
-export const getStaticPaths: GetStaticPaths = async (ctx) => {
-    const products = await apiCall<IProduct[]>("get", `/products`);
-    const paths = products.map((p) => ({
-        params: { productName: p.product_name },
-    }));
-
-    return {
-        paths,
-        fallback: true,
     };
 };
 

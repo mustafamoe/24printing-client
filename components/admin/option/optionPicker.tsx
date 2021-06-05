@@ -10,7 +10,7 @@ import {
     Tab,
 } from "@material-ui/core";
 import { useState, useEffect } from "react";
-import useSwr from "swr";
+import useSWR from "swr";
 import { IOption } from "../../../types/option";
 
 // style sheet
@@ -65,7 +65,7 @@ const OptionPicker = ({ close, state, setState }: IProps) => {
     const [options, setOptions] = useState<IOption[]>([]);
     const [active, setActive] = useState(0);
     const [loading, setLoading] = useState(true);
-    const { data, error } = useSwr<IOption[]>("/options");
+    const { data, error } = useSWR<IOption[]>("/options");
 
     useEffect(() => {
         if (data || error) setLoading(false);

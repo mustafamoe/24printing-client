@@ -1,4 +1,4 @@
-import useSwr from "swr";
+import useSWR from "swr";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -29,7 +29,7 @@ const useStyles = makeStyles({
 const UserList = () => {
     const classes = useStyles();
     const user = useSelector((state: RootReducer) => state.auth.user);
-    const { data } = useSwr(user ? `/users?authId=${user.user_id}` : null);
+    const { data } = useSWR(user ? `/users?authId=${user.user_id}` : null);
     const [isBlock, setBlock] = useState<null | IUser>(null);
     const [isRole, setRole] = useState<null | IUser>(null);
     const [isAdmin, setAdmin] = useState<null | IUser>(null);

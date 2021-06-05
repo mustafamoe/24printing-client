@@ -54,7 +54,6 @@ const AdvPopupForm = ({ close, advPopup }: IProps) => {
 
     useEffect(() => {
         if (advPopup) {
-            console.log(advPopup.is_active);
             setState({
                 ...state,
                 image: advPopup.image?.image_id || "",

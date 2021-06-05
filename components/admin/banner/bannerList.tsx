@@ -1,4 +1,4 @@
-import useSwr from "swr";
+import useSWR from "swr";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -29,7 +29,7 @@ const useStyles = makeStyles({
 const BannerList = () => {
     const classes = useStyles();
     const user = useSelector((state: RootReducer) => state.auth.user);
-    const { data: banners } = useSwr<IBanner[]>("/banners");
+    const { data: banners } = useSWR<IBanner[]>("/banners");
     const [isDel, setDel] = useState<null | IBanner>(null);
     const [isEdit, setEdit] = useState<null | IBanner>(null);
     const [rowsPerPage, setRowsPerPage] = useState(10);

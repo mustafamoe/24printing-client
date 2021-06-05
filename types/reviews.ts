@@ -5,6 +5,6 @@ export interface IReview {
     review_rating: number;
     review_title: string;
     review_description: string;
-    user: IUser;
+    created_by: IUser;
     created_at: Date;
 }

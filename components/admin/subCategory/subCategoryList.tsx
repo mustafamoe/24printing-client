@@ -1,4 +1,4 @@
-import useSwr from "swr";
+import useSWR from "swr";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import {
     AccordionSummary,
@@ -45,9 +45,12 @@ const useStyles = makeStyles((theme: Theme) =>
 const CategoryList = () => {
     const user = useSelector((state: RootReducer) => state.auth.user);
     const classes = useStyles();
-    const { data: categories } = useSwr<ICategory[]>("/categories");
+    const { data: categories } = useSWR<ICategory[]>("/categories");
     const [isAdd, setAdd] = useState<string | false>(false);
     const [expanded, setExpanded] = useState<string | false>(false);
+    const { data: subCategories } = useSWR(
+        expanded ? `/sub_categories?categoryId=${expanded}` : null
+    );
 
     const closeAdd = (e) => {
         setAdd(false);
@@ -120,14 +123,19 @@ const CategoryList = () => {
                                 </AccordionSummary>
                                 <AccordionDetails>
                                     <SubCategoryList
+                                        subCategories={subCategories}
                                         categoryId={c.category_id}
                                     />
                                 </AccordionDetails>
                             </Accordion>
                         ))}
                 </Box>
-                {isAdd && (
-                    <SubCategoryForm categoryId={isAdd} close={closeAdd} />
+                {isAdd && subCategories && (
+                    <SubCategoryForm
+                        subCategoryOrder={subCategories.length + 1}
+                        categoryId={isAdd}
+                        close={closeAdd}
+                    />
                 )}
             </>
         );

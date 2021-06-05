@@ -125,7 +125,7 @@ const AdvPopupForm = ({ close, option }: IProps) => {
         <>
             <Modal
                 type="parent"
-                width={70}
+                width={50}
                 closeInfo={{
                     close,
                     check: true,

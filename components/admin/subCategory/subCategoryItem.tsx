@@ -2,7 +2,7 @@ import dateFormat from "dateformat";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import { useState } from "react";
 import { Button, Menu, MenuItem } from "@material-ui/core";
-import useSwr from "swr";
+import useSWR from "swr";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -120,13 +120,13 @@ const SubCategoryItem = ({ subCategory, handleOpenDel, handleOpenEdit }) => {
             >
                 {subCategory.sub_category_name}
             </TableCell>
-            {/* <TableCell
+            <TableCell
                 classes={{
                     root: classes.tableCell,
                 }}
             >
                 {subCategory.sub_category_order}
-            </TableCell> */}
+            </TableCell>
             {/* <TableCell
                 classes={{
                     root: classes.tableCell,
@@ -214,12 +214,12 @@ const SubCategoryItem = ({ subCategory, handleOpenDel, handleOpenEdit }) => {
     );
 };
 
-const SubCategoryList = ({ categoryId }) => {
+const SubCategoryList = ({ categoryId, subCategories }) => {
     const user = useSelector((state: RootReducer) => state.auth.user);
     const classes = useStyles();
-    const { data: subCategories } = useSwr(
-        `/sub_categories?categoryId=${categoryId}`
-    );
+    // const { data: subCategories } = useSWR(
+    //     `/sub_categories?categoryId=${categoryId}`
+    // );
     const [isDel, setDel] = useState<null | ISubCategory>(null);
     const [isEdit, setEdit] = useState<null | ISubCategory>(null);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -296,12 +296,12 @@ const SubCategoryList = ({ categoryId }) => {
                                     >
                                         Name
                                     </TableCell>
-                                    {/* <TableCell
+                                    <TableCell
                                         style={{ minWidth: "150px" }}
                                         align="left"
                                     >
                                         Order
-                                    </TableCell> */}
+                                    </TableCell>
                                     {/* <TableCell
                                         style={{ minWidth: "150px" }}
                                         align="left"
@@ -346,6 +346,11 @@ const SubCategoryList = ({ categoryId }) => {
                                         page * rowsPerPage,
                                         page * rowsPerPage + rowsPerPage
                                     )
+                                    .sort(
+                                        (a, b) =>
+                                            Number(a.sub_category_order) -
+                                            Number(b.sub_category_order)
+                                    )
                                     .map((subCategory) => (
                                         <SubCategoryItem
                                             handleOpenDel={handleOpenDel}
@@ -378,6 +383,7 @@ const SubCategoryList = ({ categoryId }) => {
                 )}
                 {isEdit && (
                     <SubCategoryForm
+                        subCategoryOrder={subCategories.length}
                         categoryId={categoryId}
                         close={handleCloseEdit}
                         subCategory={isEdit}

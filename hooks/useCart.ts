@@ -1,11 +1,11 @@
 import { useSelector } from "react-redux";
-import useSwr from "swr";
+import useSWR from "swr";
 import { RootReducer } from "../store/reducers";
 import { IProduct } from "../types/product";
 import { ICart } from "../types/cart";
 
 const useCart = (): [ICart[], boolean] => {
-    const { data: products } = useSwr<IProduct[]>("/products");
+    const { data: products } = useSWR<IProduct[]>("/products");
     const { cart } = useSelector((state: RootReducer) => state);
 
     if (cart.length && products && products.length) {

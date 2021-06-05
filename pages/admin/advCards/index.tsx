@@ -1,4 +1,11 @@
-import { Box, Typography, Button } from "@material-ui/core";
+import {
+    Box,
+    Typography,
+    Button,
+    createStyles,
+    makeStyles,
+    Theme,
+} from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 import { useState } from "react";
 
@@ -8,7 +15,20 @@ import HeadLayout from "../../../components/headLayout";
 import AdvCardList from "../../../components/admin/advCard/advCardList";
 import AdvCardForm from "../../../components/admin/advCard/advCardForm";
 
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        head: {
+            backgroundColor: "white",
+            padding: "10px 0",
+            position: "sticky",
+            zIndex: 3,
+            top: 0,
+        },
+    })
+);
+
 const AdvCards = () => {
+    const classes = useStyles();
     const [isAdd, setAdd] = useState<boolean>(false);
 
     const closeAdd = () => {
@@ -24,7 +44,11 @@ const AdvCards = () => {
             <HeadLayout title="Admin AdvCards" />
             <AdminLayout access="is_admin">
                 <div style={{ width: "100%" }}>
-                    <Box display="flex" flexDirection="column">
+                    <Box
+                        className={classes.head}
+                        display="flex"
+                        flexDirection="column"
+                    >
                         <Box display="flex" flexDirection="row">
                             <Box flexGrow={1} style={{ marginBottom: "30px" }}>
                                 <Typography variant="h5">Adv cards</Typography>
