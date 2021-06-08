@@ -402,7 +402,10 @@ const Designer = ({ images, close, handleSaveDesign }: IProps) => {
         const desDomRect: any = des.getBoundingClientRect();
 
         const screenshot = await html2canvas(node, {
+            scale: 1,
             useCORS: true,
+            width: 500,
+            height: 500,
             scrollY: desDomRect.y,
             scrollX: desDomRect.x,
             windowHeight: window.innerHeight,
@@ -662,8 +665,6 @@ const Designer = ({ images, close, handleSaveDesign }: IProps) => {
                     msg={`Are you sure you want to save design?`}
                     handler={() => {
                         handleSave();
-                        // close();
-                        // handleCloseSave();
                     }}
                     loading={false}
                     btnTxt="save"

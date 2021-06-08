@@ -1156,7 +1156,11 @@ a {
 
 .social-meida-icons-container {
     display: flex;
-    align-items: center;
+    height: 100%;
+    /* align-items: center; */
+    justify-content: space-between;
+    flex-direction: column;
+    white-space: nowrap;
 }
 
 .footer-social-media-container {
@@ -1170,11 +1174,16 @@ a {
 }
 
 .footer-copyrights-container {
+    display: flex;
+    padding: 0 30px;
+    justify-content: space-between;
+    align-items: center;
     background-color: #00529b;
 }
 
 .copyright-text {
     font-size: 13px;
+    width: 95%;
     color: rgb(255, 255, 255);
     padding: 10px 0;
     text-align: center;

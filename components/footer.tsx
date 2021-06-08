@@ -15,13 +15,6 @@ const Footer = () => {
                             height={33.7}
                             src="/inspired-media-logo.svg"
                         />
-                        <div style={{ marginTop: "10px" }}>
-                            <Link href={`/privacyPolicy`}>
-                                <a className="footer-links">
-                                    privacy policy, terms of use
-                                </a>
-                            </Link>
-                        </div>
                     </div>
                 </div>
                 <div className="footer-content-section">
@@ -105,35 +98,45 @@ const Footer = () => {
                         <div>
                             <p className="footer-title">we accept</p>
                             <div className="social-meida-icons-container">
-                                <div className="payment-icon">
-                                    <ImageOpt
-                                        location="local"
-                                        className="payment-icon"
-                                        alt="masterCard"
-                                        height={30}
-                                        width={50}
-                                        src="/Mastercard-icon.png"
-                                    />
+                                <div style={{ display: "flex" }}>
+                                    <div className="payment-icon">
+                                        <ImageOpt
+                                            location="local"
+                                            className="payment-icon"
+                                            alt="masterCard"
+                                            height={30}
+                                            width={50}
+                                            src="/Mastercard-icon.png"
+                                        />
+                                    </div>
+                                    <div className="payment-icon">
+                                        <ImageOpt
+                                            location="local"
+                                            className="payment-icon"
+                                            height={30}
+                                            alt="visa"
+                                            src="/VISA-icon.png"
+                                            width={50}
+                                        />
+                                    </div>
+                                    <div className="payment-icon">
+                                        <ImageOpt
+                                            location="local"
+                                            className="payment-icon"
+                                            height={30}
+                                            width={50}
+                                            alt="cod"
+                                            src="/COD-icon.png"
+                                        />
+                                    </div>
                                 </div>
-                                <div className="payment-icon">
-                                    <ImageOpt
-                                        location="local"
-                                        className="payment-icon"
-                                        height={30}
-                                        alt="visa"
-                                        src="/VISA-icon.png"
-                                        width={50}
-                                    />
-                                </div>
-                                <div className="payment-icon">
-                                    <ImageOpt
-                                        location="local"
-                                        className="payment-icon"
-                                        height={30}
-                                        width={50}
-                                        alt="cod"
-                                        src="/COD-icon.png"
-                                    />
+                                <div style={{ marginTop: "10px" }}>
+                                    <Link href={`/privacyPolicy`}>
+                                        <a className="footer-links">
+                                            privacy policy,
+                                            <span> terms of use</span>
+                                        </a>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
@@ -141,17 +144,26 @@ const Footer = () => {
                 </div>
             </div>
             <div className="footer-copyrights-container">
+                <Link href={`/privacyPolicy`}>
+                    <a
+                        style={{
+                            color: "rgb(204, 204, 204)",
+                            whiteSpace: "nowrap",
+                        }}
+                    >
+                        privacy policy,
+                        <span> terms of use</span>
+                    </a>
+                </Link>
                 <p className="copyright-text">
-                    Copyright © 2021 Twenty Four Printing Packing L.L.C, All
-                    rights reserved. Powered by{" "}
-                    <span>
-                        <a
-                            className="cpmc-link"
-                            href="https://crownphoenixadv.com/"
-                        >
-                            crown phoenix marketing consultancy L.L.C
-                        </a>
-                    </span>
+                    Copyright © 2021 Twenty Four Printing Packing LLC, All
+                    rights reserved. - Powered by
+                    <a
+                        className="cpmc-link"
+                        href="https://crownphoenixadv.com/"
+                    >
+                        Crown Phoenix Marketing Consultancy LLC
+                    </a>
                 </p>
             </div>
         </div>
