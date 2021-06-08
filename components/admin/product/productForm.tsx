@@ -48,6 +48,8 @@ import ImageOpt from "../../imageOpt";
 import AddIcon from "@material-ui/icons/Add";
 import SettingsIcon from "@material-ui/icons/Settings";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import ViewCarouselRoundedIcon from "@material-ui/icons/ViewCarouselRounded";
+import DoneAllRoundedIcon from "@material-ui/icons/DoneAllRounded";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -94,7 +96,7 @@ const TabPanel = (props: TabPanelProps) => {
             aria-labelledby={`simple-tab-${index}`}
             {...other}
         >
-            {value === index && <Box p={3}>{children}</Box>}
+            {value === index && <Box p={2}>{children}</Box>}
         </div>
     );
 };
@@ -547,6 +549,57 @@ const ProductForm = ({ close, product }: IProps) => {
         setErrors({ ...errors, ...TmpErrors });
 
         return TmpErrors;
+    };
+
+    // ---------------------- card size
+    const getCardSizeValue = (size: "small" | "medium" | "large") => {
+        if (size === "small") return 0;
+        else if (size === "medium") return 1;
+        else if (size === "large") return 2;
+    };
+
+    const handleCardSize = (
+        e: any,
+        newValue: number,
+        customization_id: string
+    ) => {
+        switch (newValue) {
+            case 0:
+                setState({
+                    ...state,
+                    customizations: state.customizations.map((c) =>
+                        c.customization_id === customization_id
+                            ? { ...c, size: "small" }
+                            : c
+                    ),
+                });
+
+                return;
+            case 1:
+                setState({
+                    ...state,
+                    customizations: state.customizations.map((c) =>
+                        c.customization_id === customization_id
+                            ? { ...c, size: "medium" }
+                            : c
+                    ),
+                });
+
+                return;
+            case 2:
+                setState({
+                    ...state,
+                    customizations: state.customizations.map((c) =>
+                        c.customization_id === customization_id
+                            ? { ...c, size: "large" }
+                            : c
+                    ),
+                });
+
+                return;
+            default:
+                return;
+        }
     };
 
     return (
@@ -1114,8 +1167,6 @@ const ProductForm = ({ close, product }: IProps) => {
                                         >
                                             <AccordionSummary
                                                 expandIcon={<ExpandMoreIcon />}
-                                                aria-controls="panel1bh-content"
-                                                id="panel1bh-header"
                                             >
                                                 <Typography
                                                     className={classes.heading}
@@ -1152,10 +1203,16 @@ const ProductForm = ({ close, product }: IProps) => {
                                                     >
                                                         <Tab
                                                             label="Cards"
+                                                            icon={
+                                                                <ViewCarouselRoundedIcon />
+                                                            }
                                                             {...a11yProps(0)}
                                                         />
                                                         <Tab
                                                             label="Drop down"
+                                                            icon={
+                                                                <DoneAllRoundedIcon />
+                                                            }
                                                             {...a11yProps(1)}
                                                         />
                                                     </Tabs>
@@ -1168,6 +1225,45 @@ const ProductForm = ({ close, product }: IProps) => {
                                                         index={0}
                                                     >
                                                         <Box>
+                                                            <Box mb={3}>
+                                                                <Tabs
+                                                                    variant="fullWidth"
+                                                                    value={getCardSizeValue(
+                                                                        c.size
+                                                                    )}
+                                                                    indicatorColor="secondary"
+                                                                    textColor="secondary"
+                                                                    onChange={(
+                                                                        e,
+                                                                        newValue
+                                                                    ) =>
+                                                                        handleCardSize(
+                                                                            e,
+                                                                            newValue,
+                                                                            c.customization_id
+                                                                        )
+                                                                    }
+                                                                >
+                                                                    <Tab
+                                                                        {...a11yProps(
+                                                                            0
+                                                                        )}
+                                                                        label="small"
+                                                                    />
+                                                                    <Tab
+                                                                        {...a11yProps(
+                                                                            1
+                                                                        )}
+                                                                        label="medium"
+                                                                    />
+                                                                    <Tab
+                                                                        {...a11yProps(
+                                                                            2
+                                                                        )}
+                                                                        label="large"
+                                                                    />
+                                                                </Tabs>
+                                                            </Box>
                                                             <CardForm
                                                                 quantities={
                                                                     state.quantities

@@ -78,7 +78,7 @@ const OptionPicker = ({ close, state, setState }: IProps) => {
     const handleSelect = (optionId: string) => {
         const foundOption = data.find((o) => o.option_id === optionId);
 
-        if (options.includes(foundOption)) {
+        if (options.map((o) => o.option_id).includes(foundOption.option_id)) {
             setOptions(options.filter((o) => o.option_id !== optionId));
             return;
         }
@@ -100,6 +100,7 @@ const OptionPicker = ({ close, state, setState }: IProps) => {
                     customization_id: String(Date.now()),
                     option: opt,
                     type: "card",
+                    size: "medium",
                     cards: [],
                     dropdown: [],
                 });
@@ -204,9 +205,11 @@ const OptionPicker = ({ close, state, setState }: IProps) => {
                                             control={
                                                 <Checkbox
                                                     key={option.option_id}
-                                                    checked={options.includes(
-                                                        option
-                                                    )}
+                                                    checked={options
+                                                        .map((o) => o.option_id)
+                                                        .includes(
+                                                            option.option_id
+                                                        )}
                                                     onChange={() =>
                                                         handleSelect(
                                                             option.option_id

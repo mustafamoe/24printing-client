@@ -28,6 +28,10 @@ import useSWR from "swr";
 import { IAddress } from "../../types/address";
 import ImageOpt from "../imageOpt";
 
+// icons
+import LocalShippingRoundedIcon from "@material-ui/icons/LocalShippingRounded";
+import CreditCardIcon from "@material-ui/icons/CreditCard";
+
 // Setup Stripe.js and the Elements provider
 const stripePromise = loadStripe(
     "pk_test_51HSjGpB60Gjoy71exFjVKn6Smsao67U43LjgkSw22CcT7iag53QIRM3OfKqsIdxBeCvHt0GEzy1KojwOJnvn0m2P001NPKB3EF"
@@ -92,6 +96,12 @@ const useStyles = makeStyles((theme: Theme) =>
             marginTop: theme.spacing(1),
             marginBottom: theme.spacing(1),
         },
+        indicator: {
+            boxShadow: theme.shadows[10],
+        },
+        tabsRoot: {
+            color: theme.palette.secondary.main,
+        },
     })
 );
 
@@ -149,7 +159,6 @@ const Stripe = ({ openModel }) => {
             address_line1: null,
             address_line2: null,
             address_city: null,
-            address_zip: null,
         });
 
         setAddress(address);
@@ -210,6 +219,7 @@ const Stripe = ({ openModel }) => {
         if (result.error) {
             // Inform the user if there was an error.
             setError({ ...errors, stripe: result.error.message });
+            setLoading(false);
         } else {
             result.token.phone = state.phone;
             result.token.activeAddress = activeAddress ? true : false;
@@ -249,6 +259,10 @@ const Stripe = ({ openModel }) => {
         }
     };
 
+    const handleInputChangeNoVal = (e) => {
+        setState({ ...state, [e.target.name]: e.target.value });
+    };
+
     const errorMsg = (fieldName) => {
         if (errors) {
             if (errors[fieldName])
@@ -266,9 +280,12 @@ const Stripe = ({ openModel }) => {
         if (activeStep === 0) {
             let errors = {};
             for (let [k, v] of Object.entries(state)) {
+                if (k.includes("zip")) continue;
+
                 if (activeAddress) {
                     if (k.includes("address")) continue;
                 }
+
                 if (!v) errors[k] = `${k.replace("_", " ")} is required.`;
                 else delete errors[k];
             }
@@ -543,7 +560,7 @@ const Stripe = ({ openModel }) => {
                                                                         state.address_zip
                                                                     }
                                                                     onChange={
-                                                                        handleInputChange
+                                                                        handleInputChangeNoVal
                                                                     }
                                                                 />
                                                                 {errorMsg(
@@ -557,32 +574,38 @@ const Stripe = ({ openModel }) => {
                                         ) : null}
                                         {activeStep === 1 ? (
                                             <>
-                                                <Box width="100%">
+                                                <Box
+                                                    className={
+                                                        classes.indicator
+                                                    }
+                                                    mb={3}
+                                                    width="100%"
+                                                >
                                                     <Tabs
+                                                        indicatorColor="secondary"
+                                                        textColor="secondary"
                                                         value={activeTab}
+                                                        variant="fullWidth"
                                                         centered
-                                                        indicatorColor="primary"
-                                                        textColor="primary"
                                                         onChange={handleTab}
-                                                        aria-label="disabled tabs example"
                                                     >
                                                         <Tab
-                                                            style={{
-                                                                width: "100%",
-                                                            }}
                                                             label="Credit card"
                                                             {...a11yProps(
                                                                 "payment"
                                                             )}
+                                                            icon={
+                                                                <CreditCardIcon />
+                                                            }
                                                         />
                                                         <Tab
-                                                            style={{
-                                                                width: "100%",
-                                                            }}
                                                             label="Cash on delivery"
                                                             {...a11yProps(
                                                                 "cod"
                                                             )}
+                                                            icon={
+                                                                <LocalShippingRoundedIcon />
+                                                            }
                                                         />
                                                     </Tabs>
                                                 </Box>

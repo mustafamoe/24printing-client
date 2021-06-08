@@ -43,7 +43,7 @@ const Gallery = () => {
     const { data: images } = useSWR<IImage[]>("/images");
     const [isAdd, setAdd] = useState<boolean>(false);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const [selectedSort, setSelectedSort] = useState<Sort | null>(null);
+    const [selectedSort, setSelectedSort] = useState<Sort | null>("Latest");
 
     const closeAdd = () => {
         setAdd(false);

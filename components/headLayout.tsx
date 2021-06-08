@@ -13,14 +13,19 @@ const HeadLayout = ({ title, description, image, children }: IProps) => {
     return (
         <Head>
             <meta property="og:type" content="website" />
-            {title && (
-                <>
-                    <title>{title} | 24printing L.L.C</title>
-                    <meta name="title" content={`${title} L.L.C`} />
-                    <meta property="og:title" content={`${title} L.L.C`} />
-                    <meta property="twitter:title" content={`${title} L.L.C`} />
-                </>
-            )}
+            <title>{title ? `${title} |` : title} 24printing L.L.C</title>
+            <meta
+                name="title"
+                content={`${title ? `${title} |` : title} 24printing L.L.C`}
+            />
+            <meta
+                property="og:title"
+                content={`${title ? `${title} |` : title} 24printing L.L.C`}
+            />
+            <meta
+                property="twitter:title"
+                content={`${title ? `${title} |` : title} 24printing L.L.C`}
+            />
             {description && (
                 <>
                     <meta name="description" content={description} />

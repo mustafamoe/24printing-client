@@ -4,7 +4,7 @@ import parser from "html-react-parser";
 import { addProductCart } from "../../store/actions/cart";
 import Link from "next/link";
 import useSWR from "swr";
-import { apiCall, domain } from "../../utils/apiCall";
+import { apiCall, apiImage, domain } from "../../utils/apiCall";
 import { IProduct } from "../../types/product";
 import { GetServerSideProps } from "next";
 import { IQuantity } from "../../types/quantity";
@@ -284,8 +284,11 @@ const ProductDetails = ({ product }: IProps) => {
             <>
                 <HeadLayout
                     title={product.product_name}
-                    image={product.image.image_name}
-                    description={product.product_description}
+                    image={apiImage(product.image.image_name)}
+                    description={product.product_description.replace(
+                        /<[^>]*>?/gm,
+                        ""
+                    )}
                 />
                 <div className="product-details-page">
                     <div className="product-details-main-section">

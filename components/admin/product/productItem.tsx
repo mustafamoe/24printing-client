@@ -101,13 +101,13 @@ const ProductItem = ({
             classes={{ root: classes.root }}
             key={product.product_id}
         >
-            <TableCell
+            {/* <TableCell
                 style={{
                     whiteSpace: "nowrap",
                 }}
             >
                 {product.product_id}
-            </TableCell>
+            </TableCell> */}
             <TableCell
                 classes={{
                     root: classes.tableCell,

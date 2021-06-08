@@ -9,6 +9,8 @@ import {
     Tab,
     createStyles,
     makeStyles,
+    Menu,
+    MenuItem,
     Theme,
 } from "@material-ui/core";
 import { useState, useEffect } from "react";
@@ -21,6 +23,13 @@ import styles from "../../../styles/admin/gallery/ImagePicker.module.scss";
 // components
 import Modal from "../modal";
 import ImageForm from "./imageForm";
+
+// icons
+import SortIcon from "@material-ui/icons/Sort";
+
+type Sort = "Latest" | "Oldest";
+
+const sortOptions: Sort[] = ["Latest", "Oldest"];
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -82,6 +91,8 @@ const ImagePicker = ({ close, state, setState, type, fieldName }: IProps) => {
     const [active, setActive] = useState(0);
     const [loading, setLoading] = useState(true);
     const { data, error } = useSWR("/images");
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const [selectedSort, setSelectedSort] = useState<Sort | null>("Latest");
 
     useEffect(() => {
         if (type === "single") {
@@ -137,6 +148,36 @@ const ImagePicker = ({ close, state, setState, type, fieldName }: IProps) => {
         return data.filter((img) => images.includes(img.image_id));
     };
 
+    const handleClickListItem = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleMenuItemClick = (
+        event: React.MouseEvent<HTMLElement>,
+        value: Sort
+    ) => {
+        setSelectedSort(value);
+        setAnchorEl(null);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const handleSort = (a: any, b: any) => {
+        if (selectedSort === "Latest") {
+            return (
+                new Date(b.created_at).valueOf() -
+                new Date(a.created_at).valueOf()
+            );
+        } else if (selectedSort === "Oldest") {
+            return (
+                new Date(a.created_at).valueOf() -
+                new Date(b.created_at).valueOf()
+            );
+        }
+    };
+
     return (
         <>
             <Modal
@@ -159,6 +200,43 @@ const ImagePicker = ({ close, state, setState, type, fieldName }: IProps) => {
                             Please pick at least one image.
                         </Typography>
                         <Box display="flex">
+                            <div>
+                                <Box mr={2}>
+                                    <Button
+                                        startIcon={<SortIcon />}
+                                        variant="outlined"
+                                        onClick={handleClickListItem}
+                                    >
+                                        Sort
+                                    </Button>
+                                </Box>
+                                <Menu
+                                    anchorEl={anchorEl}
+                                    keepMounted
+                                    open={Boolean(anchorEl)}
+                                    anchorOrigin={{
+                                        vertical: "bottom",
+                                        horizontal: "center",
+                                    }}
+                                    transformOrigin={{
+                                        vertical: "bottom",
+                                        horizontal: "center",
+                                    }}
+                                    onClose={handleClose}
+                                >
+                                    {sortOptions.map((sort) => (
+                                        <MenuItem
+                                            key={sort}
+                                            selected={sort === selectedSort}
+                                            onClick={(event) =>
+                                                handleMenuItemClick(event, sort)
+                                            }
+                                        >
+                                            {sort}
+                                        </MenuItem>
+                                    ))}
+                                </Menu>
+                            </div>
                             <Box mr={2}>
                                 <Button
                                     onClick={handleSave}
@@ -206,38 +284,42 @@ const ImagePicker = ({ close, state, setState, type, fieldName }: IProps) => {
                                     style={{ marginTop: "20px" }}
                                     className={styles.imagesWrapper}
                                 >
-                                    {data.map((img) => (
-                                        <div
-                                            className={styles.imageContainer}
-                                            style={{
-                                                position: "relative",
-                                                height: "200px",
-                                            }}
-                                        >
+                                    {data
+                                        .sort((a, b) => handleSort(a, b))
+                                        .map((img) => (
                                             <div
                                                 className={
-                                                    styles.checkboxContainer
+                                                    styles.imageContainer
                                                 }
+                                                style={{
+                                                    position: "relative",
+                                                    height: "200px",
+                                                }}
                                             >
-                                                <Checkbox
-                                                    checked={images.includes(
-                                                        img.image_id
-                                                    )}
-                                                    onChange={() =>
-                                                        handleSelect(
-                                                            img.image_id
-                                                        )
+                                                <div
+                                                    className={
+                                                        styles.checkboxContainer
                                                     }
+                                                >
+                                                    <Checkbox
+                                                        checked={images.includes(
+                                                            img.image_id
+                                                        )}
+                                                        onChange={() =>
+                                                            handleSelect(
+                                                                img.image_id
+                                                            )
+                                                        }
+                                                    />
+                                                </div>
+                                                <ImageOpt
+                                                    src={img.image_name}
+                                                    alt={img.image_name}
+                                                    layout="fill"
+                                                    objectFit="contain"
                                                 />
                                             </div>
-                                            <ImageOpt
-                                                src={img.image_name}
-                                                alt={img.image_name}
-                                                layout="fill"
-                                                objectFit="contain"
-                                            />
-                                        </div>
-                                    ))}
+                                        ))}
                                 </div>
                             </TabPanel>
                             <TabPanel value={active} index={1}>

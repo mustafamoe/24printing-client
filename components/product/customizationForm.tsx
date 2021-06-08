@@ -1,7 +1,61 @@
-import { ICustomization } from "../../types/customization";
+import {
+    createStyles,
+    makeStyles,
+    Theme,
+    Typography,
+    Popover,
+} from "@material-ui/core";
 import { IDropdown } from "../../types/dropdown";
 import { IProduct } from "../../types/product";
 import ImageOpt from "../imageOpt";
+import { useState } from "react";
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        root: {
+            width: "100%",
+            display: "grid",
+            gridGap: "20px",
+            gridTemplateColumns: (props: any) => {
+                let value: any;
+
+                if (props.size === "small") value = "50px, 50px";
+                else if (props.size === "medium") value = "100px, 100px";
+                else if (props.size === "large") value = "200px, 200px";
+
+                return `repeat( auto-fit, minmax(${value}) )`;
+            },
+        },
+        card: {
+            display: "flex",
+            alignItems: "center",
+            justifyContenr: "center",
+            flexDirection: "column",
+            boxShadow: theme.shadows[10],
+            borderRadius: "5px",
+            overflow: "hidden",
+        },
+        imgContainer: {
+            position: "relative",
+            width: (props: any) => {
+                if (props.size === "small") return "50px";
+                else if (props.size === "medium") return "100px";
+                else if (props.size === "large") return "200px";
+            },
+            height: (props: any) => {
+                if (props.size === "small") return "50px";
+                else if (props.size === "medium") return "100px";
+                else if (props.size === "large") return "200px";
+            },
+        },
+        popover: {
+            pointerEvents: "none",
+        },
+        paper: {
+            padding: theme.spacing(1),
+        },
+    })
+);
 
 interface IProps {
     product: IProduct;
@@ -66,7 +120,9 @@ const ProductCustomizationForm = ({
         if (stateCardOption) {
             if (stateCardOption.card_id === card.card_id)
                 return {
-                    borderColor: "#ec008c",
+                    transform: "scale(1.03)",
+                    boxShadow:
+                        "0px 6px 6px -3px rgb(236 0 140 / 20%), 0px 10px 14px 1px rgb(236 0 140 / 14%), 0px 4px 18px 3px rgb(236 0 140 / 12%)",
                 };
         }
     };
@@ -119,7 +175,9 @@ const ProductCustomizationForm = ({
         );
     };
 
-    const cardOptionsJsx = (cards, name, id) => {
+    const cardOptionsJsx = (cards, name, id, size) => {
+        const classes = useStyles({ size });
+
         return (
             <div key={id} className="form-input-container">
                 <label
@@ -128,29 +186,64 @@ const ProductCustomizationForm = ({
                 >
                     {name}
                 </label>
-                <div className="product-customization-cards-container">
-                    {cards.map((card) => (
-                        <div
-                            style={activeStyles(card, id)}
-                            className="product-customization-card-container"
-                            onClick={() => handleCardOption(card, id)}
-                            key={card.card_id}
-                        >
-                            <div className="product-customization-card-img-container">
-                                <ImageOpt
-                                    className="product-customization-card-img"
-                                    src={card.image.image_name}
-                                    objectFit="contain"
-                                    layout="fill"
-                                    // width={100}
-                                    // height={100}
-                                />
+                <div className={classes.root}>
+                    {cards.map((card) => {
+                        const [anchorEl, setAnchorEl] =
+                            useState<HTMLElement | null>(null);
+
+                        const handlePopoverOpen = (
+                            event: React.MouseEvent<HTMLElement, MouseEvent>
+                        ) => {
+                            setAnchorEl(event.currentTarget);
+                        };
+
+                        const handlePopoverClose = () => {
+                            setAnchorEl(null);
+                        };
+
+                        const open = Boolean(anchorEl);
+
+                        return (
+                            <div
+                                onMouseEnter={handlePopoverOpen}
+                                onMouseLeave={handlePopoverClose}
+                                style={activeStyles(card, id)}
+                                className={classes.card}
+                                onClick={() => handleCardOption(card, id)}
+                                key={card.card_id}
+                            >
+                                <div className={classes.imgContainer}>
+                                    <ImageOpt
+                                        className="product-customization-card-img"
+                                        src={card.image?.image_name}
+                                        objectFit="contain"
+                                        layout="fill"
+                                    />
+                                </div>
+                                <Popover
+                                    id="mouse-over-popover"
+                                    className={classes.popover}
+                                    classes={{
+                                        paper: classes.paper,
+                                    }}
+                                    open={open}
+                                    anchorEl={anchorEl}
+                                    anchorOrigin={{
+                                        vertical: "bottom",
+                                        horizontal: "center",
+                                    }}
+                                    transformOrigin={{
+                                        vertical: "top",
+                                        horizontal: "center",
+                                    }}
+                                    onClose={handlePopoverClose}
+                                    disableRestoreFocus
+                                >
+                                    <Typography>{card.title}</Typography>
+                                </Popover>
                             </div>
-                            <p className="product-customization-card-text">
-                                {card.title}
-                            </p>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
                 {errorMsg(name)}
             </div>
@@ -162,10 +255,12 @@ const ProductCustomizationForm = ({
             {product.customizations.map((customization) => {
                 if (customization.option) {
                     if (customization.type === "card") {
+                        console.log(customization.size);
                         return cardOptionsJsx(
                             customization.cards,
                             customization.option.option_name,
-                            customization.customization_id
+                            customization.customization_id,
+                            customization.size
                         );
                     } else if (customization.type === "dropdown") {
                         return dropDownCustomizationJsx(

@@ -176,7 +176,7 @@ const ProductItem = ({ product, toggleProductModal, type }: IProps) => {
                     <div className="product-item-24-container">
                         <div className="product-item-24-icon">
                             <p>24</p>
-                            <p>days</p>
+                            <p>hours</p>
                         </div>
                     </div>
                 ) : null}

@@ -101,7 +101,7 @@ const Home = ({ banners }: IProps) => {
 
     return (
         <>
-            <HeadLayout title="Home" />
+            <HeadLayout />
             <div>
                 <div style={{ width: "100wv" }}>
                     <BannerSlider page="home" loop={true} banners={banners} />
@@ -117,12 +117,18 @@ const Home = ({ banners }: IProps) => {
                         style={{
                             marginBottom: "20px",
                             fontWeight: 300,
+                            fontSize: "30px",
                             color: "#ec008c",
                         }}
                     >
                         Online Printing Services…Next Day Delivery!
                     </h2>
-                    <p>
+                    <p
+                        style={{
+                            marginBottom: "20px",
+                            fontWeight: 200,
+                        }}
+                    >
                         We are an Abu Dhabi based print company that offers
                         quality, value and service all in fast delivery service.
                         We are a nationwide, full colour, 24hr printing company

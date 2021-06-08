@@ -95,11 +95,11 @@ const ImageList = ({ images, sortOption }: IProps) => {
                 <div className={classes.root}>
                     <Grid container>
                         {images
+                            .sort((a, b) => handleSort(a, b))
                             .slice(
                                 (page - 1) * rowsPerPage,
                                 (page - 1) * rowsPerPage + rowsPerPage
                             )
-                            .sort((a, b) => handleSort(a, b))
                             .map((image) => (
                                 <ImageItem
                                     handleOpenDel={handleOpenDel}

@@ -271,11 +271,11 @@ a {
     text-transform: capitalize;
     color: #ec008c;
     text-decoration: none;
-    font-size: 22px;
+    font-size: 16px;
 }
 
 .product-item-price {
-    font-size: 20px;
+    font-size: 18px;
     margin: 5px 0;
     font-weight: 500;
 }
@@ -1715,7 +1715,6 @@ a {
     min-height: 400px;
     height: calc(100vw - 125vh);
     max-height: calc(100vh - 150px);
-    border: 1px solid rgb(192, 192, 192);
     display: flex;
     justify-content: center;
     align-items: center;

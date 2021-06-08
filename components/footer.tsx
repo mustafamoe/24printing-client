@@ -81,7 +81,7 @@ const Footer = () => {
                                     T: +971 2 441 3882
                                 </li>
                                 <li className="footer-link-elements">
-                                    E: info@inspiredmedia.ae
+                                    E: info@24printing.ae
                                 </li>
                             </ul>
                             <div>
