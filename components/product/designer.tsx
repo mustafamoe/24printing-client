@@ -128,16 +128,20 @@ const useStyles = makeStyles({
         top: 0,
         left: 0,
         zIndex: -1,
-        width: "100%",
-        height: "100%",
+        width: "500px",
+        height: "500px",
+        maxHeight: "500px",
+        maxWidth: "500px",
     },
     activeOverlayContainer: {
         position: "absolute",
         top: 0,
         left: 0,
         zIndex: 2,
-        width: "100%",
-        height: "100%",
+        width: "500px",
+        height: "500px",
+        maxHeight: "500px",
+        maxWidth: "500px",
         pointerEvents: "none",
     },
     canvas: {
@@ -403,7 +407,7 @@ const Designer = ({ images, close, handleSaveDesign }: IProps) => {
 
         const desDomRect: any = des.getBoundingClientRect();
 
-        const screenshot = await html2canvas(document.body, {
+        const screenshot = await html2canvas(node, {
             useCORS: true,
             allowTaint: false,
             width: 500,
@@ -620,34 +624,24 @@ const Designer = ({ images, close, handleSaveDesign }: IProps) => {
                             <canvas id="canvas" className={classes.canvas} />
                             {design && (
                                 <>
-                                    <Box
-                                        className={classes.activeImgContainer}
-                                        width={500}
-                                        height={500}
-                                    >
+                                    <Box className={classes.activeImgContainer}>
                                         <ImageOpt
                                             src={design.image.image_name}
-                                            width={500}
-                                            height={500}
                                             draggable={false}
-                                            // layout="fill"
-                                            // objectFit="contain"
+                                            layout="fill"
+                                            objectFit="contain"
                                         />
                                     </Box>
                                     <Box
                                         className={
                                             classes.activeOverlayContainer
                                         }
-                                        width={500}
-                                        height={500}
                                     >
                                         <ImageOpt
                                             draggable={false}
                                             src={design.overlay.image_name}
-                                            // layout="fill"
-                                            // objectFit="contain"
-                                            width={500}
-                                            height={500}
+                                            layout="fill"
+                                            objectFit="contain"
                                         />
                                     </Box>
                                 </>
