@@ -201,19 +201,21 @@ const Designer = ({ images, close, handleSaveDesign }: IProps) => {
         setCanvas(initCanvas());
     }, []);
 
-    const addImageToCanvas = (can, data) => {
+    const addImageToCanvas = (can, data, id) => {
         const image = document.createElement("img");
         image.src = data;
-        image.id = "logo";
+        image.id = id;
+
         const logoImg = canvas
             .getObjects()
-            .find((obj) => (obj._element ? obj._element.id === "logo" : false));
+            .find((obj) => (obj._element ? obj._element.id === id : false));
         if (logoImg) canvas.remove(logoImg);
 
         setTimeout(() => {
             const img = new fabric.Image(image, {
                 borderOpacityWhenMoving: 1,
             });
+
             img.setControlsVisibility({
                 mb: false,
                 mt: false,
@@ -242,7 +244,7 @@ const Designer = ({ images, close, handleSaveDesign }: IProps) => {
                 const data = reader.result;
 
                 setLogo(data);
-                addImageToCanvas(canvas, data);
+                addImageToCanvas(canvas, data, "logo");
             };
 
             reader.readAsDataURL(e.target.files[0]);
@@ -401,11 +403,10 @@ const Designer = ({ images, close, handleSaveDesign }: IProps) => {
 
         const desDomRect: any = des.getBoundingClientRect();
 
-        const screenshot = await html2canvas(node, {
-            scale: 1,
+        const screenshot = await html2canvas(document.body, {
             useCORS: true,
-            width: 500,
             allowTaint: false,
+            width: 500,
             height: 500,
             scrollY: desDomRect.y,
             scrollX: desDomRect.x,
