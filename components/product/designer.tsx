@@ -128,20 +128,16 @@ const useStyles = makeStyles({
         top: 0,
         left: 0,
         zIndex: -1,
-        width: "500px",
-        height: "500px",
-        maxHeight: "500px",
-        maxWidth: "500px",
+        width: "100%",
+        height: "100%",
     },
     activeOverlayContainer: {
         position: "absolute",
         top: 0,
         left: 0,
         zIndex: 2,
-        width: "500px",
-        height: "500px",
-        maxHeight: "500px",
-        maxWidth: "500px",
+        width: "100%",
+        height: "100%",
         pointerEvents: "none",
     },
     canvas: {
@@ -409,6 +405,7 @@ const Designer = ({ images, close, handleSaveDesign }: IProps) => {
 
         const screenshot = await html2canvas(node, {
             useCORS: true,
+            scale: 2,
             allowTaint: false,
             width: 500,
             height: 500,
@@ -636,6 +633,8 @@ const Designer = ({ images, close, handleSaveDesign }: IProps) => {
                                         className={
                                             classes.activeOverlayContainer
                                         }
+                                        width={500}
+                                        height={500}
                                     >
                                         <ImageOpt
                                             draggable={false}
