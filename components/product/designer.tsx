@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { fabric } from "fabric";
 import html2canvas from "html2canvas";
-import domtoimage from "dom-to-image";
 import { SketchPicker } from "react-color";
 import {
     Box,
@@ -402,12 +401,11 @@ const Designer = ({ images, close, handleSaveDesign }: IProps) => {
 
         const desDomRect: any = des.getBoundingClientRect();
 
-        // const screenshot = await domtoimage.toPng(des);
-        // console.log(screenshot);
         const screenshot = await html2canvas(node, {
             scale: 1,
             useCORS: true,
             width: 500,
+            allowTaint: false,
             height: 500,
             scrollY: desDomRect.y,
             scrollX: desDomRect.x,
@@ -621,20 +619,26 @@ const Designer = ({ images, close, handleSaveDesign }: IProps) => {
                             <canvas id="canvas" className={classes.canvas} />
                             {design && (
                                 <>
-                                    <Box className={classes.activeImgContainer}>
+                                    <Box
+                                        className={classes.activeImgContainer}
+                                        width={500}
+                                        height={500}
+                                    >
                                         <ImageOpt
                                             src={design.image.image_name}
+                                            width={500}
+                                            height={500}
                                             draggable={false}
                                             // layout="fill"
                                             // objectFit="contain"
-                                            width={500}
-                                            height={500}
                                         />
                                     </Box>
                                     <Box
                                         className={
                                             classes.activeOverlayContainer
                                         }
+                                        width={500}
+                                        height={500}
                                     >
                                         <ImageOpt
                                             draggable={false}
