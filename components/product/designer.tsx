@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { fabric } from "fabric";
 import html2canvas from "html2canvas";
+import domtoimage from "dom-to-image";
 import { SketchPicker } from "react-color";
 import {
     Box,
@@ -401,6 +402,8 @@ const Designer = ({ images, close, handleSaveDesign }: IProps) => {
 
         const desDomRect: any = des.getBoundingClientRect();
 
+        // const screenshot = await domtoimage.toPng(des);
+        // console.log(screenshot);
         const screenshot = await html2canvas(node, {
             scale: 1,
             useCORS: true,
@@ -621,9 +624,11 @@ const Designer = ({ images, close, handleSaveDesign }: IProps) => {
                                     <Box className={classes.activeImgContainer}>
                                         <ImageOpt
                                             src={design.image.image_name}
-                                            layout="fill"
                                             draggable={false}
-                                            objectFit="contain"
+                                            // layout="fill"
+                                            // objectFit="contain"
+                                            width={500}
+                                            height={500}
                                         />
                                     </Box>
                                     <Box
@@ -634,8 +639,10 @@ const Designer = ({ images, close, handleSaveDesign }: IProps) => {
                                         <ImageOpt
                                             draggable={false}
                                             src={design.overlay.image_name}
-                                            layout="fill"
-                                            objectFit="contain"
+                                            // layout="fill"
+                                            // objectFit="contain"
+                                            width={500}
+                                            height={500}
                                         />
                                     </Box>
                                 </>

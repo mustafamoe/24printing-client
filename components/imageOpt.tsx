@@ -90,7 +90,6 @@ const ImageOpt = ({
                 .imageContainer {
                     height: ${!height ? "100%" : `${height}px`};
                     width: ${!width ? "100%" : `${width}px`};
-                    maxwidth: ${ref.current?.clientWidth}px;
                     transition: all 1s ease;
                 }
             `}</style>
