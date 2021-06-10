@@ -1,6 +1,6 @@
 import { IImage } from "./image";
 
-interface ICardCusPrice {
+export interface ICardCusPrice {
     card_cust_id: string;
     price: number;
     quantity_id: string;

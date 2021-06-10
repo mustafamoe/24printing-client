@@ -15,6 +15,10 @@ import {
 } from "@material-ui/core";
 import { IAdvPopup } from "../../../types/advPopup";
 
+// icons
+import CheckIcon from "@material-ui/icons/Check";
+import ClearIcon from "@material-ui/icons/Clear";
+
 const useStyles = makeStyles({
     root: {
         "&:hover": {
@@ -83,13 +87,6 @@ const AdvPopupItem = ({ advPopup, handleOpenDel, handleOpenEdit }: IProps) => {
             classes={{ root: classes.root }}
             key={advPopup.adv_popup_id}
         >
-            <TableCell
-                style={{
-                    whiteSpace: "nowrap",
-                }}
-            >
-                {advPopup.adv_popup_id}
-            </TableCell>
             <TableCell>
                 <div
                     style={{
@@ -112,7 +109,11 @@ const AdvPopupItem = ({ advPopup, handleOpenDel, handleOpenEdit }: IProps) => {
                     root: classes.tableCell,
                 }}
             >
-                {advPopup.is_active ? "True" : "False"}
+                {advPopup.is_active ? (
+                    <CheckIcon color="primary" />
+                ) : (
+                    <ClearIcon color="secondary" />
+                )}
             </TableCell>
             <TableCell
                 title={advPopup.link}

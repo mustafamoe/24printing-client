@@ -72,6 +72,14 @@ const Layout = ({ children }: Props) => {
                             name="viewport"
                             content="width=device-width, initial-scale=1.0"
                         ></meta>
+                        <link
+                            rel="preconnect"
+                            href="https://fonts.gstatic.com"
+                        />
+                        <link
+                            href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa&family=Bebas+Neue&family=Changa:wght@200&family=Great+Vibes&family=Indie+Flower&family=Julius+Sans+One&family=Kaushan+Script&family=Kufam&family=Marck+Script&family=Markazi+Text&family=Mate+SC&family=Merriweather&family=Monsieur+La+Doulaise&family=Norican&family=Rakkas&family=Reggae+One&family=Scheherazade&family=Shadows+Into+Light&family=Staatliches&display=swap"
+                            rel="stylesheet"
+                        />
                     </>
                 </HeadLayout>
                 <Navbar />

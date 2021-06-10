@@ -255,7 +255,6 @@ const ProductCustomizationForm = ({
             {product.customizations.map((customization) => {
                 if (customization.option) {
                     if (customization.type === "card") {
-                        console.log(customization.size);
                         return cardOptionsJsx(
                             customization.cards,
                             customization.option.option_name,

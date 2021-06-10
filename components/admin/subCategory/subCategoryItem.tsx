@@ -30,9 +30,8 @@ import SubCategoryForm from "./subCategoryForm";
 import ActionModal from "../actionModal";
 
 // icons
-import AddIcon from "@material-ui/icons/Add";
-import SettingsIcon from "@material-ui/icons/Settings";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import CheckIcon from "@material-ui/icons/Check";
+import ClearIcon from "@material-ui/icons/Clear";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -107,13 +106,6 @@ const SubCategoryItem = ({ subCategory, handleOpenDel, handleOpenEdit }) => {
             key={subCategory.sub_category_id}
         >
             <TableCell
-                style={{
-                    whiteSpace: "nowrap",
-                }}
-            >
-                {subCategory.sub_category_id}
-            </TableCell>
-            <TableCell
                 classes={{
                     root: classes.tableCell,
                 }}
@@ -127,19 +119,16 @@ const SubCategoryItem = ({ subCategory, handleOpenDel, handleOpenEdit }) => {
             >
                 {subCategory.sub_category_order}
             </TableCell>
-            {/* <TableCell
-                classes={{
-                    root: classes.tableCell,
-                }}
-            >
-                {subCategory.category?.category_name}
-            </TableCell> */}
             <TableCell
                 classes={{
                     root: classes.tableCell,
                 }}
             >
-                {subCategory.is_hidden ? "True" : "False"}
+                {subCategory.is_hidden ? (
+                    <CheckIcon color="primary" />
+                ) : (
+                    <ClearIcon color="secondary" />
+                )}
             </TableCell>
             <TableCell
                 style={{
@@ -217,9 +206,6 @@ const SubCategoryItem = ({ subCategory, handleOpenDel, handleOpenEdit }) => {
 const SubCategoryList = ({ categoryId, subCategories }) => {
     const user = useSelector((state: RootReducer) => state.auth.user);
     const classes = useStyles();
-    // const { data: subCategories } = useSWR(
-    //     `/sub_categories?categoryId=${categoryId}`
-    // );
     const [isDel, setDel] = useState<null | ISubCategory>(null);
     const [isEdit, setEdit] = useState<null | ISubCategory>(null);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -288,12 +274,6 @@ const SubCategoryList = ({ categoryId, subCategories }) => {
                                         style={{ minWidth: "150px" }}
                                         align="left"
                                     >
-                                        Id
-                                    </TableCell>
-                                    <TableCell
-                                        style={{ minWidth: "150px" }}
-                                        align="left"
-                                    >
                                         Name
                                     </TableCell>
                                     <TableCell
@@ -302,12 +282,6 @@ const SubCategoryList = ({ categoryId, subCategories }) => {
                                     >
                                         Order
                                     </TableCell>
-                                    {/* <TableCell
-                                        style={{ minWidth: "150px" }}
-                                        align="left"
-                                    >
-                                        Category
-                                    </TableCell> */}
                                     <TableCell
                                         style={{ minWidth: "150px" }}
                                         align="left"

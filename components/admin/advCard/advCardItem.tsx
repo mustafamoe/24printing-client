@@ -83,13 +83,6 @@ const AdvCardItem = ({ advCard, handleOpenDel, handleOpenEdit }: IProps) => {
             classes={{ root: classes.root }}
             key={advCard.adv_card_id}
         >
-            <TableCell
-                style={{
-                    whiteSpace: "nowrap",
-                }}
-            >
-                {advCard.adv_card_id}
-            </TableCell>
             <TableCell>
                 <div
                     style={{

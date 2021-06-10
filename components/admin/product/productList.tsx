@@ -136,12 +136,6 @@ const ProductList = () => {
                     <Table className={classes.table}>
                         <TableHead>
                             <TableRow>
-                                {/* <TableCell
-                                    style={{ minWidth: "150px" }}
-                                    align="left"
-                                >
-                                    Id
-                                </TableCell> */}
                                 <TableCell
                                     style={{ minWidth: "150px" }}
                                     align="left"

@@ -130,14 +130,6 @@ const Footer = () => {
                                         />
                                     </div>
                                 </div>
-                                <div style={{ marginTop: "10px" }}>
-                                    <Link href={`/privacyPolicy`}>
-                                        <a className="footer-links">
-                                            privacy policy,
-                                            <span> terms of use</span>
-                                        </a>
-                                    </Link>
-                                </div>
                             </div>
                         </div>
                     </div>

@@ -11,11 +11,11 @@ import { apiCall } from "../../../utils/apiCall";
 import { mutate } from "swr";
 import { RootReducer } from "../../../store/reducers";
 import { useSelector } from "react-redux";
+import { IOption } from "../../../types/option";
 
 // components
 import Modal from "../modal";
 import Error from "../error";
-import { IOption } from "../../../types/option";
 
 interface IProps {
     close: Function;

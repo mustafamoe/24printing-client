@@ -102,7 +102,7 @@ const ProductCategoryList = ({ search }) => {
                     >
                         <img
                             className="toggle-category-icon"
-                            src="/category.png"
+                            src="/stack.svg"
                             alt="category"
                         />
                     </button>

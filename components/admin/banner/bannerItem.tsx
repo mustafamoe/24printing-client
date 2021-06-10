@@ -83,13 +83,6 @@ const BannerItem = ({ banner, handleOpenDel, handleOpenEdit }: IProps) => {
             classes={{ root: classes.root }}
             key={banner.banner_id}
         >
-            <TableCell
-                style={{
-                    whiteSpace: "nowrap",
-                }}
-            >
-                {banner.banner_id}
-            </TableCell>
             <TableCell>
                 <div
                     style={{

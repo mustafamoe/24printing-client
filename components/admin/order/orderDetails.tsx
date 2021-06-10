@@ -1,4 +1,5 @@
 import dateFormat from "dateformat";
+import { apiImage } from "../../../utils/apiCall";
 import ImageOpt from "../../imageOpt";
 
 // components
@@ -38,13 +39,18 @@ const OrderDetails = ({ order }) => {
                             <div className="payment-product-ldi-item">
                                 <p className="payment-product-ldi-text">logo</p>
                                 <div className="payment-product-ldi-img-contianer">
-                                    <ImageOpt
-                                        width={100}
-                                        height={100}
-                                        className="payment-product-ldi-img"
-                                        src={product?.logo}
-                                        alt=""
-                                    />
+                                    <a
+                                        href={apiImage(product.designImage)}
+                                        target="_blank"
+                                    >
+                                        <ImageOpt
+                                            width={100}
+                                            height={100}
+                                            className="payment-product-ldi-img"
+                                            src={product?.logo}
+                                            alt=""
+                                        />
+                                    </a>
                                 </div>
                             </div>
                         )}
@@ -54,13 +60,18 @@ const OrderDetails = ({ order }) => {
                                     design
                                 </p>
                                 <div className="payment-product-ldi-img-contianer">
-                                    <ImageOpt
-                                        width={100}
-                                        height={100}
-                                        className="payment-product-ldi-img"
-                                        src={product.designImage}
-                                        alt=""
-                                    />
+                                    <a
+                                        href={apiImage(product.designImage)}
+                                        target="_blank"
+                                    >
+                                        <ImageOpt
+                                            width={100}
+                                            height={100}
+                                            className="payment-product-ldi-img"
+                                            src={product.designImage}
+                                            alt=""
+                                        />
+                                    </a>
                                 </div>
                             </div>
                         )}

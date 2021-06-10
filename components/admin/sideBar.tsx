@@ -29,6 +29,7 @@ const useStyles = makeStyles(() =>
         },
         drawerPaper: {
             width: drawerWidth,
+            zIndex: 0,
         },
     })
 );
@@ -56,6 +57,10 @@ const SideBar = () => {
 
     const getAccess = (access: Access) => {
         switch (access) {
+            case "is_super_admin":
+                if (user.is_super_admin) return true;
+
+                return false;
             case "is_admin":
                 if (user.is_super_admin || user.is_admin) return true;
                 return false;

@@ -106,13 +106,6 @@ const OrderItem = ({
                     whiteSpace: "nowrap",
                 }}
             >
-                {order.order_id}
-            </TableCell>
-            <TableCell
-                style={{
-                    whiteSpace: "nowrap",
-                }}
-            >
                 {parseFloat(String(order.charge.amount / 100)).toFixed(2)}د.ا
                 AED {order.charge.status}
             </TableCell>

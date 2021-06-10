@@ -84,13 +84,6 @@ const AdvPopupItem = ({ option, handleOpenDel, handleOpenEdit }: IProps) => {
             key={option.option_id}
         >
             <TableCell
-                style={{
-                    whiteSpace: "nowrap",
-                }}
-            >
-                {option.option_id}
-            </TableCell>
-            <TableCell
                 title={option.option_name}
                 classes={{
                     root: classes.tableCell,

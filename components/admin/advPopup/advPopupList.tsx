@@ -93,12 +93,6 @@ const AdvPopupList = () => {
                                     style={{ minWidth: "150px" }}
                                     align="left"
                                 >
-                                    Id
-                                </TableCell>
-                                <TableCell
-                                    style={{ minWidth: "150px" }}
-                                    align="left"
-                                >
                                     Image
                                 </TableCell>
                                 <TableCell

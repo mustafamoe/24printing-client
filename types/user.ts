@@ -1,4 +1,5 @@
 import { IImage } from "./image";
+import { IUserDiscount } from "./userDiscount";
 
 export type Access =
     | "is_accountant"
@@ -14,6 +15,7 @@ export interface IUser {
     last_name: string;
     email: string;
     phone: string;
+    discount: IUserDiscount;
     password: string;
     version: number;
     is_active: boolean;

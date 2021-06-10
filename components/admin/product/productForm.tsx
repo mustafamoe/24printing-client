@@ -40,8 +40,8 @@ import Modal from "../modal";
 import Error from "../error";
 import OptionPicker from "../option/optionPicker";
 import ImagePicker from "../gallery/imagePicker";
-import CardForm from "../card/cardForm";
-import DropdownForm from "../dropdown/dropdownForm";
+import CardList from "../card/cardForm";
+import DropdownList from "../dropdown/dropdownForm";
 import ImageOpt from "../../imageOpt";
 
 // icons
@@ -788,7 +788,7 @@ const ProductForm = ({ close, product }: IProps) => {
                                                 style={{ marginBottom: "10px" }}
                                                 htmlFor="image"
                                             >
-                                                Product main image
+                                                Designer background image
                                             </FormLabel>
                                             <Button
                                                 variant="contained"
@@ -810,7 +810,7 @@ const ProductForm = ({ close, product }: IProps) => {
                                                 style={{ marginBottom: "10px" }}
                                                 htmlFor="showcase"
                                             >
-                                                Product showcase images
+                                                Designer overlay image
                                             </FormLabel>
                                             <Button
                                                 variant="contained"
@@ -1264,7 +1264,7 @@ const ProductForm = ({ close, product }: IProps) => {
                                                                     />
                                                                 </Tabs>
                                                             </Box>
-                                                            <CardForm
+                                                            <CardList
                                                                 quantities={
                                                                     state.quantities
                                                                 }
@@ -1288,7 +1288,7 @@ const ProductForm = ({ close, product }: IProps) => {
                                                         index={1}
                                                     >
                                                         <Box>
-                                                            <DropdownForm
+                                                            <DropdownList
                                                                 quantities={
                                                                     state.quantities
                                                                 }

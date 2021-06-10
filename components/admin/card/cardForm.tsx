@@ -9,37 +9,157 @@ import {
 } from "@material-ui/core";
 import { useState, useEffect } from "react";
 import { IQuantity } from "../../../types/quantity";
+import { IImage } from "../../../types/image";
+import ImageOpt from "../../imageOpt";
+import useSWR from "swr";
+import { ICustomization } from "../../../types/customization";
+import { ICard, ICardCusPrice } from "../../../types/card";
 
 // components
 import Error from "../error";
 import ImagePicker from "../gallery/imagePicker";
+import Modal from "../modal";
 
 // icons
 import AddIcon from "@material-ui/icons/Add";
-import { ICustomization } from "../../../types/customization";
 import DeleteIcon from "@material-ui/icons/Delete";
-import ImageOpt from "../../imageOpt";
-import useSWR from "swr";
-import { IImage } from "../../../types/image";
-
-interface IProps {
-    quantities: IQuantity[];
-    state: any;
-    setState: any;
-    optionId: string;
-}
+import EditIcon from "@material-ui/icons/Edit";
+import DoneIcon from "@material-ui/icons/Done";
 
 interface IError {
     image: string[];
     title: string[];
 }
 
-const CardForm = ({ quantities, state, setState, optionId }: IProps) => {
-    const [tmpQtys, setTmpQtys] = useState<IQuantity[]>([]);
-    const [isImage, setImage] = useState<boolean>(false);
-    const { data: images } = useSWR<IImage[]>("/images");
+const CardList = ({ quantities, state, setState, optionId }) => {
+    const [isEdit, setEdit] = useState<any>(null);
     const [customization, setCustomization] =
         useState<ICustomization | null>(null);
+
+    useEffect(() => {
+        setCustomization(
+            state.customizations.find(
+                (c: ICustomization) => c.option.option_id === optionId
+            ) || null
+        );
+    }, [state.customizations]);
+
+    const handleRemove = (i) => {
+        setState({
+            ...state,
+            customizations: state.customizations.map((c: ICustomization) =>
+                c.option.option_id === optionId
+                    ? {
+                          ...c,
+                          cards: c.cards.filter((card, index) => index !== i),
+                      }
+                    : c
+            ),
+        });
+    };
+
+    const handleEdit = (id: string) => {
+        const card = customization.cards.find((c) => c.card_id === id);
+
+        if (card) setEdit(card);
+    };
+
+    const handleCloseEdit = () => {
+        setEdit(null);
+    };
+
+    return (
+        <>
+            {!customization?.cards.length ? (
+                <Box>
+                    <Typography>No cards added.</Typography>
+                </Box>
+            ) : (
+                customization?.cards.map((c, i) => (
+                    <Box mt={2} key={i} display="flex" alignItems="center">
+                        <Box width={100} height={100}>
+                            <ImageOpt
+                                src={c.image?.image_name}
+                                width={100}
+                                height={100}
+                            />
+                        </Box>
+                        <Box mr={2} ml={10} width="100%">
+                            <Typography>{c.title}</Typography>
+                        </Box>
+                        <Box mr={1}>
+                            <Button
+                                variant="contained"
+                                startIcon={<EditIcon />}
+                                color="primary"
+                                onClick={() => handleEdit(c.card_id)}
+                            >
+                                edit
+                            </Button>
+                        </Box>
+                        <Box>
+                            <Button
+                                variant="contained"
+                                startIcon={<DeleteIcon />}
+                                style={{
+                                    backgroundColor: "red",
+                                    color: "white",
+                                }}
+                                onClick={() => handleRemove(i)}
+                            >
+                                remove
+                            </Button>
+                        </Box>
+                    </Box>
+                ))
+            )}
+            <Box mt={2}>
+                <CardForm
+                    setState={setState}
+                    state={state}
+                    optionId={optionId}
+                    quantities={quantities}
+                />
+            </Box>
+            {isEdit && (
+                <Modal
+                    type="child"
+                    closeInfo={{ close: handleCloseEdit, check: true }}
+                >
+                    <CardForm
+                        setState={setState}
+                        close={handleCloseEdit}
+                        state={state}
+                        optionId={optionId}
+                        quantities={quantities}
+                        card={isEdit}
+                    />
+                </Modal>
+            )}
+        </>
+    );
+};
+
+interface IProps {
+    setState: any;
+    state: any;
+    optionId: any;
+    quantities: any;
+    close?: any;
+    card?: ICard;
+}
+
+const CardForm = ({
+    setState,
+    state,
+    optionId,
+    quantities,
+    card,
+    close,
+}: IProps) => {
+    const [tmpQtys, setTmpQtys] = useState<IQuantity[] | ICardCusPrice[]>([]);
+    const [isImage, setImage] = useState<boolean>(false);
+    const { data: images } = useSWR<IImage[]>("/images");
     const [errors, setErrors] = useState<IError>({
         image: [],
         title: [],
@@ -50,62 +170,69 @@ const CardForm = ({ quantities, state, setState, optionId }: IProps) => {
     });
 
     useEffect(() => {
-        setCustomization(
-            state.customizations.find(
-                (c: ICustomization) => c.option.option_id === optionId
-            ) || null
-        );
-    }, [state.customizations]);
+        if (card) {
+            setTmpQtys(card.prices);
+        } else {
+            const tmpTmpQtys: IQuantity[] = [];
+
+            for (let qty of quantities) {
+                const foundQty = (tmpQtys as IQuantity[]).find(
+                    (q) => q.quantity_id === qty.quantity_id
+                );
+
+                if (!foundQty) {
+                    tmpTmpQtys.push({ ...qty, price: 0 });
+
+                    continue;
+                }
+
+                tmpTmpQtys.push({ ...qty, price: foundQty.price });
+            }
+
+            setTmpQtys(tmpTmpQtys);
+
+            const tmpCust: ICustomization[] = [];
+
+            for (let c of state.customizations) {
+                const tmpCards: any = [];
+
+                for (let card of c.cards) {
+                    tmpCards.push({
+                        ...card,
+                        prices: quantities.map((q) => {
+                            const cQty = card.prices.find(
+                                (qty) => qty.quantity_id === q.quantity_id
+                            );
+
+                            if (cQty) return cQty;
+
+                            const foundQty = (tmpQtys as IQuantity[]).find(
+                                (qty) => qty.quantity_id === q.quantity_id
+                            );
+
+                            if (foundQty)
+                                return { ...q, price: foundQty.price };
+                            return { ...q, price: 0 };
+                        }),
+                    });
+                }
+
+                tmpCust.push({ ...c, cards: tmpCards });
+            }
+
+            setState({ ...state, customizations: tmpCust });
+        }
+    }, [quantities]);
 
     useEffect(() => {
-        const tmpTmpQtys: IQuantity[] = [];
-
-        for (let qty of quantities) {
-            const foundQty = tmpQtys.find(
-                (q) => q.quantity_id === qty.quantity_id
-            );
-
-            if (!foundQty) {
-                tmpTmpQtys.push({ ...qty, price: 0 });
-
-                continue;
-            }
-
-            tmpTmpQtys.push({ ...qty, price: foundQty.price });
+        if (card) {
+            setCardInfo({
+                ...cardInfo,
+                image: card.image.image_id,
+                title: card.title,
+            });
         }
-
-        setTmpQtys(tmpTmpQtys);
-
-        const tmpCust: ICustomization[] = [];
-
-        for (let c of state.customizations) {
-            const tmpCards: any = [];
-
-            for (let card of c.cards) {
-                tmpCards.push({
-                    ...card,
-                    prices: quantities.map((q) => {
-                        const cQty = card.prices.find(
-                            (qty) => qty.quantity_id === q.quantity_id
-                        );
-
-                        if (cQty) return cQty;
-
-                        const foundQty = tmpQtys.find(
-                            (qty) => qty.quantity_id === q.quantity_id
-                        );
-
-                        if (foundQty) return { ...q, price: foundQty.price };
-                        return { ...q, price: 0 };
-                    }),
-                });
-            }
-
-            tmpCust.push({ ...c, cards: tmpCards });
-        }
-
-        setState({ ...state, customizations: tmpCust });
-    }, [quantities]);
+    }, []);
 
     const handleOpenMedia = (type: "image") => {
         if (type === "image") setImage(true);
@@ -148,44 +275,49 @@ const CardForm = ({ quantities, state, setState, optionId }: IProps) => {
             if (e.length) return;
         }
 
-        const card = {
+        const tmpCard = {
             ...cardInfo,
+            card_id: Date.now(),
             prices: tmpQtys,
             image:
                 images.find((i) => i.image_id === cardInfo.image) ||
                 cardInfo.image,
         };
 
-        setState({
-            ...state,
-            customizations: state.customizations.map((c: ICustomization) =>
-                c.option.option_id === optionId
-                    ? { ...c, cards: [...c.cards, card] }
-                    : c
-            ),
-        });
+        if (card) {
+            setState({
+                ...state,
+                customizations: state.customizations.map((c: ICustomization) =>
+                    c.option.option_id === optionId
+                        ? {
+                              ...c,
+                              cards: c.cards.map((cd) =>
+                                  cd.card_id === card.card_id ? tmpCard : cd
+                              ),
+                          }
+                        : c
+                ),
+            });
 
-        setCardInfo({
-            ...cardInfo,
-            title: "",
-            image: "",
-        });
+            close();
+        } else {
+            setState({
+                ...state,
+                customizations: state.customizations.map((c: ICustomization) =>
+                    c.option.option_id === optionId
+                        ? { ...c, cards: [...c.cards, tmpCard] }
+                        : c
+                ),
+            });
 
-        setTmpQtys(quantities.map((q) => ({ ...q, price: 0 })));
-    };
+            setCardInfo({
+                ...cardInfo,
+                title: "",
+                image: "",
+            });
 
-    const handleRemove = (i) => {
-        setState({
-            ...state,
-            customizations: state.customizations.map((c: ICustomization) =>
-                c.option.option_id === optionId
-                    ? {
-                          ...c,
-                          cards: c.cards.filter((card, index) => index !== i),
-                      }
-                    : c
-            ),
-        });
+            setTmpQtys(quantities.map((q) => ({ ...q, price: 0 })));
+        }
     };
 
     const handleValidate = () => {
@@ -210,44 +342,6 @@ const CardForm = ({ quantities, state, setState, optionId }: IProps) => {
     return (
         <>
             <Box display="flex" flexDirection="column">
-                {!customization?.cards.length ? (
-                    <Box>
-                        <Typography>No cards added.</Typography>
-                    </Box>
-                ) : (
-                    customization?.cards.map((c, i) => (
-                        <Box mt={2} key={i} display="flex" alignItems="center">
-                            <Box width={100} height={100}>
-                                <ImageOpt
-                                    src={c.image?.image_name}
-                                    width={100}
-                                    height={100}
-                                />
-                            </Box>
-                            <Box mr={2} ml={10} width="100%">
-                                <Typography>{c.title}</Typography>
-                            </Box>
-                            <Box>
-                                <Button
-                                    variant="contained"
-                                    startIcon={<DeleteIcon />}
-                                    style={{
-                                        height: "100%",
-                                        width: "100%",
-                                        backgroundColor: "red",
-                                        color: "white",
-                                    }}
-                                    onClick={() => handleRemove(i)}
-                                >
-                                    remove
-                                </Button>
-                            </Box>
-                        </Box>
-                    ))
-                )}
-                <Box mb={3} mt={3}>
-                    <Divider />
-                </Box>
                 <Grid container spacing={10}>
                     <Grid item xs={6}>
                         <Box display="flex" flexDirection="column" width="100%">
@@ -318,7 +412,7 @@ const CardForm = ({ quantities, state, setState, optionId }: IProps) => {
                 <Box width="100%" mt={3}>
                     <Button
                         variant="contained"
-                        startIcon={<AddIcon />}
+                        startIcon={card ? <DoneIcon /> : <AddIcon />}
                         id="showcase"
                         onClick={handleAdd}
                         style={{
@@ -327,7 +421,7 @@ const CardForm = ({ quantities, state, setState, optionId }: IProps) => {
                         }}
                         color="secondary"
                     >
-                        add
+                        {card ? "save" : "add"}
                     </Button>
                 </Box>
             </Box>
@@ -344,4 +438,4 @@ const CardForm = ({ quantities, state, setState, optionId }: IProps) => {
     );
 };
 
-export default CardForm;
+export default CardList;

@@ -12,6 +12,10 @@ import {
     Box,
 } from "@material-ui/core";
 
+// icons
+import CheckIcon from "@material-ui/icons/Check";
+import ClearIcon from "@material-ui/icons/Clear";
+
 const useStyles = makeStyles({
     root: {
         "&:hover": {
@@ -75,13 +79,6 @@ const CategoryItem = ({ category, handleOpenDel, handleOpenEdit }) => {
             key={category.category_id}
         >
             <TableCell
-                style={{
-                    whiteSpace: "nowrap",
-                }}
-            >
-                {category.category_id}
-            </TableCell>
-            <TableCell
                 classes={{
                     root: classes.tableCell,
                 }}
@@ -100,7 +97,11 @@ const CategoryItem = ({ category, handleOpenDel, handleOpenEdit }) => {
                     root: classes.tableCell,
                 }}
             >
-                {category.is_hidden ? "True" : "False"}
+                {category.is_hidden ? (
+                    <CheckIcon color="primary" />
+                ) : (
+                    <ClearIcon color="secondary" />
+                )}
             </TableCell>
             <TableCell
                 style={{

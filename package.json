@@ -21,6 +21,7 @@
         "cookie": "^0.4.1",
         "dateformat": "^4.5.1",
         "fabric": "^4.5.0",
+        "fontfaceobserver": "^2.1.0",
         "html-react-parser": "^1.2.6",
         "html2canvas": "^1.0.0-alpha.12",
         "luxon": "^1.27.0",

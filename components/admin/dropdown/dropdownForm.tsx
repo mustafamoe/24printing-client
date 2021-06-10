@@ -1,36 +1,27 @@
 import { Box, Typography, Divider, TextField, Button } from "@material-ui/core";
 import { useState, useEffect } from "react";
 import { IQuantity } from "../../../types/quantity";
+import { ICustomization } from "../../../types/customization";
 
 // components
+import Modal from "../modal";
 import Error from "../error";
 
 // icons
 import AddIcon from "@material-ui/icons/Add";
-import { ICustomization } from "../../../types/customization";
 import DeleteIcon from "@material-ui/icons/Delete";
-
-interface IProps {
-    quantities: IQuantity[];
-    state: any;
-    setState: any;
-    optionId: string;
-}
+import EditIcon from "@material-ui/icons/Edit";
+import DoneIcon from "@material-ui/icons/Done";
+import { IDropdown } from "../../../types/dropdown";
 
 interface IError {
     title: string[];
 }
 
-const DropdownForm = ({ quantities, state, setState, optionId }: IProps) => {
-    const [tmpQtys, setTmpQtys] = useState<IQuantity[]>([]);
+const DropdownList = ({ quantities, state, setState, optionId }) => {
+    const [isEdit, setEdit] = useState<any>(null);
     const [customization, setCustomization] =
         useState<ICustomization | null>(null);
-    const [errors, setErrors] = useState<IError>({
-        title: [],
-    });
-    const [dropdownInfo, setDropdownInfo] = useState({
-        title: "",
-    });
 
     useEffect(() => {
         setCustomization(
@@ -40,55 +31,185 @@ const DropdownForm = ({ quantities, state, setState, optionId }: IProps) => {
         );
     }, [state.customizations]);
 
+    const handleRemove = (i) => {
+        setState({
+            ...state,
+            customizations: state.customizations.map((c: ICustomization) =>
+                c.option?.option_id === optionId
+                    ? {
+                          ...c,
+                          dropdown: c.dropdown.filter(
+                              (dropdown, index) => index !== i
+                          ),
+                      }
+                    : c
+            ),
+        });
+    };
+
+    const handleEdit = (id: string) => {
+        const card = customization.dropdown.find((d) => d.dropdown_id === id);
+
+        if (card) setEdit(card);
+    };
+
+    const handleCloseEdit = () => {
+        setEdit(null);
+    };
+
+    return (
+        <>
+            {!customization?.dropdown.length ? (
+                <Box>
+                    <Typography>No dropdown added.</Typography>
+                </Box>
+            ) : (
+                customization?.dropdown.map((d, i) => (
+                    <Box mt={2} key={i} display="flex" alignItems="center">
+                        <Box mr={2} width="100%">
+                            <Typography>{d.title}</Typography>
+                        </Box>
+                        <Box mr={1}>
+                            <Button
+                                variant="contained"
+                                startIcon={<EditIcon />}
+                                color="primary"
+                                onClick={() => handleEdit(d.dropdown_id)}
+                            >
+                                edit
+                            </Button>
+                        </Box>
+                        <Box>
+                            <Button
+                                variant="contained"
+                                startIcon={<DeleteIcon />}
+                                style={{
+                                    backgroundColor: "red",
+                                    color: "white",
+                                }}
+                                onClick={() => handleRemove(i)}
+                            >
+                                remove
+                            </Button>
+                        </Box>
+                    </Box>
+                ))
+            )}
+            <Box mt={2}>
+                <DropdownForm
+                    setState={setState}
+                    state={state}
+                    optionId={optionId}
+                    quantities={quantities}
+                />
+            </Box>
+            {isEdit && (
+                <Modal
+                    type="child"
+                    closeInfo={{ close: handleCloseEdit, check: true }}
+                >
+                    <DropdownForm
+                        setState={setState}
+                        close={handleCloseEdit}
+                        state={state}
+                        optionId={optionId}
+                        quantities={quantities}
+                        dropdown={isEdit}
+                    />
+                </Modal>
+            )}
+        </>
+    );
+};
+
+interface IProps {
+    setState: any;
+    state: any;
+    optionId: any;
+    quantities: any;
+    close?: any;
+    dropdown?: IDropdown;
+}
+
+const DropdownForm = ({
+    setState,
+    state,
+    optionId,
+    quantities,
+    dropdown,
+    close,
+}: IProps) => {
+    const [tmpQtys, setTmpQtys] = useState<IQuantity[]>([]);
+    useState<ICustomization | null>(null);
+    const [errors, setErrors] = useState<IError>({
+        title: [],
+    });
+    const [dropdownInfo, setDropdownInfo] = useState({
+        title: "",
+    });
+
     useEffect(() => {
-        const tmpTmpQtys: IQuantity[] = [];
-
-        for (let qty of quantities) {
-            const foundQty = tmpQtys.find(
-                (q) => q.quantity_id === qty.quantity_id
-            );
-
-            if (!foundQty) {
-                tmpTmpQtys.push({ ...qty, price: 0 });
-
-                continue;
-            }
-
-            tmpTmpQtys.push({ ...qty, price: foundQty.price });
+        if (dropdown) {
+            setDropdownInfo({
+                ...dropdownInfo,
+                title: dropdown.title,
+            });
         }
+    }, []);
 
-        setTmpQtys(() => {
-            const tmpCust: ICustomization[] = [];
-            for (let c of state.customizations) {
-                const tmpDropdown: any = [];
-                for (let dropdown of c.dropdown) {
-                    tmpDropdown.push({
-                        ...dropdown,
-                        prices: quantities.map((q) => {
-                            const dQty = dropdown.prices.find(
-                                (qty) => qty.quantity_id === q.quantity_id
-                            );
+    useEffect(() => {
+        if (dropdown) {
+            setTmpQtys(dropdown.prices as any);
+        } else {
+            const tmpTmpQtys: IQuantity[] = [];
 
-                            if (dQty) return dQty;
+            for (let qty of quantities) {
+                const foundQty = tmpQtys.find(
+                    (q) => q.quantity_id === qty.quantity_id
+                );
 
-                            const foundQty = tmpQtys.find(
-                                (qty) => qty.quantity_id === q.quantity_id
-                            );
+                if (!foundQty) {
+                    tmpTmpQtys.push({ ...qty, price: 0 });
 
-                            if (foundQty)
-                                return { ...q, price: foundQty.price };
-                            return { ...q, price: 0 };
-                        }),
-                    });
+                    continue;
                 }
 
-                tmpCust.push({ ...c, dropdown: tmpDropdown });
+                tmpTmpQtys.push({ ...qty, price: foundQty.price });
             }
 
-            setState({ ...state, customizations: tmpCust });
+            setTmpQtys(() => {
+                const tmpCust: ICustomization[] = [];
+                for (let c of state.customizations) {
+                    const tmpDropdown: any = [];
+                    for (let dropdown of c.dropdown) {
+                        tmpDropdown.push({
+                            ...dropdown,
+                            prices: quantities.map((q) => {
+                                const dQty = dropdown.prices.find(
+                                    (qty) => qty.quantity_id === q.quantity_id
+                                );
 
-            return tmpTmpQtys;
-        });
+                                if (dQty) return dQty;
+
+                                const foundQty = tmpQtys.find(
+                                    (qty) => qty.quantity_id === q.quantity_id
+                                );
+
+                                if (foundQty)
+                                    return { ...q, price: foundQty.price };
+                                return { ...q, price: 0 };
+                            }),
+                        });
+                    }
+
+                    tmpCust.push({ ...c, dropdown: tmpDropdown });
+                }
+
+                setState({ ...state, customizations: tmpCust });
+
+                return tmpTmpQtys;
+            });
+        }
     }, [quantities]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -124,42 +245,47 @@ const DropdownForm = ({ quantities, state, setState, optionId }: IProps) => {
             if (e.length) return;
         }
 
-        const dropdown = {
+        const tmpDropdown = {
             ...dropdownInfo,
+            dropdown_id: Date.now(),
             prices: tmpQtys,
         };
 
-        setState({
-            ...state,
-            customizations: state.customizations.map((c: ICustomization) =>
-                c.option?.option_id === optionId
-                    ? { ...c, dropdown: [...c.dropdown, dropdown] }
-                    : c
-            ),
-        });
+        if (dropdown) {
+            setState({
+                ...state,
+                customizations: state.customizations.map((c: ICustomization) =>
+                    c.option?.option_id === optionId
+                        ? {
+                              ...c,
+                              dropdown: c.dropdown.map((d) =>
+                                  d.dropdown_id === dropdown.dropdown_id
+                                      ? tmpDropdown
+                                      : d
+                              ),
+                          }
+                        : c
+                ),
+            });
 
-        setDropdownInfo({
-            ...dropdownInfo,
-            title: "",
-        });
+            close();
+        } else {
+            setState({
+                ...state,
+                customizations: state.customizations.map((c: ICustomization) =>
+                    c.option?.option_id === optionId
+                        ? { ...c, dropdown: [...c.dropdown, tmpDropdown] }
+                        : c
+                ),
+            });
 
-        setTmpQtys(quantities.map((q) => ({ ...q, price: 0 })));
-    };
+            setDropdownInfo({
+                ...dropdownInfo,
+                title: "",
+            });
 
-    const handleRemove = (i) => {
-        setState({
-            ...state,
-            customizations: state.customizations.map((c: ICustomization) =>
-                c.option?.option_id === optionId
-                    ? {
-                          ...c,
-                          dropdown: c.dropdown.filter(
-                              (dropdown, index) => index !== i
-                          ),
-                      }
-                    : c
-            ),
-        });
+            setTmpQtys(quantities.map((q) => ({ ...q, price: 0 })));
+        }
     };
 
     const handleValidate = () => {
@@ -179,37 +305,6 @@ const DropdownForm = ({ quantities, state, setState, optionId }: IProps) => {
     return (
         <>
             <Box display="flex" flexDirection="column">
-                {!customization?.dropdown.length ? (
-                    <Box>
-                        <Typography>No dropdown added.</Typography>
-                    </Box>
-                ) : (
-                    customization?.dropdown.map((d, i) => (
-                        <Box mt={2} key={i} display="flex" alignItems="center">
-                            <Box mr={2} width="100%">
-                                <Typography>{d.title}</Typography>
-                            </Box>
-                            <Box>
-                                <Button
-                                    variant="contained"
-                                    startIcon={<DeleteIcon />}
-                                    style={{
-                                        height: "100%",
-                                        width: "100%",
-                                        backgroundColor: "red",
-                                        color: "white",
-                                    }}
-                                    onClick={() => handleRemove(i)}
-                                >
-                                    remove
-                                </Button>
-                            </Box>
-                        </Box>
-                    ))
-                )}
-                <Box mb={3} mt={3}>
-                    <Divider />
-                </Box>
                 <Box>
                     <TextField
                         name="title"
@@ -259,7 +354,7 @@ const DropdownForm = ({ quantities, state, setState, optionId }: IProps) => {
                 <Box width="100%" mt={3}>
                     <Button
                         variant="contained"
-                        startIcon={<AddIcon />}
+                        startIcon={dropdown ? <DoneIcon /> : <AddIcon />}
                         id="showcase"
                         onClick={handleAdd}
                         style={{
@@ -268,7 +363,7 @@ const DropdownForm = ({ quantities, state, setState, optionId }: IProps) => {
                         }}
                         color="secondary"
                     >
-                        add
+                        {dropdown ? "save" : "add"}
                     </Button>
                 </Box>
             </Box>
@@ -276,4 +371,4 @@ const DropdownForm = ({ quantities, state, setState, optionId }: IProps) => {
     );
 };
 
-export default DropdownForm;
+export default DropdownList;

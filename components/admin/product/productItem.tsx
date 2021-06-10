@@ -15,6 +15,10 @@ import {
 } from "@material-ui/core";
 import { IProduct } from "../../../types/product";
 
+// icons
+import CheckIcon from "@material-ui/icons/Check";
+import ClearIcon from "@material-ui/icons/Clear";
+
 const useStyles = makeStyles({
     root: {
         "&:hover": {
@@ -101,13 +105,6 @@ const ProductItem = ({
             classes={{ root: classes.root }}
             key={product.product_id}
         >
-            {/* <TableCell
-                style={{
-                    whiteSpace: "nowrap",
-                }}
-            >
-                {product.product_id}
-            </TableCell> */}
             <TableCell
                 classes={{
                     root: classes.tableCell,
@@ -169,14 +166,22 @@ const ProductItem = ({
                     root: classes.tableCell,
                 }}
             >
-                {product.is_featured ? "True" : "False"}
+                {product.is_featured ? (
+                    <CheckIcon color="primary" />
+                ) : (
+                    <ClearIcon color="secondary" />
+                )}
             </TableCell>
             <TableCell
                 classes={{
                     root: classes.tableCell,
                 }}
             >
-                {product.is_published ? "True" : "False"}
+                {product.is_published ? (
+                    <CheckIcon color="primary" />
+                ) : (
+                    <ClearIcon color="secondary" />
+                )}
             </TableCell>
             <TableCell style={{ whiteSpace: "nowrap" }}>
                 {dateFormat(

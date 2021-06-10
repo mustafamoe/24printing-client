@@ -88,12 +88,12 @@ const CategoryForm = ({ close, category, categoryLength }: IProps) => {
     };
 
     const handleChangeNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const vlaue = e.target.value;
+        const value = e.target.value;
 
-        if (!Number.isNaN(Number(vlaue))) {
+        if (!Number.isNaN(Number(value))) {
             setState({
                 ...state,
-                [e.target.name]: vlaue.trim().split(".", 1)[0],
+                [e.target.name]: value.trim().split(".", 1)[0],
             });
         }
     };

@@ -102,12 +102,12 @@ const SubCategoryForm = ({
     };
 
     const handleChangeNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const vlaue = e.target.value;
+        const value = e.target.value;
 
-        if (!Number.isNaN(Number(vlaue))) {
+        if (!Number.isNaN(Number(value))) {
             setState({
                 ...state,
-                [e.target.name]: vlaue.trim().split(".", 1)[0],
+                [e.target.name]: value.trim().split(".", 1)[0],
             });
         }
     };
@@ -117,7 +117,7 @@ const SubCategoryForm = ({
 
         if (!loading) {
             const errors = handleValidate();
-            console.log(errors);
+
             for (let e of Object.values(errors)) {
                 if (e.length) return;
             }
@@ -179,20 +179,6 @@ const SubCategoryForm = ({
                             if (foundSubCatg)
                                 foundSubCatg.sub_category_order =
                                     state.sub_category_order;
-
-                            console.log(
-                                subCategories.map((c) =>
-                                    c.sub_category_id ===
-                                    toSubEditCatg?.sub_category_id
-                                        ? toSubEditCatg
-                                        : c.sub_category_id ===
-                                          subCategory.sub_category_id
-                                        ? foundSubCatg
-                                        : c
-                                ),
-                                toSubEditCatg,
-                                "DFSFDDFDF"
-                            );
 
                             return subCategories.map((c) =>
                                 c.sub_category_id ===

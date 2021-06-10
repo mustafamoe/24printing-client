@@ -10,8 +10,11 @@ import {
     AppBar,
     Toolbar,
     TextField,
+    Select,
+    MenuItem,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import FontFaceObserver from "fontfaceobserver";
 
 // components
 import ImageOpt from "../imageOpt";
@@ -22,6 +25,26 @@ import ClearIcon from "@material-ui/icons/Clear";
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
 import { IDesigner } from "../../types/designer";
+
+const fonts = [
+    { font: "Merriweather", alias: "24printing" },
+    { font: "Bebas Neue", alias: "24printing" },
+    { font: "Indie Flower", alias: "24printing" },
+    { font: "Shadows Into Light", alias: "24printing" },
+    { font: "Kaushan Script", alias: "24printing" },
+    { font: "Great Vibes", alias: "24printing" },
+    { font: "Marck Script", alias: "24printing" },
+    { font: "Julius Sans One", alias: "24printing" },
+    { font: "Norican", alias: "24printing" },
+    { font: "Monsieur La Doulaise", alias: "24printing" },
+    { font: "Reggae One", alias: "24printing" },
+    { font: "Mate SC", alias: "24printing" },
+    { font: "Staatliches", alias: "24printing" },
+    { font: "Aref Ruqaa", alias: "24 طباعة" },
+    { font: "Kufam", alias: "24 طباعة" },
+    { font: "Changa", alias: "24 طباعة" },
+    { font: "Scheherazade", alias: "24 طباعة" },
+];
 
 const useStyles = makeStyles({
     root: {
@@ -165,6 +188,7 @@ const Designer = ({ images, close, handleSaveDesign }: IProps) => {
         },
         showColorPicker: false,
         fontSize: 40,
+        fontFamily: "Merriweather",
     });
 
     // ------------------------------- default design
@@ -172,6 +196,10 @@ const Designer = ({ images, close, handleSaveDesign }: IProps) => {
         const design = images[0];
 
         if (design) setDesign(design);
+
+        fonts.map((f) => {
+            const font = new FontFaceObserver(f.font);
+        });
     }, []);
 
     // ------------------------------ canvas
@@ -312,12 +340,25 @@ const Designer = ({ images, close, handleSaveDesign }: IProps) => {
     };
 
     const handleAddText = () => {
-        const text = new fabric.Textbox("some text");
+        const text = new fabric.Textbox("some text", {
+            fontFamily: state.fontFamily,
+        });
         text.fontSize = state.fontSize;
         text.set("fontSize", state.fontSize);
+        text.set("fontFamily", state.fontFamily);
         text.setControlsVisibility({ mb: false, mt: false });
 
         canvas.add(text);
+        canvas.renderAll();
+    };
+
+    const handleAlignText = (align: "left" | "center" | "right") => {
+        const activeObject = canvas.getActiveObject();
+
+        if (activeObject) {
+            activeObject.set("textAlign", align);
+            canvas.renderAll();
+        }
     };
 
     const handleAddShape = (shapeType) => {
@@ -380,6 +421,19 @@ const Designer = ({ images, close, handleSaveDesign }: IProps) => {
     const toggleColorPicker = (e) => {
         setState({ ...state, showColorPicker: !state.showColorPicker });
         e.stopPropagation();
+    };
+
+    // --------------------------------- font family
+    const handleFontFamily = (e: any) => {
+        const activeObject = canvas.getActiveObject();
+        const fontFamily = e.target.value;
+
+        setState({ ...state, fontFamily });
+
+        if (activeObject) {
+            activeObject.set("fontFamily", fontFamily);
+            canvas.renderAll();
+        }
     };
 
     // ------------------------ save
@@ -492,6 +546,67 @@ const Designer = ({ images, close, handleSaveDesign }: IProps) => {
                                         height={25}
                                     />
                                 </Box>
+                            </Box>
+                            <Divider
+                                classes={{ root: classes.divider }}
+                                orientation="vertical"
+                                flexItem
+                            />
+                            <Box onClick={() => handleAlignText("left")}>
+                                <ImageOpt
+                                    width={20}
+                                    height={20}
+                                    src="/left-align.svg"
+                                    location="local"
+                                />
+                            </Box>
+                            <Divider
+                                classes={{ root: classes.divider }}
+                                orientation="vertical"
+                                flexItem
+                            />
+                            <Box onClick={() => handleAlignText("center")}>
+                                <ImageOpt
+                                    width={20}
+                                    height={20}
+                                    src="/center-align.svg"
+                                    location="local"
+                                />
+                            </Box>
+                            <Divider
+                                classes={{ root: classes.divider }}
+                                orientation="vertical"
+                                flexItem
+                            />
+                            <Box onClick={() => handleAlignText("right")}>
+                                <ImageOpt
+                                    width={20}
+                                    height={20}
+                                    src="/right-align.svg"
+                                    location="local"
+                                />
+                            </Box>
+                            <Divider
+                                classes={{ root: classes.divider }}
+                                orientation="vertical"
+                                flexItem
+                            />
+                            <Box>
+                                <Select
+                                    value={state.fontFamily}
+                                    onChange={handleFontFamily}
+                                    variant="outlined"
+                                >
+                                    {fonts.map((f, i) => (
+                                        <MenuItem
+                                            style={{ fontFamily: f.font }}
+                                            key={i}
+                                            value={f.font}
+                                        >
+                                            {f.alias}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
                             </Box>
                             <Divider
                                 classes={{ root: classes.divider }}

@@ -58,12 +58,14 @@ const Navbar = () => {
                     >
                         <Link href="/profile">
                             <a className="userinfo-container">
-                                <ImageOpt
-                                    src={user.avatar?.image_name}
-                                    width={50}
-                                    height={50}
-                                    className="avatar"
-                                />
+                                <div className="user-avatar">
+                                    <ImageOpt
+                                        src={user.avatar?.image_name}
+                                        width={50}
+                                        height={50}
+                                        className="avatar"
+                                    />
+                                </div>
                             </a>
                         </Link>
                     </li>
@@ -403,12 +405,13 @@ const Navbar = () => {
                                     <p className="navbar-nav-link">
                                         hello, {user.first_name}
                                     </p>
-                                    <ImageOpt
-                                        src={user.avatar?.image_name}
-                                        width={50}
-                                        height={50}
-                                        className="user-avatar"
-                                    />
+                                    <div className="user-avatar">
+                                        <ImageOpt
+                                            src={user.avatar?.image_name}
+                                            width={50}
+                                            height={50}
+                                        />
+                                    </div>
                                 </a>
                             </Link>
                         </li>

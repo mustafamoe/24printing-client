@@ -227,7 +227,7 @@ const ContactUs = () => {
                                 <iframe
                                     title="inspired media location"
                                     src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d454.00541895109086!2d54.399595!3d24.4492812!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5e684258419e59%3A0xdfaece3d2e5d5963!2sInspired%20Media%20UAE!5e0!3m2!1sen!2sae!4v1613229256608!5m2!1sen!2sae"
-                                    width="600"
+                                    width="100%"
                                     height="450"
                                     frameBorder="0"
                                     style={{ border: "none" }}

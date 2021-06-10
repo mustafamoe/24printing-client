@@ -19,6 +19,12 @@ import { RootReducer } from "../../../store/reducers";
 import UserItem from "./userItem";
 import ActionModal from "../actionModal";
 import UserForm from "./userForm";
+import UserDiscountForm from "./userDiscountForm";
+
+// icons
+import AddIcon from "@material-ui/icons/Add";
+import BlockIcon from "@material-ui/icons/Block";
+import RemoveIcon from "@material-ui/icons/Remove";
 
 const useStyles = makeStyles({
     table: {
@@ -33,8 +39,12 @@ const UserList = () => {
     const [isBlock, setBlock] = useState<null | IUser>(null);
     const [isRole, setRole] = useState<null | IUser>(null);
     const [isAdmin, setAdmin] = useState<null | IUser>(null);
+    const [isDisc, setDisc] = useState<null | IUser>(null);
+    const [isRemoveDisc, setRemoveDisc] = useState<null | IUser>(null);
+    const [isEditDisc, setEditDisc] = useState<null | IUser>(null);
     const [blockLoading, setBlockLoading] = useState(false);
     const [adminLoading, setAdminLoading] = useState(false);
+    const [removeDiscLoading, setRemoveDiscLoading] = useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [page, setPage] = useState(0);
 
@@ -69,6 +79,30 @@ const UserList = () => {
 
     const handleCloseRole = () => {
         setRole(null);
+    };
+
+    const handleOpenDisc = (user: IUser) => {
+        setDisc(user);
+    };
+
+    const handleCloseDisc = () => {
+        setDisc(null);
+    };
+
+    const handleOpenRemoveDisc = (user: IUser) => {
+        setRemoveDisc(user);
+    };
+
+    const handleCloseRemoveDisc = () => {
+        setRemoveDisc(null);
+    };
+
+    const handleOpenEditDisc = (user: IUser) => {
+        setEditDisc(user);
+    };
+
+    const handleCloseEditDisc = () => {
+        setEditDisc(null);
     };
 
     const handleBlock = async () => {
@@ -129,6 +163,33 @@ const UserList = () => {
         }
     };
 
+    const handleRemoveDisc = async () => {
+        try {
+            setRemoveDiscLoading(true);
+            await apiCall(
+                "delete",
+                `/user_discount/${isRemoveDisc.discount.user_discount_id}?authId=${user.user_id}`
+            );
+
+            mutate(
+                `/users?authId=${user.user_id}`,
+                (users: IUser[]) => {
+                    return users.map((u) =>
+                        u.user_id === isRemoveDisc.user_id
+                            ? { ...u, discount: null }
+                            : u
+                    );
+                },
+                false
+            );
+
+            setRemoveDiscLoading(false);
+            handleCloseRemoveDisc();
+        } catch (err) {
+            setRemoveDiscLoading(false);
+        }
+    };
+
     if (data)
         return (
             <>
@@ -136,9 +197,6 @@ const UserList = () => {
                     <Table className={classes.table}>
                         <TableHead>
                             <TableRow>
-                                <TableCell style={{ minWidth: "150px" }}>
-                                    Id
-                                </TableCell>
                                 <TableCell style={{ minWidth: "150px" }}>
                                     Avatar
                                 </TableCell>
@@ -166,9 +224,6 @@ const UserList = () => {
                                 <TableCell style={{ minWidth: "150px" }}>
                                     Admin
                                 </TableCell>
-                                <TableCell style={{ minWidth: "150px" }}>
-                                    Super Admin
-                                </TableCell>
                                 <TableCell style={{ minWidth: "50px" }}>
                                     Actions
                                 </TableCell>
@@ -187,6 +242,11 @@ const UserList = () => {
                                         handleOpenBlock={handleOpenBlock}
                                         handleOpenAdmin={handleOpenAdmin}
                                         handleOpenRole={handleOpenRole}
+                                        handleOpenDisc={handleOpenDisc}
+                                        handleOpenRemoveDisc={
+                                            handleOpenRemoveDisc
+                                        }
+                                        handleOpenEditDisc={handleOpenEditDisc}
                                     />
                                 ))}
                         </TableBody>
@@ -210,6 +270,9 @@ const UserList = () => {
                         msg={`Are you sure you want to ${
                             isBlock.is_blocked ? "unblock" : "block"
                         } ${isBlock.username}?`}
+                        btnIcon={
+                            isBlock.is_blocked ? <RemoveIcon /> : <BlockIcon />
+                        }
                         handler={handleBlock}
                         loading={blockLoading}
                     />
@@ -226,10 +289,38 @@ const UserList = () => {
                                 : `set ${isAdmin.username} to be an admin?`
                         }`}
                         handler={handleAdmin}
+                        btnIcon={
+                            isAdmin.is_admin ? <RemoveIcon /> : <AddIcon />
+                        }
                         loading={adminLoading}
                     />
                 )}
                 {isRole && <UserForm close={handleCloseRole} user={isRole} />}
+                {isDisc && (
+                    <UserDiscountForm
+                        userId={isDisc.user_id}
+                        close={handleCloseDisc}
+                    />
+                )}
+                {isEditDisc && (
+                    <UserDiscountForm
+                        userDiscount={isEditDisc.discount}
+                        userId={isEditDisc.user_id}
+                        close={handleCloseEditDisc}
+                    />
+                )}
+                {isRemoveDisc && (
+                    <ActionModal
+                        close={handleCloseRemoveDisc}
+                        title="Remove discount"
+                        btnTxt="remove discount"
+                        type="warning"
+                        msg={`Are you sure you want to remove discount.`}
+                        handler={handleRemoveDisc}
+                        btnIcon={<RemoveIcon />}
+                        loading={removeDiscLoading}
+                    />
+                )}
             </>
         );
     return null;

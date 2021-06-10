@@ -66,7 +66,7 @@ export const tabsList: IModel[] = [
         divider: true,
     },
     {
-        access: "is_admin",
+        access: "is_super_admin",
         icon: "/users.png",
         text: "Users",
         link: "/admin/users",

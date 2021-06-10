@@ -96,12 +96,6 @@ const CategoryList = ({ categories }: IProps) => {
                                     style={{ minWidth: "150px" }}
                                     align="left"
                                 >
-                                    Id
-                                </TableCell>
-                                <TableCell
-                                    style={{ minWidth: "150px" }}
-                                    align="left"
-                                >
                                     Name
                                 </TableCell>
                                 <TableCell
@@ -144,14 +138,14 @@ const CategoryList = ({ categories }: IProps) => {
                         </TableHead>
                         <TableBody>
                             {categories
-                                .slice(
-                                    page * rowsPerPage,
-                                    page * rowsPerPage + rowsPerPage
-                                )
                                 .sort(
                                     (a, b) =>
                                         Number(a.category_order) -
                                         Number(b.category_order)
+                                )
+                                .slice(
+                                    page * rowsPerPage,
+                                    page * rowsPerPage + rowsPerPage
                                 )
                                 .map((category) => (
                                     <CategoryItem

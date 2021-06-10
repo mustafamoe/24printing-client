@@ -116,12 +116,6 @@ const OrderList = () => {
                                     style={{ minWidth: "150px" }}
                                     align="left"
                                 >
-                                    Id
-                                </TableCell>
-                                <TableCell
-                                    style={{ minWidth: "150px" }}
-                                    align="left"
-                                >
                                     Amount
                                 </TableCell>
                                 <TableCell

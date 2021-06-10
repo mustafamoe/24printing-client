@@ -14,6 +14,10 @@ import {
 } from "@material-ui/core";
 import { IUser } from "../../../types/user";
 
+// icons
+import CheckIcon from "@material-ui/icons/Check";
+import ClearIcon from "@material-ui/icons/Clear";
+
 const useStyles = makeStyles({
     root: {
         "&:hover": {
@@ -43,6 +47,9 @@ interface IProps {
     handleOpenBlock: any;
     handleOpenRole: any;
     handleOpenAdmin: any;
+    handleOpenDisc: any;
+    handleOpenRemoveDisc: any;
+    handleOpenEditDisc: any;
 }
 
 const UserItem = ({
@@ -50,6 +57,9 @@ const UserItem = ({
     handleOpenBlock,
     handleOpenAdmin,
     handleOpenRole,
+    handleOpenDisc,
+    handleOpenRemoveDisc,
+    handleOpenEditDisc,
 }: IProps) => {
     const classes = useStyles();
     const [isHover, setHover] = useState(false);
@@ -78,6 +88,21 @@ const UserItem = ({
         handleClose();
     };
 
+    const discAction = () => {
+        handleOpenDisc(user);
+        handleClose();
+    };
+
+    const removeDiscAction = () => {
+        handleOpenRemoveDisc(user);
+        handleClose();
+    };
+
+    const editDiscAction = () => {
+        handleOpenEditDisc(user);
+        handleClose();
+    };
+
     const handleMouseOver = () => {
         setHover(true);
     };
@@ -93,13 +118,6 @@ const UserItem = ({
             classes={{ root: classes.root }}
             key={user.user_id}
         >
-            <TableCell
-                style={{
-                    whiteSpace: "nowrap",
-                }}
-            >
-                {user.user_id}
-            </TableCell>
             <TableCell>
                 <div
                     style={{
@@ -143,16 +161,25 @@ const UserItem = ({
             </TableCell>
             <TableCell style={{ whiteSpace: "nowrap" }}>{user.phone}</TableCell>
             <TableCell style={{ whiteSpace: "nowrap" }}>
-                {user.is_active ? "True" : "False"}
+                {user.is_active ? (
+                    <CheckIcon color="primary" />
+                ) : (
+                    <ClearIcon color="secondary" />
+                )}
             </TableCell>
             <TableCell style={{ whiteSpace: "nowrap" }}>
-                {user.is_blocked ? "True" : "False"}
+                {user.is_blocked ? (
+                    <CheckIcon color="primary" />
+                ) : (
+                    <ClearIcon color="secondary" />
+                )}
             </TableCell>
             <TableCell style={{ whiteSpace: "nowrap" }}>
-                {user.is_admin ? "True" : "False"}
-            </TableCell>
-            <TableCell style={{ whiteSpace: "nowrap" }}>
-                {user.is_super_admin ? "True" : "False"}
+                {user.is_admin ? (
+                    <CheckIcon color="primary" />
+                ) : (
+                    <ClearIcon color="secondary" />
+                )}
             </TableCell>
             <TableCell
                 classes={{
@@ -188,7 +215,19 @@ const UserItem = ({
                     <MenuItem onClick={blockAction}>
                         {user.is_blocked ? "Unblock" : "Block"}
                     </MenuItem>
-                    <MenuItem onClick={blockAction}>Give discount</MenuItem>
+                    {!user.discount && (
+                        <MenuItem onClick={discAction}>Give discount</MenuItem>
+                    )}
+                    {user.discount && (
+                        <MenuItem onClick={editDiscAction}>
+                            Edit discount
+                        </MenuItem>
+                    )}
+                    {user.discount && (
+                        <MenuItem onClick={removeDiscAction}>
+                            remove discount
+                        </MenuItem>
+                    )}
                 </Menu>
             </TableCell>
         </TableRow>

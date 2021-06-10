@@ -9,7 +9,6 @@ import { ThemeProvider } from "@material-ui/core";
 import theme from "../utils/theme";
 import NProgress from "nprogress";
 import Router from "next/router";
-import HeaderLayout from "../components/headLayout";
 
 // actions
 import { getCart } from "../store/actions/cart";
