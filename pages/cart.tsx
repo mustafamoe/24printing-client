@@ -2,9 +2,11 @@ import { clearCart } from "../store/actions/cart";
 import { useDispatch } from "react-redux";
 import useCart from "../hooks/useCart";
 import Link from "next/link";
+import CartList from "../components/cart/cartList";
+import { useEffect } from "react";
+import { clearProducts } from "../store/actions/checkout";
 
 // components
-import CartList from "../components/cart/cartList";
 import Summary from "../components/cart/summary";
 import ImageOpt from "../components/imageOpt";
 import HeadLayout from "../components/headLayout";
@@ -16,6 +18,10 @@ const Cart = () => {
     const handleClearCart = () => {
         dispatch(clearCart());
     };
+
+    useEffect(() => {
+        dispatch(clearProducts());
+    }, []);
 
     return (
         <>

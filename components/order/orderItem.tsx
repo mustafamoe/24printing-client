@@ -5,8 +5,11 @@ import { mutate } from "swr";
 import { RootReducer } from "../../store/reducers";
 import { apiCall } from "../../utils/apiCall";
 import { IOrder } from "../../types/order";
+import { addProducts } from "../../store/actions/checkout";
+import { useRouter } from "next/router";
 
 const OrderItem = ({ order, toggleOrderDetails, active, setActive }) => {
+    const router = useRouter();
     const controls = useRef(null);
     const dispatch = useDispatch();
     const [isExpired, setExpired] = useState(false);
@@ -21,11 +24,10 @@ const OrderItem = ({ order, toggleOrderDetails, active, setActive }) => {
     });
 
     useEffect(() => {
-        const body = document.getElementsByTagName("body")[0];
-        if (body) body.addEventListener("click", handleCloseControls);
+        document.body.addEventListener("click", handleCloseControls);
 
         return () => {
-            body.removeEventListener("click", handleCloseControls);
+            document.body.removeEventListener("click", handleCloseControls);
         };
     }, []);
 
@@ -129,6 +131,12 @@ const OrderItem = ({ order, toggleOrderDetails, active, setActive }) => {
         };
     }, []);
 
+    // _____________________________________ reorder
+    const handleReorder = () => {
+        dispatch(addProducts(order));
+        router.push("/checkout");
+    };
+
     return (
         <div className="order-item">
             <div className="order-item-head-container">
@@ -210,7 +218,11 @@ const OrderItem = ({ order, toggleOrderDetails, active, setActive }) => {
                         >
                             details
                         </button>
-                        <button type="button" className="order-control-btn">
+                        <button
+                            onClick={handleReorder}
+                            type="button"
+                            className="order-control-btn"
+                        >
                             reorder
                         </button>
                         <button

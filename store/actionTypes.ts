@@ -40,3 +40,7 @@ export const EDIT_CART_PRODUCT = "EDIT_CART_PRODUCT";
 export const REMOVE_PRODUCT_CART = "REMOVE_PRODUCT_CART";
 export const CHANGE_PRODUCT_QTY_CART = "CHANGE_PRODUCT_QTY_CART";
 export const CLEAR_CART = "CLEAR_CART";
+
+// _________________________________________ checkout
+export const ADD_PRODUCTS = "ADD_PRODUCTS";
+export const CLEAR_PRODUCTS = "CLEAR_PRODUCTS";

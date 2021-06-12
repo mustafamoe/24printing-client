@@ -299,6 +299,10 @@ const Chat = () => {
     }, []);
 
     useEffect(() => {
+        setValue(0);
+    }, [state.activeCustomers]);
+
+    useEffect(() => {
         if (user) setReady(true);
     }, [user]);
 
@@ -316,6 +320,13 @@ const Chat = () => {
 
     const handleJoinUser = (socketId: string) => {
         socket.emit("dashboard:join-customer", { customerSocketId: socketId });
+    };
+
+    // ___________________________ handle close chat
+    const handleCloseChat = (customerSokId: string, userId: string) => {
+        socket.emit("dashboard:close", { customerSokId });
+
+        dispatch({ type: "CUTOMER_LEAVE", userId });
     };
 
     return (
@@ -348,6 +359,7 @@ const Chat = () => {
                                 value={value}
                             />
                             <Footer
+                                closeChat={handleCloseChat}
                                 handleDirectMsg={handleDirectMsg}
                                 customerSokId={c.socketId}
                                 userId={c.user.user_id}

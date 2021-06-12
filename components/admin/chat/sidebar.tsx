@@ -179,7 +179,7 @@ const MessageList = ({ chat, handleJoinUser }: IProps) => {
                                                 {u.user.last_name}
                                             </Typography>
                                             <Typography>
-                                                {u.user.email}
+                                                {(u.user as any)?.fullName}
                                             </Typography>
                                         </Box>
                                     </Box>

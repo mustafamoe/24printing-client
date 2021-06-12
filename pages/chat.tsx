@@ -278,6 +278,10 @@ const Chat = () => {
                 dispatch({ type: "NEW_MESSAGE", message });
             });
 
+            socket.on("customer:close-chat", () => {
+                close();
+            });
+
             setReady(false);
         }
     }, [isReady]);

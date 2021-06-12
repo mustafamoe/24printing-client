@@ -3,13 +3,23 @@ import useSWR from "swr";
 import { RootReducer } from "../store/reducers";
 import { IProduct } from "../types/product";
 import { ICart } from "../types/cart";
+import { useState, useEffect } from "react";
 
 const useCart = (): [ICart[], boolean] => {
     const { data: products } = useSWR<IProduct[]>("/products");
     const { cart } = useSelector((state: RootReducer) => state);
+    const [cartProduct, setCartProducts] = useState([]);
+    const checkoutProducts = useSelector(
+        (state: RootReducer) => state.checkout
+    );
 
-    if (cart.length && products && products.length) {
-        const cartCopy = [...cart];
+    useEffect(() => {
+        if (checkoutProducts?.length) setCartProducts(checkoutProducts);
+        else if (cart?.length) setCartProducts(cart);
+    }, [cart, checkoutProducts]);
+
+    if (cartProduct.length && products && products.length) {
+        const cartCopy = [...cartProduct];
         let newCart = [];
         cartCopy.forEach((item) => {
             let itemCopy: any = { ...item };
@@ -57,7 +67,7 @@ const useCart = (): [ICart[], boolean] => {
                         return populateCustomizations.push(c);
                     }
                 });
-
+                console.log(populateCustomizations);
                 itemCopy.customizations = populateCustomizations;
                 itemCopy.quantity = foundQuantity;
                 itemCopy.product = foundProduct;

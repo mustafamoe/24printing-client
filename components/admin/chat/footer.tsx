@@ -1,8 +1,20 @@
-import { Box, IconButton, makeStyles, TextField } from "@material-ui/core";
-import { useState } from "react";
+import {
+    Box,
+    IconButton,
+    makeStyles,
+    TextField,
+    Popper,
+    MenuItem,
+    MenuList,
+    Grow,
+    Paper,
+    ClickAwayListener,
+} from "@material-ui/core";
+import { useState, useRef, useEffect } from "react";
 import SendIcon from "@material-ui/icons/Send";
 
-// components
+// icons
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 
 const useStyles = makeStyles({
     root: {
@@ -31,6 +43,7 @@ interface IProps {
     handleDirectMsg?: any;
     customerSokId?: string;
     userId?: string;
+    closeChat?: any;
 }
 
 const Footer = ({
@@ -38,8 +51,12 @@ const Footer = ({
     handleDirectMsg,
     customerSokId,
     userId,
+    closeChat,
 }: IProps) => {
     const classes = useStyles();
+    const [open, setOpen] = useState(false);
+    const anchorRef = useRef<HTMLButtonElement>(null);
+    const prevOpen = useRef(open);
     const [state, setState] = useState({
         message: "",
     });
@@ -62,8 +79,94 @@ const Footer = ({
         }
     };
 
+    const handleToggle = () => {
+        setOpen((prevOpen) => !prevOpen);
+    };
+
+    const handleClose = (event: React.MouseEvent<EventTarget>) => {
+        if (
+            anchorRef.current &&
+            anchorRef.current.contains(event.target as HTMLElement)
+        ) {
+            return;
+        }
+
+        setOpen(false);
+    };
+
+    function handleListKeyDown(event: React.KeyboardEvent) {
+        if (event.key === "Tab") {
+            event.preventDefault();
+            setOpen(false);
+        }
+    }
+
+    useEffect(() => {
+        if (prevOpen.current === true && open === false) {
+            anchorRef.current!.focus();
+        }
+
+        prevOpen.current = open;
+    }, [open]);
+
+    // _____________________________________ handle close chat
+    const handleCloseChat = (e: any) => {
+        handleClose(e);
+        closeChat(customerSokId, userId);
+    };
+
     return (
         <Box className={classes.root}>
+            {closeChat && (
+                <Box mr={2}>
+                    <Box>
+                        <IconButton
+                            ref={anchorRef}
+                            onClick={handleToggle}
+                            aria-controls={open ? "menu-list-grow" : undefined}
+                            aria-haspopup="true"
+                        >
+                            <MoreHorizIcon />
+                        </IconButton>
+                    </Box>
+                    <Popper
+                        open={open}
+                        anchorEl={anchorRef.current}
+                        role={undefined}
+                        transition
+                        disablePortal
+                        style={{ zIndex: 2 }}
+                    >
+                        {({ TransitionProps, placement }) => (
+                            <Grow
+                                {...TransitionProps}
+                                style={{
+                                    transformOrigin:
+                                        placement === "bottom"
+                                            ? "center top"
+                                            : "center bottom",
+                                }}
+                            >
+                                <Paper>
+                                    <ClickAwayListener
+                                        onClickAway={handleClose}
+                                    >
+                                        <MenuList
+                                            autoFocusItem={open}
+                                            id="menu-list-grow"
+                                            onKeyDown={handleListKeyDown}
+                                        >
+                                            <MenuItem onClick={handleCloseChat}>
+                                                Close chat
+                                            </MenuItem>
+                                        </MenuList>
+                                    </ClickAwayListener>
+                                </Paper>
+                            </Grow>
+                        )}
+                    </Popper>
+                </Box>
+            )}
             <Box width="100%">
                 <TextField
                     name="message"

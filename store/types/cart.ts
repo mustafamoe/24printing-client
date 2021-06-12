@@ -1,5 +1,4 @@
 import { ICart } from "../../types/cart";
-import { IProduct } from "../../types/product";
 import { IQuantity } from "../../types/quantity";
 
 import {
