@@ -7,6 +7,7 @@ export interface IBanner {
     title: string;
     content: string;
     link: string;
+    banner_order: number;
     banner_page: "home" | "shop";
     created_at: Date;
     created_by: IUser;

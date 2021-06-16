@@ -24,21 +24,23 @@ const TestimonialSlider = () => {
                         <div className="testimonial-container" key={i}>
                             <div className="testimonial-content-container">
                                 <p className="testimonial-content">
-                                    <ImageOpt
-                                        src="/left-quote.svg"
-                                        location="local"
-                                        width={20}
-                                        height={20}
-                                        className="testimonial-quotes-img qoute-start"
-                                    />
+                                    <div className="testimonial-quotes-img qoute-start">
+                                        <ImageOpt
+                                            src="/left-quote.svg"
+                                            location="local"
+                                            width={20}
+                                            height={20}
+                                        />
+                                    </div>
                                     {testimonal.content}
-                                    <ImageOpt
-                                        src="/left-quote.svg"
-                                        className="testimonial-quotes-img qoute-end"
-                                        width={20}
-                                        height={20}
-                                        location="local"
-                                    />
+                                    <div className="testimonial-quotes-img qoute-end">
+                                        <ImageOpt
+                                            src="/left-quote.svg"
+                                            width={20}
+                                            height={20}
+                                            location="local"
+                                        />
+                                    </div>
                                 </p>
                             </div>
                             <div className="testimonial-name-container">

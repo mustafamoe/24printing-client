@@ -4,9 +4,10 @@ import Link from "next/link";
 interface IProps {
     cart: any;
     type?: any;
+    city?: any;
 }
 
-const Summary = ({ cart, type }: IProps) => {
+const Summary = ({ cart, type, city }: IProps) => {
     const summeryContent = () => {
         let jsx = [];
         let totalPrice = 0;
@@ -56,6 +57,11 @@ const Summary = ({ cart, type }: IProps) => {
             });
         });
 
+        if (city) {
+            if (city === "Abu Dhabi City") totalPrice += 10;
+            else totalPrice += 30;
+        }
+
         jsx.push(
             <div key={0} className="summary-content-item">
                 <p className="summary-content-text">
@@ -103,6 +109,16 @@ const Summary = ({ cart, type }: IProps) => {
                 </p>
             </div>
         );
+
+        if (city) {
+            jsx.push(
+                <div key={4} className="summary-content-item">
+                    <p className="summary-content-text">
+                        Delivery {city === "Abu Dhabi City" ? 10 : 30} AED
+                    </p>
+                </div>
+            );
+        }
 
         jsx.push(
             <div key={5} className="summary-content-item">

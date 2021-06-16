@@ -15,6 +15,7 @@ import Loader from "../components/loader";
 const Cart = () => {
     const [cart, loading] = useCart();
     const dispatch = useDispatch();
+
     const handleClearCart = () => {
         dispatch(clearCart());
     };

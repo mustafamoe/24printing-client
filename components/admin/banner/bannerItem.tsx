@@ -112,6 +112,13 @@ const BannerItem = ({ banner, handleOpenDel, handleOpenEdit }: IProps) => {
                     root: classes.tableCell,
                 }}
             >
+                {banner.banner_order}
+            </TableCell>
+            <TableCell
+                classes={{
+                    root: classes.tableCell,
+                }}
+            >
                 {banner.content ? (
                     parse(banner.content)
                 ) : (

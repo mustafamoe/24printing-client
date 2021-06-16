@@ -572,6 +572,7 @@ a {
 
 .testimonial-content {
     line-height: 30px;
+    font-weight: 200;
 }
 
 .testimonial-heading {
@@ -893,6 +894,7 @@ a {
 }
 
 .testimonial-quotes-img {
+    display: inline-block;
     width: 20px;
     filter: invert(21%) sepia(72%) saturate(7219%) hue-rotate(313deg)
         brightness(89%) contrast(114%);
@@ -1118,6 +1120,7 @@ a {
 .footer-image-description {
     margin-top: 20px;
     width: 100%;
+    font-weight: 200;
 }
 
 .footer-content-section {
@@ -1188,6 +1191,7 @@ a {
     color: rgb(255, 255, 255);
     padding: 10px 0;
     text-align: center;
+    font-weight: 200;
 }
 
 .footer-helpful-links-container {
@@ -1207,6 +1211,11 @@ a {
 .cpmc-link {
     color: white;
     font-size: 15px;
+}
+
+.footer-image-section {
+    display: flex;
+    align-items: flex-end;
 }
 
 @media screen and (max-width: 1450px) {

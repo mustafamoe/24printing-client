@@ -7,15 +7,15 @@ import { useState, useEffect } from "react";
 
 const useCart = (): [ICart[], boolean] => {
     const { data: products } = useSWR<IProduct[]>("/products");
-    const { cart } = useSelector((state: RootReducer) => state);
+    const cart = useSelector((state: RootReducer) => state.cart);
     const [cartProduct, setCartProducts] = useState([]);
     const checkoutProducts = useSelector(
         (state: RootReducer) => state.checkout
     );
 
     useEffect(() => {
-        if (checkoutProducts?.length) setCartProducts(checkoutProducts);
-        else if (cart?.length) setCartProducts(cart);
+        if (checkoutProducts?.length) return setCartProducts(checkoutProducts);
+        setCartProducts(cart);
     }, [cart, checkoutProducts]);
 
     if (cartProduct.length && products && products.length) {

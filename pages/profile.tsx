@@ -178,7 +178,7 @@ const Profile = () => {
                                         }
                                         className="profile-nav-btn"
                                     >
-                                        orderes
+                                        orders
                                     </button>
                                 </div>
                             </div>

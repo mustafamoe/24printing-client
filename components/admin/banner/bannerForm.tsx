@@ -29,6 +29,7 @@ import { IBanner } from "../../../types/banner";
 interface IProps {
     close: Function;
     banner?: IBanner;
+    bannerOrder: number;
 }
 
 interface IState {
@@ -37,14 +38,16 @@ interface IState {
     content: string;
     link: string;
     banner_page: string;
+    banner_order: string;
 }
 
 interface IError {
     image: string[];
     banner_page: string[];
+    banner_order: string[];
 }
 
-const BannerForm = ({ close, banner }: IProps) => {
+const BannerForm = ({ close, banner, bannerOrder }: IProps) => {
     const [isImage, setImage] = useState<boolean>(false);
     const [isShowcase, setShowcase] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
@@ -55,9 +58,11 @@ const BannerForm = ({ close, banner }: IProps) => {
         content: "",
         link: "",
         banner_page: "",
+        banner_order: `${bannerOrder}`,
     });
     const [errors, setErrors] = useState<IError>({
         image: [],
+        banner_order: [],
         banner_page: [],
     });
 
@@ -70,6 +75,9 @@ const BannerForm = ({ close, banner }: IProps) => {
                 content: banner.content || "",
                 link: banner.link || "",
                 banner_page: banner.banner_page || "",
+                banner_order: banner.banner_order
+                    ? `${banner.banner_order}`
+                    : "",
             });
         }
     }, []);
@@ -92,6 +100,17 @@ const BannerForm = ({ close, banner }: IProps) => {
         setState({ ...state, [name]: e });
     };
 
+    const handleChangeNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+
+        if (!Number.isNaN(Number(value))) {
+            setState({
+                ...state,
+                [e.target.name]: value.trim().split(".", 1)[0],
+            });
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -112,27 +131,49 @@ const BannerForm = ({ close, banner }: IProps) => {
                     );
 
                     mutate(
-                        "/banners",
-                        (banners) => {
-                            return [...banners, banner];
+                        `/banners`,
+                        (banners: IBanner[]) => {
+                            return [
+                                ...banners.map((c: IBanner) =>
+                                    Number(c.banner_order) ===
+                                    Number(state.banner_order)
+                                        ? {
+                                              ...c,
+                                              banner_order: banners.length + 1,
+                                          }
+                                        : c
+                                ),
+                                banner,
+                            ];
                         },
                         false
                     );
                 } else {
                     setLoading(true);
-                    const editedBanner = await apiCall(
+                    const editedBanner = await apiCall<IBanner>(
                         "put",
                         `/banner/${banner.banner_id}?authId=${user.user_id}`,
                         state
                     );
 
                     mutate(
-                        "/banners",
+                        `/banners`,
                         (banners) => {
-                            return banners.map((p) =>
-                                p.banner_id !== banner.banner_id
-                                    ? p
-                                    : editedBanner
+                            const toEditBanner = banners.find(
+                                (c) =>
+                                    Number(c.banner_order) ===
+                                    Number(state.banner_order)
+                            );
+
+                            if (toEditBanner)
+                                toEditBanner.banner_order = banner.banner_order;
+
+                            return banners.map((c) =>
+                                c.banner_id === editedBanner?.banner_id
+                                    ? editedBanner
+                                    : c.banner_id === toEditBanner.banner_id
+                                    ? toEditBanner
+                                    : c
                             );
                         },
                         false
@@ -150,6 +191,7 @@ const BannerForm = ({ close, banner }: IProps) => {
     const handleValidate = () => {
         const TmpErrors: IError = {
             image: [],
+            banner_order: [],
             banner_page: [],
         };
 
@@ -159,6 +201,10 @@ const BannerForm = ({ close, banner }: IProps) => {
 
         if (!state.banner_page || !bannerPages.includes(state.banner_page)) {
             TmpErrors.banner_page.push("Please choose banner page.");
+        }
+
+        if (!state.banner_order) {
+            TmpErrors.banner_order.push("Please enter banner order.");
         }
 
         setErrors({ ...errors, ...TmpErrors });
@@ -200,6 +246,24 @@ const BannerForm = ({ close, banner }: IProps) => {
                             </RadioGroup>
                             <Error errors={errors.banner_page} />
                         </FormControl>
+                        <Box mb={3} mt={3}>
+                            <Divider />
+                        </Box>
+                        <Box mb={3}>
+                            <TextField
+                                id="banner_order"
+                                name="banner_order"
+                                label="Order"
+                                size="small"
+                                required={true}
+                                value={state.banner_order}
+                                error={!!errors.banner_order?.length}
+                                variant="outlined"
+                                onChange={handleChangeNumber}
+                                style={{ width: "100%" }}
+                            />
+                            <Error errors={errors.banner_order} />
+                        </Box>
                         <Box mb={3} mt={3}>
                             <Divider />
                         </Box>

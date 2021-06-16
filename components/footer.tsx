@@ -78,21 +78,36 @@ const Footer = () => {
                                 </li>
                             </ul>
                             <div>
-                                <img
-                                    className="socialmedia-icon"
-                                    src="/facebook.svg"
-                                    alt="facebook"
-                                />
-                                <img
-                                    className="socialmedia-icon"
-                                    src="/instagram.svg"
-                                    alt="instagram"
-                                />
-                                <img
-                                    className="socialmedia-icon"
-                                    src="/whatsapp.svg"
-                                    alt="whatsapp"
-                                />
+                                <a
+                                    target="_blank"
+                                    href="https://www.facebook.com/24-Printing-UAE-101561342047365/"
+                                >
+                                    <img
+                                        className="socialmedia-icon"
+                                        src="/fb.svg"
+                                        alt="facebook"
+                                    />
+                                </a>
+                                <a
+                                    target="_blank"
+                                    href="https://www.instagram.com/24printinguae/"
+                                >
+                                    <img
+                                        className="socialmedia-icon"
+                                        src="/ins.svg"
+                                        alt="instagram"
+                                    />
+                                </a>
+                                <a
+                                    target="_blank"
+                                    href="https://api.whatsapp.com/send/?phone=971503614667&app_absent=0"
+                                >
+                                    <img
+                                        className="socialmedia-icon"
+                                        src="/wa.svg"
+                                        alt="whatsapp"
+                                    />
+                                </a>
                             </div>
                         </div>
                         <div>
@@ -149,7 +164,7 @@ const Footer = () => {
                 </Link>
                 <p className="copyright-text">
                     Copyright © 2021 Twenty Four Printing Packing LLC, All
-                    rights reserved. - Powered by
+                    rights reserved. - Powered by{" "}
                     <a
                         className="cpmc-link"
                         href="https://crownphoenixadv.com/"

@@ -43,7 +43,7 @@ const Admin = () => {
                                     variant="h5"
                                     className={classes.greet}
                                 >
-                                    Welcome to 24prinitng dashboard
+                                    Welcome to 24printing dashboard
                                 </Typography>
                             </Box>
                         </Box>

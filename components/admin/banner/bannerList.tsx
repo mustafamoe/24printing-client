@@ -1,4 +1,3 @@
-import useSWR from "swr";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -26,10 +25,13 @@ const useStyles = makeStyles({
     },
 });
 
-const BannerList = () => {
+interface IProps {
+    banners: IBanner[];
+}
+
+const BannerList = ({ banners }: IProps) => {
     const classes = useStyles();
     const user = useSelector((state: RootReducer) => state.auth.user);
-    const { data: banners } = useSWR<IBanner[]>("/banners");
     const [isDel, setDel] = useState<null | IBanner>(null);
     const [isEdit, setEdit] = useState<null | IBanner>(null);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -103,6 +105,15 @@ const BannerList = () => {
                                     Title
                                 </TableCell>
                                 <TableCell
+                                    style={{
+                                        maxWidth: "150px",
+                                        minWidth: "150px",
+                                    }}
+                                    align="left"
+                                >
+                                    Order
+                                </TableCell>
+                                <TableCell
                                     style={{ minWidth: "150px" }}
                                     align="left"
                                 >
@@ -154,6 +165,11 @@ const BannerList = () => {
                         </TableHead>
                         <TableBody>
                             {banners
+                                .sort(
+                                    (a, b) =>
+                                        Number(a.banner_order) -
+                                        Number(b.banner_order)
+                                )
                                 .slice(
                                     page * rowsPerPage,
                                     page * rowsPerPage + rowsPerPage
@@ -188,7 +204,11 @@ const BannerList = () => {
                     />
                 )}
                 {isEdit && (
-                    <BannerForm close={handleCloseEdit} banner={isEdit} />
+                    <BannerForm
+                        close={handleCloseEdit}
+                        bannerOrder={banners.length}
+                        banner={isEdit}
+                    />
                 )}
             </>
         );

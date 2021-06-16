@@ -225,8 +225,8 @@ const ContactUs = () => {
                             </h1>
                             <div style={{ margin: "20px 0" }}>
                                 <iframe
-                                    title="inspired media location"
-                                    src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d454.00541895109086!2d54.399595!3d24.4492812!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5e684258419e59%3A0xdfaece3d2e5d5963!2sInspired%20Media%20UAE!5e0!3m2!1sen!2sae!4v1613229256608!5m2!1sen!2sae"
+                                    title="24printing"
+                                    src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d29080.738002341426!2d54.474284!3d24.343279!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xf2e55e1a7138da5!2s24%20Printing%20%26%20Packing%20LLC!5e0!3m2!1sen!2sus!4v1623832998820!5m2!1sen!2sus"
                                     width="100%"
                                     height="450"
                                     frameBorder="0"

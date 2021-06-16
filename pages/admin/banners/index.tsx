@@ -6,8 +6,10 @@ import {
     makeStyles,
     Theme,
 } from "@material-ui/core";
+import { IBanner } from "../../../types/banner";
 import { Add } from "@material-ui/icons";
 import { useState } from "react";
+import useSWR from "swr";
 
 // components
 import AdminLayout from "../../../components/admin/adminLayout";
@@ -29,6 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Banners = () => {
     const classes = useStyles();
+    const { data: banners } = useSWR<IBanner[]>("/banners");
     const [isAdd, setAdd] = useState<boolean>(false);
 
     const closeAdd = () => {
@@ -66,11 +69,16 @@ const Banners = () => {
                             </Box>
                         </Box>
                         <div>
-                            <BannerList />
+                            <BannerList banners={banners} />
                         </div>
                     </Box>
                 </div>
-                {isAdd && <BannerForm close={closeAdd} />}
+                {isAdd && (
+                    <BannerForm
+                        bannerOrder={banners.length + 1}
+                        close={closeAdd}
+                    />
+                )}
             </AdminLayout>
         </>
     );

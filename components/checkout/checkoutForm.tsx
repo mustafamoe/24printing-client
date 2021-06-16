@@ -19,6 +19,8 @@ import {
     StepLabel,
     Tab,
     Typography,
+    Select,
+    MenuItem,
 } from "@material-ui/core";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 
@@ -27,10 +29,12 @@ import { RootReducer } from "../../store/reducers";
 import useSWR from "swr";
 import { IAddress } from "../../types/address";
 import ImageOpt from "../imageOpt";
+import { useDispatch } from "react-redux";
 
 // icons
 import LocalShippingRoundedIcon from "@material-ui/icons/LocalShippingRounded";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
+import { clearCart } from "../../store/actions/cart";
 
 // Setup Stripe.js and the Elements provider
 const stripePromise = loadStripe(
@@ -107,7 +111,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const steps = ["Delivery address", "Payment method"];
 
-const Stripe = ({ openModel }) => {
+const Stripe = ({ openModel, state, setState }) => {
+    const dispatch = useDispatch();
     const classes = useStyles();
     const [cart] = useCart();
     const user = useSelector((state: RootReducer) => state.auth.user);
@@ -121,16 +126,16 @@ const Stripe = ({ openModel }) => {
     const [loading, setLoading] = useState(false);
     const [activeStep, setActiveStep] = useState(0);
     const [activeTab, setActiveTab] = useState(0);
-    const [state, setState] = useState({
-        email: "",
-        name: "",
-        phone: "",
-        address_line1: "",
-        address_line2: "",
-        address_city: "",
-        address_zip: "",
-        address_country: "UAE",
-    });
+    // const [state, setState] = useState({
+    //     email: "",
+    //     name: "",
+    //     phone: "",
+    //     address_line1: "",
+    //     address_line2: "",
+    //     address_city: "Abu Dhabi City",
+    //     address_zip: "",
+    //     address_country: "UAE",
+    // });
 
     const handleTab = (event: React.ChangeEvent<{}>, newValue: number) => {
         setActiveTab(newValue);
@@ -173,6 +178,10 @@ const Stripe = ({ openModel }) => {
         }
     };
 
+    const handleSelect = (e) => {
+        setState({ ...state, [e.target.name]: e.target.value });
+    };
+
     // Handle form submission.
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -203,6 +212,7 @@ const Stripe = ({ openModel }) => {
                 });
 
                 setLoading(false);
+                dispatch(clearCart());
                 openModel();
             } catch (err) {
                 setLoading(false);
@@ -519,25 +529,37 @@ const Stripe = ({ openModel }) => {
                                                         </div>
                                                         <div className="csz-container">
                                                             <div className="form-input-container">
-                                                                <label
-                                                                    className="form-label"
-                                                                    htmlFor="city"
-                                                                >
-                                                                    city
-                                                                </label>
-                                                                <input
-                                                                    id="city"
-                                                                    className="form-input"
-                                                                    type="text"
-                                                                    name="address_city"
-                                                                    placeholder="address city"
+                                                                <Select
+                                                                    variant="standard"
+                                                                    fullWidth
                                                                     value={
                                                                         state.address_city
                                                                     }
+                                                                    name="address_city"
                                                                     onChange={
-                                                                        handleInputChange
+                                                                        handleSelect
                                                                     }
-                                                                />
+                                                                >
+                                                                    {cities.map(
+                                                                        (
+                                                                            city,
+                                                                            i
+                                                                        ) => (
+                                                                            <MenuItem
+                                                                                key={
+                                                                                    i
+                                                                                }
+                                                                                value={
+                                                                                    city
+                                                                                }
+                                                                            >
+                                                                                {
+                                                                                    city
+                                                                                }
+                                                                            </MenuItem>
+                                                                        )
+                                                                    )}
+                                                                </Select>
                                                                 {errorMsg(
                                                                     "address_city"
                                                                 )}
@@ -722,12 +744,25 @@ const Stripe = ({ openModel }) => {
     );
 };
 
-const CheckoutForm = ({ openModal }) => {
+const CheckoutForm = ({ openModal, state, setState }) => {
     return (
         <Elements stripe={stripePromise}>
-            <Stripe openModel={openModal} />
+            <Stripe state={state} setState={setState} openModel={openModal} />
         </Elements>
     );
 };
 
 export default CheckoutForm;
+
+const cities = [
+    "Abu Dhabi City",
+    "Outside Abu Dhabi City",
+    "Western Region",
+    "Al Ain",
+    "Dubai",
+    "Sharjah",
+    "Ajman",
+    "Umm Al Quwain",
+    "Fujairah",
+    "Ras Al Khaimah",
+];

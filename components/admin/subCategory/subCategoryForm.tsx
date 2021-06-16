@@ -10,12 +10,9 @@ import {
     Button,
     Box,
     CircularProgress,
-    InputLabel,
-    MenuItem,
-    Select,
 } from "@material-ui/core";
 import { apiCall } from "../../../utils/apiCall";
-import useSWR, { mutate } from "swr";
+import { mutate } from "swr";
 import { RootReducer } from "../../../store/reducers";
 import { useSelector } from "react-redux";
 
@@ -26,9 +23,6 @@ import { ISubCategory } from "../../../types/subCategory";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        root: {
-            "& > *": {},
-        },
         grid: {
             flexGrow: 1,
         },
@@ -151,7 +145,7 @@ const SubCategoryForm = ({
                     );
                 } else {
                     setLoading(true);
-                    const editedSubCategory = await apiCall(
+                    const editedSubCategory = await apiCall<ISubCategory>(
                         "put",
                         `/sub_category/${subCategory.sub_category_id}?authId=${user.user_id}`,
                         state
@@ -170,23 +164,13 @@ const SubCategoryForm = ({
                                 toSubEditCatg.sub_category_order =
                                     subCategory.sub_category_order;
 
-                            const foundSubCatg = subCategories.find(
-                                (c) =>
-                                    c.sub_category_id ===
-                                    subCategory.sub_category_id
-                            );
-
-                            if (foundSubCatg)
-                                foundSubCatg.sub_category_order =
-                                    state.sub_category_order;
-
                             return subCategories.map((c) =>
                                 c.sub_category_id ===
-                                toSubEditCatg?.sub_category_id
-                                    ? toSubEditCatg
+                                editedSubCategory?.sub_category_id
+                                    ? editedSubCategory
                                     : c.sub_category_id ===
-                                      subCategory.sub_category_id
-                                    ? foundSubCatg
+                                      toSubEditCatg.sub_category_id
+                                    ? toSubEditCatg
                                     : c
                             );
                         },
@@ -237,12 +221,7 @@ const SubCategoryForm = ({
                     check: true,
                 }}
             >
-                <form
-                    onSubmit={handleSubmit}
-                    className={classes.root}
-                    noValidate
-                    autoComplete="off"
-                >
+                <form onSubmit={handleSubmit} noValidate autoComplete="off">
                     <div>
                         <FormControl
                             component="fieldset"
