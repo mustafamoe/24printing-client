@@ -157,7 +157,7 @@ const ProductCategoryList = ({ search }) => {
                                         >
                                             <div className="category-item-content">
                                                 <Link
-                                                    href={`/shop?category=${category.category_name}`}
+                                                    href={`/shop?category=${category.category_id}`}
                                                 >
                                                     <a
                                                         onClick={
@@ -167,7 +167,7 @@ const ProductCategoryList = ({ search }) => {
                                                         }
                                                         style={
                                                             selectedCategory ===
-                                                            category.category_name
+                                                            category.category_id
                                                                 ? {
                                                                       backgroundColor:
                                                                           "rgb(236, 0, 140)",
@@ -182,7 +182,7 @@ const ProductCategoryList = ({ search }) => {
                                                 </Link>
                                             </div>
                                             {selectedCategory ===
-                                            category.category_name ? (
+                                            category.category_id ? (
                                                 <div className="sub-category-list">
                                                     {category.sub_categories
                                                         ?.sort(
@@ -194,38 +194,44 @@ const ProductCategoryList = ({ search }) => {
                                                                     b.sub_category_order
                                                                 )
                                                         )
-                                                        ?.map((subCategory) => (
-                                                            <div
-                                                                key={
-                                                                    subCategory.sub_category_id
-                                                                }
-                                                                className="sub-category-item"
-                                                            >
-                                                                <div className="sub-category-item-content">
-                                                                    <Link
-                                                                        href={`/shop?category=${category.category_name}&sub_category=${subCategory.sub_category_name}`}
+                                                        ?.map((subCategory) => {
+                                                            if (
+                                                                !subCategory.is_hidden
+                                                            )
+                                                                return (
+                                                                    <div
+                                                                        key={
+                                                                            subCategory.sub_category_id
+                                                                        }
+                                                                        className="sub-category-item"
                                                                     >
-                                                                        <a
-                                                                            style={
-                                                                                selectedSubCategory ===
-                                                                                subCategory.sub_category_name
-                                                                                    ? {
-                                                                                          backgroundColor:
-                                                                                              "rgb(73, 73, 73)",
-                                                                                          color: "white",
-                                                                                      }
-                                                                                    : null
-                                                                            }
-                                                                            className="sub-category-item-link"
-                                                                        >
-                                                                            {
-                                                                                subCategory.sub_category_name
-                                                                            }
-                                                                        </a>
-                                                                    </Link>
-                                                                </div>
-                                                            </div>
-                                                        ))}
+                                                                        <div className="sub-category-item-content">
+                                                                            <Link
+                                                                                href={`/shop?category=${category.category_id}&sub_category=${subCategory.sub_category_id}`}
+                                                                            >
+                                                                                <a
+                                                                                    style={
+                                                                                        selectedSubCategory ===
+                                                                                        subCategory.sub_category_id
+                                                                                            ? {
+                                                                                                  backgroundColor:
+                                                                                                      "rgb(73, 73, 73)",
+                                                                                                  color: "white",
+                                                                                              }
+                                                                                            : null
+                                                                                    }
+                                                                                    className="sub-category-item-link"
+                                                                                >
+                                                                                    {
+                                                                                        subCategory.sub_category_name
+                                                                                    }
+                                                                                </a>
+                                                                            </Link>
+                                                                        </div>
+                                                                    </div>
+                                                                );
+                                                            return null;
+                                                        })}
                                                 </div>
                                             ) : null}
                                         </div>

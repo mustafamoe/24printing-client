@@ -40,7 +40,7 @@ const OrderDetails = ({ order }) => {
                                 <p className="payment-product-ldi-text">logo</p>
                                 <div className="payment-product-ldi-img-contianer">
                                     <a
-                                        href={apiImage(product.designImage)}
+                                        href={apiImage(product.logo)}
                                         target="_blank"
                                     >
                                         <ImageOpt

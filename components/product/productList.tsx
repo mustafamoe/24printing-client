@@ -15,7 +15,6 @@ const ProductList = ({ search, toggleProductModel }) => {
         ignoreQueryPrefix: true,
     });
     const { data: products } = useSWR<IProduct[]>("/products");
-    // const { products, loading } = useSelector((state) => state.product);
     const [columns, setColumns] = useState(4);
     const [ww, setWw] = useState(0);
     const [state, setState] = useState<any>({
@@ -88,7 +87,7 @@ const ProductList = ({ search, toggleProductModel }) => {
                 ...state,
                 products: [...products].filter((p) =>
                     p.sub_category
-                        ? p.sub_category.sub_category_name === sub_category
+                        ? p.sub_category.sub_category_id === sub_category
                         : false
                 ),
             });
@@ -97,7 +96,7 @@ const ProductList = ({ search, toggleProductModel }) => {
             setState({
                 ...state,
                 products: [...products].filter((p) =>
-                    p.category ? p.category.category_name === category : false
+                    p.category ? p.category.category_id === category : false
                 ),
             });
         } else {

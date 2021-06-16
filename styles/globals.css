@@ -497,7 +497,7 @@ a {
 .home-carousel-header {
     text-transform: uppercase;
     font-weight: 400;
-    font-size: 20px;
+    font-size: 18px;
     width: 20%;
     min-width: 240px;
     text-align: center;
@@ -505,7 +505,7 @@ a {
     border: 1px solid gray;
     border-radius: 30px;
     color: gray;
-    padding: 10px;
+    padding: 5px 10px;
 }
 
 .home-category-container {

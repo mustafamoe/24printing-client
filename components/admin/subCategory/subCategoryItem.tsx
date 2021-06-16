@@ -312,6 +312,12 @@ const SubCategoryList = ({ categoryId, subCategories }) => {
                                     >
                                         Updated by
                                     </TableCell>
+                                    <TableCell
+                                        style={{ minWidth: "150px" }}
+                                        align="left"
+                                    >
+                                        Actions
+                                    </TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>

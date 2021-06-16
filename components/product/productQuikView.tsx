@@ -55,7 +55,7 @@ const ProductQuikView = ({ product, close }: IProps) => {
                         <div className="product-quik-view-item product-quik-view-category">
                             {product.sub_category && product.category ? (
                                 <Link
-                                    href={`/shop?category=${product.category.category_name}&sub_category=${product.sub_category.sub_category_name}`}
+                                    href={`/shop?category=${product.category.category_id}&sub_category=${product.sub_category.sub_category_id}`}
                                 >
                                     <a
                                         className="product-quik-view-category"
@@ -67,7 +67,7 @@ const ProductQuikView = ({ product, close }: IProps) => {
                                 </Link>
                             ) : product.category ? (
                                 <Link
-                                    href={`/shop?category=${product.category.category_name}`}
+                                    href={`/shop?category=${product.category.category_id}`}
                                 >
                                     <a
                                         onClick={handleClose}

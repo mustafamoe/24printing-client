@@ -1,6 +1,6 @@
 import axios, { Method } from "axios";
 
-export const isProduction: boolean = false;
+export const isProduction: boolean = true;
 
 export const domain = isProduction
     ? "https://24printing.ae"
