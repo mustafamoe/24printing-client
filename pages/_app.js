@@ -1,6 +1,6 @@
 import { SWRConfig } from "swr";
 import { apiCall } from "../utils/apiCall";
-import { Provider, useDispatch, useSelector } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
 import cookie from "cookie";
 import { useEffect } from "react";
 import { authOnloadCall } from "../store/actions/user";

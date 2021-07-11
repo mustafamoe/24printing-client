@@ -38,7 +38,7 @@ import { clearCart } from "../../store/actions/cart";
 
 // Setup Stripe.js and the Elements provider
 const stripePromise = loadStripe(
-    "pk_test_51HSjGpB60Gjoy71exFjVKn6Smsao67U43LjgkSw22CcT7iag53QIRM3OfKqsIdxBeCvHt0GEzy1KojwOJnvn0m2P001NPKB3EF"
+    "pk_live_51IxVbxLYCuQ6yKPFF3dlisHuNcRfZAXS2YBBJYA1tTqpEtgpPIMAcbWoDTh3RYL8xWTUXivbZxtYruGgOxJER9pZ00BpPyvZbs"
 );
 
 const CARD_ELEMENT_OPTIONS = {

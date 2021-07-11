@@ -19,9 +19,10 @@ import { GetStaticProps } from "next";
 
 interface IProps {
     banners: IBanner[];
+    yt: { url: string };
 }
 
-const Home = ({ banners }: IProps) => {
+const Home = ({ banners, yt }: IProps) => {
     const router = useRouter();
     const { data: products } = useSWR<IProduct[]>("/products");
     const { data: advCards } = useSWR("/adv_cards");
@@ -264,7 +265,7 @@ const Home = ({ banners }: IProps) => {
                                 width="100%"
                                 title="youtube video"
                                 height="100%"
-                                src="https://www.youtube-nocookie.com/embed/UdXVAEYf-3A?autoplay=1&mute=1"
+                                src={yt.url}
                             ></iframe>
                         </div>
                         <div className="home-testimonial-slider-container">
@@ -293,9 +294,10 @@ export const getStaticProps: GetStaticProps = async () => {
         "get",
         `/banners?banner_page=home`
     );
+    const yt = await apiCall("get", "/youtube");
 
     return {
-        props: { banners },
+        props: { banners, yt },
         revalidate: 120,
     };
 };

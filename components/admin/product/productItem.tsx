@@ -1,6 +1,5 @@
 import ImageOpt from "../../imageOpt";
 import dateFormat from "dateformat";
-import parse from "html-react-parser";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import { useState } from "react";
@@ -128,20 +127,6 @@ const ProductItem = ({
                         objectFit="cover"
                     />
                 </div>
-            </TableCell>
-            <TableCell
-                classes={{
-                    root: classes.tableCell,
-                }}
-            >
-                {parse(product.product_description)}
-            </TableCell>
-            <TableCell
-                classes={{
-                    root: classes.tableCell,
-                }}
-            >
-                {parse(product.about)}
             </TableCell>
             <TableCell
                 classes={{

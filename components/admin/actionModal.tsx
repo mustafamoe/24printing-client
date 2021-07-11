@@ -6,7 +6,6 @@ import {
     CircularProgress,
 } from "@material-ui/core";
 import Error from "../admin/error";
-import { useEffect } from "react";
 
 // components
 import Modal from "./modal";

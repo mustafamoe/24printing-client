@@ -149,21 +149,6 @@ const ProductList = () => {
                                     Image
                                 </TableCell>
                                 <TableCell
-                                    style={{
-                                        maxWidth: "250px",
-                                        minWidth: "250px",
-                                    }}
-                                    align="left"
-                                >
-                                    Description
-                                </TableCell>
-                                <TableCell
-                                    style={{ minWidth: "150px" }}
-                                    align="left"
-                                >
-                                    About
-                                </TableCell>
-                                <TableCell
                                     style={{ minWidth: "150px" }}
                                     align="left"
                                 >

@@ -19,10 +19,8 @@ import HeadLayout from "../components/headLayout";
 
 const Signin = () => {
     const dispatch = useDispatch();
-    const { user } = useSelector((state: RootReducer) => state.auth);
-
-    const { userId } = useSelector((state: RootReducer) => state.auth.signup);
     const theme = useTheme();
+    const { userId } = useSelector((state: RootReducer) => state.auth.signup);
     const { error, loading } = useSelector(
         (state: RootReducer) => state.auth.signin
     );

@@ -78,6 +78,12 @@ export const tabsList: IModel[] = [
         link: "/admin/privacyPolicy",
     },
     {
+        access: "is_admin",
+        icon: "/yt.svg",
+        text: "Youtube",
+        link: "/admin/youtube",
+    },
+    {
         access: "is_customer_service",
         icon: "/chat.png",
         text: "Chat",
