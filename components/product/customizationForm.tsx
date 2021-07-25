@@ -221,7 +221,6 @@ const ProductCustomizationForm = ({
                                     />
                                 </div>
                                 <Popover
-                                    id="mouse-over-popover"
                                     className={classes.popover}
                                     classes={{
                                         paper: classes.paper,
@@ -232,8 +231,9 @@ const ProductCustomizationForm = ({
                                         vertical: "bottom",
                                         horizontal: "center",
                                     }}
+                                    // container={anchorEl}
                                     transformOrigin={{
-                                        vertical: "top",
+                                        vertical: "center",
                                         horizontal: "center",
                                     }}
                                     onClose={handlePopoverClose}
