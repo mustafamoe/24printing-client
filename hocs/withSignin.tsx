@@ -23,7 +23,7 @@ const WithSignin = ({ children }: IProps) => {
     else if (loading) return <p>loading...</p>;
     else if (user) return <>{children}</>;
     else {
-        router.push("/");
+        router.push("/signin");
         return null;
     }
 };

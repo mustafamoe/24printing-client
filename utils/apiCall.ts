@@ -1,6 +1,7 @@
+import { TrainRounded } from "@material-ui/icons";
 import axios, { Method } from "axios";
 
-export const isProduction: boolean = false;
+export const isProduction: boolean = true;
 
 export const domain = isProduction
     ? "https://24printing.ae"
@@ -11,10 +12,7 @@ export const apiImage = (
     width?: number,
     q?: number | undefined
 ): string => {
-    return `https://24printing.s3.amazonaws.com/${image}`;
-    // return `https://res.cloudinary.com/dkdqozb5n/image/upload/q_${
-    //     q ? q : "auto"
-    // }${width ? `,w_${width}` : ""},f_auto,fl_lossy/v1620040545/${image}`;
+    return `https://d3eq7l4fuof9k0.cloudfront.net/${image}`;
 };
 
 export const apiCall = <T>(
