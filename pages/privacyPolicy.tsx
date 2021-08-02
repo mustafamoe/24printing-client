@@ -18,7 +18,7 @@ const PrivacyPolicy = () => {
     return (
         <>
             <HeadLayout title="Privacy Policy" />
-            <div className="privacy-policy-page">
+            <div className="privacy-policy-page textEditor">
                 {parser(privacyPolicy.content)}
             </div>
         </>

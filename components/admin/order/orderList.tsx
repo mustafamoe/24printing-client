@@ -41,7 +41,7 @@ const OrderList = () => {
     const router = useRouter();
     const classes = useStyles();
     const user = useSelector((state: RootReducer) => state.auth.user);
-    const { data } = useSWR(`/orders?authId=${user.user_id}`);
+    const { data } = useSWR(`/all_orders?authId=${user.user_id}`);
     const [isEdit, setEdit] = useState<IOrder | null>(null);
     const [isDecline, setDecline] = useState<IDeclineState>({
         order: null,

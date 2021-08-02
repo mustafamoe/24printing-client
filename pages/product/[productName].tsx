@@ -419,7 +419,7 @@ const ProductDetails = ({ product }: IProps) => {
                                 <p className="product-details-headings">
                                     about this item
                                 </p>
-                                <div className="product-details-text-editor">
+                                <div className="product-details-text-editor textEditor">
                                     {parser(product.about)}
                                 </div>
                             </div>
@@ -478,7 +478,7 @@ const ProductDetails = ({ product }: IProps) => {
                         <p className="product-details-description-head">
                             product description
                         </p>
-                        <div className="product-details-description-content">
+                        <div className="product-details-description-content textEditor">
                             {parser(product.product_description)}
                         </div>
                     </div>

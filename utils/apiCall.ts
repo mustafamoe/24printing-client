@@ -1,4 +1,3 @@
-import { TrainRounded } from "@material-ui/icons";
 import axios, { Method } from "axios";
 
 export const isProduction: boolean = true;
