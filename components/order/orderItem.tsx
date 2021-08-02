@@ -149,7 +149,7 @@ const OrderItem = ({ order, toggleOrderDetails, active, setActive }) => {
                     </p>
                 </div>
                 <div>
-                    <p>{dateFormat(order.created_at, "MM/dd/yyyy")}</p>
+                    <p>{new Date(order.created_at).toLocaleString()}</p>
                 </div>
                 <div className="order-expected-date-container">
                     {!isExpired ? (
