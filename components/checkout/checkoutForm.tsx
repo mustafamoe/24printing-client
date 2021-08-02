@@ -126,6 +126,12 @@ const Stripe = ({ openModel, state, setState }) => {
     const [loading, setLoading] = useState(false);
     const [activeStep, setActiveStep] = useState(0);
     const [activeTab, setActiveTab] = useState(0);
+
+    useEffect(() => {
+        return () => {
+            dispatch(clearCart());
+        };
+    }, []);
     // const [state, setState] = useState({
     //     email: "",
     //     name: "",
