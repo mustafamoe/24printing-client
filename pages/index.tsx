@@ -290,16 +290,24 @@ const Home = ({ banners, yt }: IProps) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-    const banners = await apiCall<IBanner[]>(
-        "get",
-        `/banners?banner_page=home`
-    );
-    const yt = await apiCall("get", "/youtube");
+    try {
+        const banners = await apiCall<IBanner[]>(
+            "get",
+            `/banners?banner_page=home`
+        );
+        const yt = await apiCall("get", "/youtube");
 
-    return {
-        props: { banners, yt },
-        revalidate: 120,
-    };
+        return {
+            props: { banners, yt },
+            revalidate: 120,
+        };
+    } catch (err) {
+        return {
+            props: {},
+            // props: { banners, yt },
+            revalidate: 120,
+        };
+    }
 };
 
 export default Home;

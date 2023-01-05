@@ -69,7 +69,7 @@ const Signup = () => {
         if (!loading) {
             try {
                 setLoading(true);
-                const { user_id } = await apiCall(
+                const { user_id } = await apiCall<any>(
                     "post",
                     `/auth/signup`,
                     state

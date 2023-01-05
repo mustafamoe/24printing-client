@@ -34,7 +34,6 @@ const Youtube = () => {
     const [errors, setErrors] = useState<IError>({
         url: [],
     });
-    console.log(yt);
     useEffect(() => {
         if (yt) {
             setState({ ...state, url: yt.url });

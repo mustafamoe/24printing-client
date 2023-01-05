@@ -348,8 +348,8 @@ const SubCategoryList = ({ categoryId, subCategories }) => {
                         count={subCategories.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
-                        onChangePage={handleChangePage}
-                        onChangeRowsPerPage={handleChangeRowsPerPage}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
                     />
                 </Box>
                 {isDel && (

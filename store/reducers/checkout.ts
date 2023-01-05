@@ -35,8 +35,6 @@ const checkoutReducer = (
                 });
             }
 
-            console.log(tmpState, "ESELJLSDFJLSDJFKJ");
-
             return tmpState;
         case CLEAR_PRODUCTS:
             return [];

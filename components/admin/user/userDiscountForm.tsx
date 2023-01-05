@@ -69,7 +69,6 @@ const UserDiscountForm = ({ close, userDiscount, userId }: IProps) => {
     // _____________________________________ field handlers
     const handleChangeNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        console.log(e.target.value);
         if (!Number.isNaN(Number(value)) && Number(value) <= 100) {
             setState({
                 ...state,

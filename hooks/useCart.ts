@@ -67,7 +67,6 @@ const useCart = (): [ICart[], boolean] => {
                         return populateCustomizations.push(c);
                     }
                 });
-                console.log(populateCustomizations);
                 itemCopy.customizations = populateCustomizations;
                 itemCopy.quantity = foundQuantity;
                 itemCopy.product = foundProduct;

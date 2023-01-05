@@ -195,8 +195,8 @@ const OrderList = () => {
                     count={data.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
-                    onChangePage={handleChangePage}
-                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
                 />
                 {isEdit && <OrderForm close={handleCloseEdit} order={isEdit} />}
                 {isDecline.order && (

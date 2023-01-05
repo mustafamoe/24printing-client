@@ -170,8 +170,8 @@ const CategoryList = ({ categories }: IProps) => {
                     count={categories.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
-                    onChangePage={handleChangePage}
-                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
                 />
                 {isDel && (
                     <ActionModal

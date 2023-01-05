@@ -50,7 +50,11 @@ const ContactUs = () => {
 
             try {
                 setLoading(true);
-                const { message } = await apiCall("post", `/contact_us`, state);
+                const { message } = await apiCall<any>(
+                    "post",
+                    `/contact_us`,
+                    state
+                );
 
                 setState({
                     name: "",

@@ -455,7 +455,7 @@ const Designer = ({ images, close, handleSaveDesign }: IProps) => {
 
         const screenshot = await html2canvas(node, {
             useCORS: true,
-            scale: "2",
+            scale: 2,
             allowTaint: false,
             width: 500,
             height: 500,
